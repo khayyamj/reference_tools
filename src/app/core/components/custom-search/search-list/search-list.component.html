@@ -1,0 +1,5 @@
+<app-sub-header [loading]="customSearchService.loading" [title]="'Saved Searches'"></app-sub-header>
+
+<div class="mtc-checkbox-table-container">
+	<mtc-checkbox-table [columns]="columns" [(rows)]="customSearchService.searches" [config]="config"></mtc-checkbox-table>
+</div>

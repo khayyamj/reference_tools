@@ -1,0 +1,48 @@
+@import '../../../../main.less';
+
+@border-color: darken(@brand-cement-highlight, 10%);
+
+.modal{
+	padding: 20px;
+	position: relative;
+	.column{
+		padding-right: 40px;
+		padding-top: 6px;
+		color: @charcoal;
+	}
+	.subheading{
+		width: 100%;
+		text-align: left;
+		.title{
+			width:115px;
+		}
+	}
+	.first-column{
+		border-left: 2px solid @border-color;
+	}
+
+	.field{
+		border-width: 1.5px;
+		width: 222px;
+		padding-top: 0;
+		padding-bottom: 0;
+		margin-left: 25px;
+	}
+
+	.modal-buttons{
+		justify-content: space-between !important;
+		align-items: center;
+	}
+
+	.effective-date {
+    	margin: 0 0 -18px 25px;
+		width: 120px;
+	}
+
+	.items {
+		width: 100%;
+		height: 260px;
+		padding-right: 20px;
+		overflow-y: auto;
+	}
+}

@@ -1,0 +1,32 @@
+<div class="no-print">
+<div class="assistance-component body-text" fxLayout="column" *ngIf="missionary?.missionaryId">
+	<div fxLayoutAlign="space-between" class="header">
+		<div fxLayoutAlign="start" fxLayout>
+			<span fxLayoutAlign="center start">
+				<a class="clickable" [routerLink]="'/missionary'" [queryParams]="{missionaryId: missionary.missionaryId}">
+					<i class="material-icons back">arrow_back</i>
+				</a>
+			</span>
+			<span class="page-title">Assistance</span>
+		</div>
+		<button class="primary-btn" (click)="printEvaluation()">Print Evaluation</button>
+	</div>
+	<div fxLayout="row" fxLayoutAlign="space-between start">
+		<app-basic-missionary [missionary]="missionary"></app-basic-missionary>
+		<button class="primary-btn pickup-btn" (click)="printPickupForm()" *ngIf="showPickup && selectedTab === 'donated'">Print Pickup Form</button>
+	</div>
+	<div class="tab-display" fxLayout="column" fxLayoutAlign="space-between none">
+		<mat-tab-group [disableRipple]="true" (selectedTabChange)="selectedTab = $event.tab.textLabel">
+			<mat-tab *ngFor="let type of itemTypes" [label]="type"></mat-tab>
+		</mat-tab-group><br>
+		<mtc-auto-complete *ngIf="selectedTab !== 'donated'" [itemChosen]="selectedItem" [items]="items" [displayBy]="'name'" (itemChosenChange)="addItem($event)" placeholder="Add Item"></mtc-auto-complete>
+	</div>
+	<div *ngIf="selectedTab === 'donated'" class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="donatedColumns" [(rows)]="donatedItems" [config]="donatedItemsTableConfig"></mtc-checkbox-table>
+	</div>
+	<div *ngIf="selectedTab === 'loaned'" class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="loanedColumns" [(rows)]="loanedItems" [config]="loanedItemsTableConfig"></mtc-checkbox-table>
+	</div>
+</div>
+</div>
+<app-print-assistance-page *ngIf="print" [missionaries]="printMissionaries"></app-print-assistance-page>

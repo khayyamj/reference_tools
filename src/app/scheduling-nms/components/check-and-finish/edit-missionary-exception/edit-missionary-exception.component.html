@@ -1,0 +1,30 @@
+<div class="embed-confirmation" *ngIf="showConfirmation">
+	<simple-confirmation [config]="config" (confirmation)="confirmation($event)"></simple-confirmation>
+</div>
+<div class="modal" *ngIf="!showConfirmation">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>Edit Missionary Exception</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div mat-dialog-content>
+		<div class="missionary-names">
+			{{exceptionMissionary.fullName}}
+		</div>
+		<div fxLayout="column">
+			<div fxLayout>
+				<mtc-auto-complete [placeholder]="'Residence Room'" [(itemChosen)]="exceptionMissionary.residence" [items]="toolsInfoService.info.residences"></mtc-auto-complete>
+				<mtc-auto-complete fxFlexOffset="10%" [placeholder]="'Classroom'" [(itemChosen)]="exceptionMissionary.classroom" [items]="toolsInfoService.info.classrooms"></mtc-auto-complete>
+			</div>
+			<div fxLayout>
+				<mtc-auto-complete [placeholder]="'Branch/District'" [(itemChosen)]="exceptionMissionary.branchDistrict" [items]="toolsInfoService.info.ecclgroups"></mtc-auto-complete>
+				<mtc-auto-complete fxFlexOffset="10%" [placeholder]="'Mailbox'" [(itemChosen)]="exceptionMissionary.mailbox" [items]="toolsInfoService.info.mailboxes"></mtc-auto-complete>
+			</div>
+			<div mat-dialog-actions>
+				<button class="secondary-btn" mat-dialog-close>cancel</button>
+				<button class="primary-btn" (click)="save()">save</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,21 @@
+<div class="modal">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>{{title.toUpperCase()}}</h2>
+		<button type="button" class="icon-btn" (click)="cancel()">
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div mat-dialog-content class="form">
+		<form class="app-dialog-component form" #dateForm="ngForm" (ngSubmit)="run(dateForm)" (keydown.enter)="$event.preventDefault()">
+			<div class="modal-description">{{message1}}<br />{{message2}}</div>
+			<div class="date-fields">
+				<mtc-date-picker *ngFor="let dateField of datesToModify" [(date)]="criteria[dateField.modelStart]"
+					[(endDate)]="criteria[dateField.modelEnd]" [title]="dateField.label" class="criteria"></mtc-date-picker>
+			</div>
+			<div mat-dialog-actions>
+				<button type="button" class="secondary-btn" (click)="cancel()">cancel</button>
+				<button type="submit" class="primary-btn">run</button>
+			</div>
+		</form>
+	</div>
+</div>

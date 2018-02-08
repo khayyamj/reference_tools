@@ -1,0 +1,6 @@
+<mat-progress-bar mode="indeterminate" *ngIf="trainingGroupService.isSearching" class="no-bump-position"></mat-progress-bar>
+<div class="training-group-main-component">
+	<app-tabs [titleAttr]="'id'" [(tabs)]="trainingGroups" (currentTabChange)="onTabClicked($event)" [currentTab]="currentGroup"
+	(onRemoveTab)="trainingGroupService.removeTrainingGroup($event)" (onSearchBtnClick)="openSearchPage()" (onRemoveAllClick)="trainingGroupService.removeAllTrainingGroups()"></app-tabs>
+	<router-outlet></router-outlet>
+</div>

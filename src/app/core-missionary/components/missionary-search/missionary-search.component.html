@@ -1,0 +1,26 @@
+<div class="missionary-search-component">
+	<div class="opaque-div"></div>
+	<div (clickOutside)="close()">
+		<div class="arrow-up"></div>
+		<div class="search-options">
+			<mat-checkbox [(ngModel)]="options.preMTC" (change)="optionsChange.emit(this.options)">Pre-MTC</mat-checkbox>
+			<mat-checkbox [(ngModel)]="options.scheduled" (change)="optionsChange.emit(this.options)">Scheduled</mat-checkbox>
+			<mat-checkbox [(ngModel)]="options.inResidence" (change)="optionsChange.emit(this.options)">In Residence</mat-checkbox>
+			<mat-checkbox [(ngModel)]="options.departed" (change)="optionsChange.emit(this.options)">Departed</mat-checkbox>
+		</div>
+		<div class="missionary-search mat-elevation-z13" fxLayout="column" fxLayoutAlign="space-between">
+			<div class="page-title" fxLayoutAlign="space-between center">
+				{{title}}
+				<div class="btn-container">
+					<button class="navigation-btn" [routerLink]="'/custom-search/search'" (click)="close()">Custom Search</button>
+					<span class="clickable column-title" (click)="close()" fxLayoutAlign="center center">
+						<i class="remove material-icons">clear</i>
+					</span>
+				</div>
+			</div>
+			<div class="mtc-checkbox-table-container">
+				<mtc-checkbox-table class="mtc-checkbox" [columns]="columns" [(rows)]="missionaries" [config]="config"></mtc-checkbox-table>
+			</div>
+		</div>
+	</div>
+</div>

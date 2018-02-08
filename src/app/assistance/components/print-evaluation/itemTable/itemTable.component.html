@@ -1,0 +1,10 @@
+<div  class="page-table">
+	<div fxLayoutAlign="center center" class="table-tile">{{ title }}</div>
+	<div fxLayout="row" *ngFor="let item of data" class="table-cell">
+		<div *ngFor="let header of headerRow" [style.width.px]="header.width" class="table-cell">
+			<span>
+				{{ item[header.col.toLowerCase()] }}
+			</span>
+		</div>
+	</div>
+</div>

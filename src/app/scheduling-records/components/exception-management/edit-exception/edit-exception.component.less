@@ -1,0 +1,46 @@
+@import '../../../../../variables.less';
+
+.edit-exception-component{
+
+	.left-column{
+		margin-right: 20px;
+		min-width: 75px;
+		padding: 0px 20px;
+		border-right: 1px solid @light-grey;
+	}
+
+	.first-field{
+		max-width: 140px;
+		padding-right: 30px;
+	}
+
+	.exception-field, .exception-field-title {
+		max-width: 244px;
+	}
+
+	.exception-field-title{
+		margin-right: 30px;
+	}
+
+	.remove {
+		background: transparent;
+		color: @red;
+		margin: 18px 15px 0px 0px;
+		i {
+			font-size: 16px;
+		}
+	}
+
+	.fields-container {
+		max-width: 550px;
+		flex-wrap: wrap;
+		max-height: 450px;
+		overflow-y: auto;
+		margin-bottom: 20px;
+
+		.single-field {
+			max-width: 275px;
+		}
+	}
+
+}

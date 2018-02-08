@@ -1,0 +1,28 @@
+<div class="modal">
+	<div class="modal-header" fxFlex fxLayoutAlign="space-between">
+		<h2 mat-dialog-title class="heading">Print Options</h2>
+		<span *ngIf="date" class="subheading date">{{date}}</span>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<form class="app-dialog-component" (ngSubmit)="print(form)" [formGroup]="form">
+		<div fxLayout="column" class="print-modal-component">
+			<div fxLayout="column">
+				<mat-checkbox [(ngModel)]="individual" formControlName="printOption">All Individual Itineraries</mat-checkbox>
+				<mat-checkbox [(ngModel)]="office" formControlName="printOption">Travel Office Itinerary</mat-checkbox>
+				<mat-error *ngIf="showError">Please choose at least one option</mat-error>
+			</div>
+			<div fxLayoutAlign="end end" class="button-bar">
+				<div fxLayout="column" class="stamp">
+					<span class="body-text" *ngIf="individualPrintDate">Individual Last Printed: {{individualPrintDate | date: 'dd MMM y hh:mma'}} </span>
+					<span class="body-text" *ngIf="groupPrintDate"> Group Last Printed: {{groupPrintDate | date: 'dd MMM y hh:mma'}}</span>
+				</div>
+			</div>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" type="button" mat-dialog-close>CANCEL</button>
+			<button class="primary-btn" type="submit">PRINT</button>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,36 @@
+<div class="room-search-component" *ngIf="open">
+	<div class="opaque-div"  (click)="openChange.emit(false)"></div>
+	<div class="arrow-up"></div>
+	<div class="room-search mat-elevation-z13" fxLayout="column">
+		<div fxLayout="column">
+			<div fxLayout="row" class="head" fxLayoutAlign="space-between">
+				<div fxLayout="row" (click)="showFilter = !showFilter">
+					<div class="subheading">Filter By</div>
+					<i class="material-icons blue-icon">expand_{{(showFilter ? 'more' : 'less')}}</i>
+				</div>
+				<div class="clickable column-title" (click)="openChange.emit(false)" fxLayoutAlign="start center">
+					<span>Close</span>
+					<i class="remove material-icons"> clear </i>
+				</div>
+			</div>
+			<div fxLayoutAlign="space-between" *ngIf="showFilter">
+				<div fxLayout="column" fxLayoutAlign="space-between">
+					<mtc-auto-complete placeholder="Building" [items]="toolsInfoService.info.buildings"  [(itemChosen)]="filters.building" (itemChosenChange)="filterRooms()" ></mtc-auto-complete>
+					<mtc-auto-complete *ngIf="type === 'classroom'" placeholder="Language" [items]="toolsInfoService.info.traininglanguages"  [(itemChosen)]="filters.language" (itemChosenChange)="filterRooms($event)" ></mtc-auto-complete>
+				</div>
+				<div fxLayout="column" fxLayoutAlign="space-between">
+					<mtc-auto-complete placeholder="Room #" [items]="getRooms(filters.building?.name)" [(itemChosen)]="filters.room" (itemChosenChange)="filterRooms($event)" [displayBy]="'room'"></mtc-auto-complete>
+					<mtc-auto-complete placeholder="Branch" [items]="toolsInfoService.info.branches" [(itemChosen)]="filters.branch" (itemChosenChange)="filterBranches($event)" ></mtc-auto-complete>
+				</div>
+				<div fxLayout="column" fxLayoutAlign="space-between">
+					<mtc-auto-complete *ngIf="type!=='classroom'" placeholder="Missionary Type" [items]="toolsInfoService.info.types" [(itemChosen)]="filters.missionaryType" (itemChosenChange)="filterRooms($event)"  ></mtc-auto-complete>
+					<mtc-auto-complete placeholder="District" [items]="possibleDistricts" [(itemChosen)]="filters.district" (itemChosenChange)="filterRooms($event)" ></mtc-auto-complete>
+				</div>
+				<button (click)="clearFilters()" class="primary-btn">CLEAR FILTERS</button>
+			</div>
+			<div class="mtc-checkbox-table-container">
+				<mtc-checkbox-table [columns]="columns" [(rows)]="filteredRooms" [placeholder]="tablePlaceholder" [config]="config"></mtc-checkbox-table>
+			</div>
+		</div>
+	</div>
+</div>

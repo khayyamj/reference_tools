@@ -1,0 +1,41 @@
+<app-sub-header [loading]="loading" [title]="'Travel Groups'"></app-sub-header>
+<div class="travel-groups-component">
+	<div fxLayout="row" class="search-row" fxLayoutAlign="start center" *ngIf="missions.length > 0">
+		<mat-input-container class="search-bar">
+			<input matInput id="search-missions" type="text" placeholder="Search Missions" [(ngModel)]="searchText">
+		</mat-input-container>
+	</div>
+	<div class="mission-container" *ngIf="filteredMission.length">
+		<div *ngFor="let mission of filteredMission" class="repeated-item">
+			<div class="expandable-row-component">
+				<div fxLayout="row" fxLayoutAlign="start center" class="header mission-name" (click)="toggleTravelGroups(mission)">
+					<span fxFlex="15%" class="subheading" [class.bold]="!mission.hideTravelGroups">{{mission.missionAbbreviation}}</span>
+					<span class="column-title">{{mission.missionName}}</span>
+				</div>
+				<div *ngIf="!mission.hideTravelGroups && mission.travelGroups && mission.travelGroups.length > 0">
+					<div class="expandable-row-component" *ngFor="let travelGroup of mission.travelGroups">
+						<div fxLayout="row" fxLayoutAlign="start center" class="header sub-category" [class.open]="!travelGroup.hideTravelers">
+							<span class="subheading" fxFlex="25%" [class.honey-header]="isSenior(travelGroup.type)" (click)="toggleHideTravelers(travelGroup)">
+								{{(travelGroup.flightDepartureDate || travelGroup.mtcDepartureDate) | mtcDate}}
+							</span>
+							<app-notification-badge [total]="travelGroup.travelers ? travelGroup.travelers.length : null"></app-notification-badge>
+							<span (click)="toggleHideTravelers(travelGroup)" fxFlex class="height-fix"></span>
+							<div fxLayout="row" class="button-bar" fxLayoutAlign="end center" (click)="toggleHideTravelers(travelGroup)">
+								<span>{{travelGroup.hideTravelers ? 'EXPAND' : 'COLLAPSE' }}</span>
+								<i class="material-icons">expand_{{(travelGroup.hideTravelers ? 'more' : 'less')}}</i>
+							</div>
+						</div>
+						<div>
+							<travel-view *ngIf="!travelGroup.hideTravelers && travelGroup.travelers" [travelGroup]="travelGroup"></travel-view>
+						</div>
+					</div>
+				</div>
+				<div *ngIf="!mission.hideTravelGroups && mission.travelGroups && mission.travelGroups.length < 1" class="expandable-row-component">
+					<div fxLayout="row" fxLayoutAlign="start center" class="header sub-category">
+						<span fxFlex="30%" class="subheading">There are no travel groups for this mission.</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

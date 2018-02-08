@@ -1,0 +1,93 @@
+@import '../../../../../main.less';
+
+.room-search-component {
+	width: 900px;
+	position: absolute;
+	z-index:@z-index-highest;
+	select {
+		width: 173px;
+		border: none;
+	}
+
+	.subheading{
+		margin-top: 2px;
+	}
+
+	.head{
+		padding-bottom: 6px;
+	}
+
+	fieldset {
+		height: 27px;
+		margin-left: 12px;
+		&:hover{
+			cursor: pointer;
+		}
+	}
+
+	.input-area {
+		margin-left: 12px;
+	}
+
+	input {
+		width: 60px;
+	}
+
+	.opaque-div{
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		background-color: @black;
+		opacity:0.4;
+		z-index: @z-index-higher;
+		overflow: hidden;
+	}
+
+	.arrow-up {
+		width: 0;
+		height: 0;
+		border-left: 15px solid transparent;
+		border-right: 15px solid transparent;
+		border-bottom: 15px solid @white;
+		z-index: @z-index-highest;
+		position: relative;
+		bottom: 15px;
+		left: 100px;
+	}
+
+	.hidden{
+		display: none;
+	}
+
+	.give-height{
+		height: 50px;
+	}
+
+	.mat-select {
+		margin-right: 8px !important;
+		min-width: 150px;
+	}
+
+	.room-search{
+		position: relative;
+		bottom: 15px;
+		background-color: @white;
+		color: @black;
+		z-index: @z-index-highest;
+		opacity: 1;
+		overflow: hidden;
+		padding: 20px;
+		overflow: auto;
+		
+		.mtc-checkbox-table-container{
+			max-height: 500px;
+		}
+	}
+
+	.no-results{
+		margin-left: 20px;
+		margin-top: 20px;
+	}
+}

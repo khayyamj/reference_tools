@@ -1,0 +1,56 @@
+@import '../../../../variables.less';
+
+.table-component{
+
+	.print-button{
+		margin-right: 10px;
+	}
+
+	.blue-table-container{
+		margin: 0 0 200px 0;
+		padding: 0 20px;
+	}
+
+	.column-list-table {
+		margin: 0px 20px;
+	}
+
+	table, tr, th, td{
+		border: none;
+		table-layout: fixed;
+	}
+
+	th,td{
+		padding: 5px 20px;
+		text-align: center;
+	}
+
+	td{
+		height: 100%;
+		i {
+			color: @accent-blue;
+			line-height: 32px;
+		}
+	}
+
+	.column-item {
+		cursor: pointer;
+
+		.column-item-wrapper{
+			min-height: 31px;
+			margin-bottom: 8px;
+			.item-icon {
+				text-align: right;
+			}
+			.item-num {
+				text-align: left;
+			}
+		}
+
+		&:hover {
+			.item-value {
+				font-weight: bold;
+			}
+		}
+	}
+}

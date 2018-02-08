@@ -1,0 +1,22 @@
+<div fxLayout="column">
+	<div class="future-changes">
+		<div class="page-title space-top">TRAINING GROUP FUTURE CHANGES</div>
+		<div *ngIf= "trainingChanges.length > 0">
+			<div class="mtc-checkbox-table-container">
+				<mtc-checkbox-table [columns]="columns" [(rows)]="trainingChanges" [config]="config"></mtc-checkbox-table>
+			</div>
+			<div class="future-changes-buttons" fxLayout="row" fxLayoutAlign="end">
+				<button class="secondary-btn" (click)="delete()" [disabled]="selectedChanges.length === 0">DELETE</button>
+				<button class="primary-btn" (click)="edit($event)" [disabled]="selectedChanges.length !== 1">EDIT</button>
+			</div>
+		</div>
+		<div *ngIf="trainingChanges.length === 0 && !trainingGroupService.isSearching">There are no future changes scheduled.</div>
+	</div>
+	<div class="future-members">
+		<div class="page-title space-top">TRAINING GROUP FUTURE MEMBERS</div>
+		<div *ngIf= "trainingMembers.length > 0" class="mtc-checkbox-table-container">
+			<mtc-checkbox-table [columns]="memberColumns" [(rows)]="trainingMembers" [config]="memberConfig"></mtc-checkbox-table>
+		</div>
+		<div *ngIf="trainingMembers.length === 0 && !trainingGroupService.isSearching">There are no future members scheduled.</div>
+	</div>
+</div>

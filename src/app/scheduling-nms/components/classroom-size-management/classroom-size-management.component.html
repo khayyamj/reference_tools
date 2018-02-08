@@ -1,0 +1,64 @@
+<app-sub-header [title]="'Classroom Size Management'" [loading]="loading"></app-sub-header>
+
+<div fxLayout="row" fxLayoutAlign="space-between center" class="action-row">
+	<mtc-multi-auto-complete class="search-bar" placeholder="Filter by Language" [(itemChosen)]="selectedLanguages" [items]="rows" (itemChosenChange)="updateList()"></mtc-multi-auto-complete>
+</div>
+
+<div class="classroom-size-management-table">
+	<div fxLayoutAlign="end center">
+		<button class="flat-btn" *ngIf="showEdit()" (click)="editClassroom(classroom)">Edit</button>
+	</div>
+	<div fxLayout="column" class="table-container">
+		<div class="table-header" fxLayout="row" fxLayoutAlign="start center">
+			<mat-checkbox [checked]="allSelected" (change)="selectAll()"></mat-checkbox>
+			<div fxFlex="9%">
+				<span class="column-name">Languages</span>
+			</div>
+			<div fxFlex="5%" class="center-align">
+				<span class="column-name">Size</span>
+			</div>
+			<div class="header-divide"></div>
+			<div class="center-align" [class.column-divider]="i != 9" fxFlex *ngFor="let column of rows[0]?.sizes; let i = index"> <!--fxFlex=""-->
+				<span class="column-name">{{column.groupDate | mtcDate}}</span>
+			</div>
+		</div>
+		<div class="table-data">
+			<div class="help-message" *ngIf="!rows.length && !loading">No rows</div>
+			<div class="rows" *ngFor="let row of filteredRows; let i = index" fxLayout="row">
+				<mat-checkbox fxLayoutAlign="start center" class="_row-checkbox" (click)="showShiftPressed($event)" (change)="selectIndex(i,$event)" [checked]="row.selected"></mat-checkbox>
+				<div fxLayoutAlign="center start" class="cell" fxLayout="column" fxFlex="9%">
+					<div class="cell-content text">{{row.name}}</div>
+				</div>
+				<div class="cell" fxLayout="column" fxFlex="5%" (mouseleave)="clearHighlight()">
+					<div class="cell-content" fxLayoutAlign="center center" [class.highlight]="isHighlighted(i,-1,'min')" (mouseenter)="selectCell(i,-2,'min')">min</div>
+					<div class="cell-content" fxLayoutAlign="center center" [class.highlight]="isHighlighted(i,-1,'max')" (mouseenter)="selectCell(i,-2,'max')">max</div>
+				</div>
+				<div class="cell" fxFlex="8px" fxLayout="column">
+					<div class="cell-content" [class.highlight]="isHighlighted(i,-1,'min')">&nbsp;</div>
+					<div class="cell-content" [class.highlight]="isHighlighted(i,-1,'max')">&nbsp;</div>
+				</div>
+				<div class="cell" fxLayout="column" fxFlex *ngFor="let capacity of row.sizes; let j = index" (mouseleave)="clearHighlight()">
+					<div class="cell-content input-cell inputs clickable" (click)="setFocus(capacity,'editMin')"
+							fxLayoutAlign="center center" [class.highlight]="isHighlighted(i,j,'min')"
+							(mouseenter)="selectCell(i,j,'min')" fxFlex>
+						<mat-input-container class="input" *ngIf="capacity.editMin; else minText">
+							<input matInput #input type="number" min="0" [max]="capacity.max" [(ngModel)]="capacity.min" (clickOutside)="updateCell(capacity, 'min')">
+						</mat-input-container>
+						<ng-template #minText>
+							{{capacity.min}}
+						</ng-template>
+					</div>
+					<div class="cell-content input-cell inputs clickable" (click)="setFocus(capacity,'editMax')"
+							fxLayoutAlign="center center" [class.highlight]="isHighlighted(i,j,'max')" (mouseenter)="selectCell(i,j,'max')" fxFlex>
+						<mat-input-container class="input" *ngIf="capacity.editMax; else maxText">
+							<input matInput #input type="number" [min]="capacity.min" [(ngModel)]="capacity.max" (clickOutside)="updateCell(capacity, 'max')">
+						</mat-input-container>
+						<ng-template #maxText>
+							{{capacity.max}}
+						</ng-template>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

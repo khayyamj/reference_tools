@@ -1,0 +1,89 @@
+@import '../../../../main.less';
+
+.missionary-eccl-component{
+	padding: 20px;
+
+	.mobile-header {
+		display: none;
+	}
+
+	.page-title{
+		margin-left: 16px;
+	}
+
+	.header{
+		margin-bottom: 20px;
+
+		.button-1{
+			width: 115px;
+			height: 25px;
+		}
+
+		.back{
+			color: @mtc-blue;
+		}
+	}
+
+	.general-info{
+		padding-bottom: 125px;
+	}
+
+	.info-section{
+		padding: 20px;
+
+		.unit-info{
+			margin: 10px 0;
+		}
+
+		.info{
+			:first-child{
+				font-weight: bold;
+			}
+			.link {
+				font-weight: 400;
+			}
+		}
+
+		.person{
+			height: 140px;
+
+			&.district-president{
+				margin-bottom: 25px;
+			}
+		}
+
+		.separator{
+			border-bottom: 2px solid @off-white;
+			width: 85%;
+			margin: 20px 0px 16px;
+		}
+	}
+
+	@media only screen and (max-width: 1200px) {
+
+		.mobile-header{
+			display: block;
+			text-align: center;
+			.page-title{
+				margin-bottom: 20px;
+			}
+		}
+
+		.header, .tab-page-display{
+			display: none;
+
+		}
+
+		.branch-positions, .person-list{
+			flex-direction: column;
+		}
+
+		.info{
+			margin-bottom: 15px;
+		}
+
+		.mat-container-class{
+			min-width: 200px;
+		}
+	}
+}

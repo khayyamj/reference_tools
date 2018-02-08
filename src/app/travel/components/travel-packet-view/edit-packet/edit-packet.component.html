@@ -1,0 +1,31 @@
+<div class="modal">
+	<div class="modal-header" fxFlex fxLayoutAlign="space-between">
+		<h2 mat-dialog-title class="heading">Missing Travel Packet</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<form class="edit-packet-component app-dialog-component" (ngSubmit)="save(form)" (keydown.enter)="$event.preventDefault" #form="ngForm">
+		<div fxLayout="column">
+			<div class="form-container" fxFlex>
+				<div fxLayout="column" fxFlex="35" id="missionaries-list">
+					<div *ngFor="let traveler of travelerList" class="missionaries subheading">{{traveler.fullName}}</div>
+				</div>
+				<div fxLayout="column" class="packet-form" fxFlex>
+					<mat-input-container fxFlex id="reason-field">
+						<textarea matInput placeholder="Reason" fxFlex id="reason" name="reason" [(ngModel)]="reason" maxlength="50" required></textarea>
+						<mat-error *ngIf="form.controls.reason?.errors?.required">Required Field</mat-error>
+						<mat-hint align="end" class="chars-remaining">{{reason.length}} / 50</mat-hint>
+					</mat-input-container>
+					<mat-input-container fxFlex id="steps-field">
+						<textarea matInput placeholder="Steps Taken" fxFlex id="steps" name="steps" [(ngModel)]="steps"></textarea>
+					</mat-input-container>
+				</div>
+			</div>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" type="button" mat-dialog-close>CANCEL</button>
+			<button class="primary-btn" type="submit">SAVE</button>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,142 @@
+@import '../../../../variables.less';
+
+@border-width:1.5px;
+@highlight-background-color:rgba(75, 75, 75, .05);
+@hover-background-color: rgba(75, 75, 75, .1);
+
+:host{
+	height: 100%;
+}
+
+.action-row{
+	width: 300px;
+}
+
+.classroom-size-management-table{
+	height: calc(~"100% - 150px");
+}
+
+.classroom-size-management-table, .action-row {
+	margin: 0 20px;
+}
+
+.editButton {
+	height: 22px;
+	margin-right: 50px;
+
+	.clear-btn{
+		padding: 0 10px;
+	}
+}
+
+.table-container{
+	height: 100%;
+}
+
+.center-align {
+	text-align: center;
+	margin: 8px 0px;
+}
+
+.column-divider {
+	border-right: thin solid @light-grey;
+}
+
+.space-margin-top {
+	margin-top: 10px;
+}
+
+.table-header{
+	background-color: @off-white;
+	color: @mtc-blue;
+	min-height: 35px;
+	padding-right: 7px;
+
+	.header-divide {
+		width: 8px;
+		background: @white;
+		height: 57px;
+	}
+	.column-name{
+		flex-wrap: wrap;
+		font-weight: bold;
+	}
+
+}
+
+mat-checkbox{
+	margin-left:15px;
+	color:@light-grey;
+}
+
+.table-data{
+	overflow-y: scroll;
+	color: @charcoal;
+	padding-bottom: 30px;
+	font-size: 14px;
+	&::-webkit-scrollbar {
+		background:transparent;
+		width: 7px;
+		height: 20px;
+	}
+	&::-webkit-scrollbar-thumb {
+		border-radius: 10px;
+		background-color: @light-grey;
+	}
+	.rows{
+		line-height: 35px;
+		border-bottom: @border-width solid @off-white;
+		.cell{
+			overflow: hidden;
+			line-height: 28px;
+			.cell-content{
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow-x: hidden;
+				display: flex;
+				height: 40px;
+				line-height: 40px;
+				&.min{
+					border: none;
+				}
+				&.input-cell{
+					justify-content: center;
+					cursor: pointer;
+					&:hover{
+						background: @hover-background-color;
+					}
+				}
+				&.highlight{
+					background: @highlight-background-color;
+				}
+				.input{
+					width: 75%;
+				}
+			}
+		}
+	}
+	.icon{
+		overflow: visible;
+		color: @charcoal;
+	}
+}
+
+.help-message{
+	padding:5px;
+	text-transform: none;
+}
+
+.no-selected-checkboxes{
+	margin-top: 15px;
+}
+
+.button-spacer{
+	height: 22px;
+}
+
+.fields {
+		border-width:@border-width;
+		width: 100%;
+		margin-bottom: 10px;
+		padding: 0 5px 4px 5px;
+}

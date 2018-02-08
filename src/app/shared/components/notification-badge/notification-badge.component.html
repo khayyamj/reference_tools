@@ -1,0 +1,5 @@
+<div class="badge-container">
+	<div class="notification-badge" *ngIf="isGreaterThanZero(total)">{{total}}</div>
+	<div class="new-items-badge" *ngIf="isGreaterThanZero(new)">{{new}}</div>
+	<div class="notification-badge-load" *ngIf="isNull(total)"></div>
+</div>

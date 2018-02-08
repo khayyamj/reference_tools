@@ -1,0 +1,51 @@
+@import '../../../../main.less';
+
+.manual-itineraries-component {
+	padding: 0 20px 20px 20px;
+
+	.itinerary-table-header {
+			background-color: @off-white;
+			height: 35px;
+			line-height: 35px;
+			color: @mtc-blue;
+			padding-right: 20px;
+			text-overflow: ellipsis;
+			font-size: @paragraph-font-size;
+			font-weight: bold;
+			white-space: nowrap;
+			padding: 8px;
+
+			&:first-child {
+				padding-left: 20px;
+			}
+			.adjust-left {
+				margin-left: -4px;
+			}
+	}
+
+	.item {
+		height: 50px;
+		border-bottom: 1px solid @dropdown-border;
+		padding: 8px;
+	}
+
+	.header {
+		padding: 0 0 25px 0;
+	}
+
+	.overflow {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		width: 250px;
+	}
+
+	.back-button{
+		width: 70px;
+	}
+
+	.table-body{
+		overflow-y: scroll;
+		max-height: 60vh;
+	}
+}

@@ -1,0 +1,57 @@
+<div class="modal" fxLayout="column">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title class="heading">Assign Driver</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<form novalidate class="edit-drivers-component" fxLayout="column" (ngSubmit)="save(driverForm.value.driverVehicles)"
+			[formGroup]="driverForm">
+		<div formArrayName="driverVehicles">
+			<div [formGroupName]="dvIndex" class="driver-vehicle-row" fxLayoutAlign="space-between"
+					*ngFor="let driverVehicle of getDriverVehicles(driverForm); let dvIndex = index">
+				<mat-form-field  *ngIf="driverList" class="driver-select">
+					<mat-select placeholder="Select Driver" formControlName="driver">
+						<mat-option *ngFor="let driver of driverList" [value]="driver">
+							{{driver.firstName}} {{driver.lastName}}
+						</mat-option>
+					</mat-select>
+					<mat-error>
+						<span class="validation-error" *ngIf="driverVehicle.get('driver').hasError('required')">
+							Required Field
+						</span>
+						<span class="validation-error" *ngIf="driverVehicle.get('driver').hasError('notCDL') && showError">
+							Need CDL Driver
+						</span>
+						<span class="validation-error" [hidden]="!showNonUniqueError(driverVehicle)">
+							This driver is not unique
+						</span>
+					</mat-error>
+				</mat-form-field>
+				<mat-form-field>
+					<mat-select placeholder="Select Vehicle" formControlName="vehicle">
+						<mat-option *ngFor="let vehicle of vehicleList" [value]="vehicle">{{vehicle.vehicleName}}</mat-option>
+					</mat-select>
+					<mat-error  class="validation-error" *ngIf="shouldShowError(driverVehicle)">
+						Required Field
+					</mat-error>
+				</mat-form-field>
+				<div title="Remove driver/vehicle from list" fxLayoutAlign="center end" class="remove-driver" fxFlex="30px">
+					<button type="button" (click)="removeDriverVehicle(dvIndex)" *ngIf="getDriverVehicles(driverForm).length > 1"
+								class="remove icon-btn">
+						<i class="material-icons">clear</i>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<button [disabled]="driverForm.invalid" type="button" class="button-2 clear-btn" (click)="addDriverVehicle()">
+			+ Add Driver
+		</button>
+
+		<div mat-dialog-actions>
+			<button class="secondary-btn" type="button" mat-dialog-close>CANCEL</button>
+			<button class="primary-btn" type="submit">ASSIGN</button>
+		</div>
+	</form>
+</div>

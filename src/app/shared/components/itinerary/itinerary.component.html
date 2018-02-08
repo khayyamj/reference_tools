@@ -1,0 +1,238 @@
+<div class="itinerary-component" fxLayout="column">
+	<table *ngIf="type === 'air'">
+		<tr class="body-text">
+			<th></th> <!--This is the icon-->
+			<th>Transportation</th>
+			<th>Flight</th>
+			<th></th><!--This is dep/arr-->
+			<th>Location</th>
+			<th>Time</th>
+			<th>Date</th>
+			<th>Flight Record Locator Code</th>
+		</tr>
+		<tr *ngFor="let item of model" [class.red]="item.isChanged">
+			<td>
+				<i class="material-icons travel-icon">airplanemode_active</i>
+			</td>
+			<td>{{item.airline.airlineName || item.airline.airlineCode}}</td>
+			<td>{{item.airline.flightNum}}</td>
+			<td class="right">
+				<div *ngIf="item.departureAirport"><b>Dep:</b></div>
+				<div *ngIf="item.arrivalAirport"><b>Arr:</b></div>
+			</td>
+			<td>
+				<div *ngIf="item.departureAirport">{{item.departureAirport.airportCity}}</div>
+				<div *ngIf="item.arrivalAirport">{{item.arrivalAirport.airportCity}}</div>
+			</td>
+			<td>
+				<div *ngIf="item.departureAirport">{{item.departureDate | date: 'hh:mm a'}}</div>
+				<div *ngIf="item.arrivalAirport">{{item.arrivalDate | date: 'hh:mm a'}}</div>
+			</td>
+			<td>
+				<div *ngIf="item.departureAirport">{{item.departureDate | mtcDate}}</div>
+				<div *ngIf="item.arrivalAirport">{{item.arrivalDate | mtcDate}}</div>
+			</td>
+			<td fxLayoutAlign="start center">
+				<div *ngIf="item.departureAirport">{{item.recordLocatorCode}}</div>
+			</td>
+		</tr>
+	</table>
+	<table class="mtc-itinerary" *ngIf="type === 'nonFlight-train'">
+		<tr class="body-text">
+			<th></th> <!--This is the icon-->
+			<th>Transportation</th>
+			<th></th><!--This is dep/arr-->
+			<th>Location</th>
+			<th>Time</th>
+			<th>Date</th>
+		</tr>
+		<tr>
+			<td>
+				<i class="icon-bus travel-icon"></i>
+			</td>
+			<td>
+				<div>Train</div>
+			</td>
+			<td class="right">
+				<div><b>Dep:</b></div>
+				<div><b>Arr:</b></div>
+			</td>
+			<td>
+				<div>{{model.getOnTrainStationName}}</div>
+				<div>{{model.getOffTrainStationName}}</div>
+			</td>
+			<td class="align-with-departure">
+				<div>{{model.trainDepartureDt | date: 'hh:mm a'}}</div>
+				<div>{{model.trainArrivalDt | date: 'hh:mm a'}}</div>
+			</td>
+			<td class="align-with-departure">
+				<div> {{model.mtcDepartureDt | mtcDate}}</div>
+				<div> {{model.mtcDepartureDt | mtcDate}}</div>
+			</td>
+		</tr>
+	</table>
+	<table class="mtc-itinerary" *ngIf="type === 'nonFlight-pick-up'">
+		<tr class="exempt">
+			<th></th> <!--This is the icon-->
+			<th>Transportation</th>
+			<th></th><!--This is dep/arr-->
+			<th>Location</th>
+			<th>Time</th>
+			<th>Date</th>
+		</tr>
+		<tr>
+			<td>
+				<i class="icon-bus travel-icon"></i>
+			</td>
+			<td>
+				<div>Pick Up</div>
+			</td>
+			<td class="right">
+				<div><b>Dep:</b></div>
+			</td>
+			<td>
+				<div>MTC</div>
+			</td>
+			<td>
+				<div>{{model.mtcDepartureDt | date: 'hh:mm a'}}</div>
+			</td>
+			<td>
+				<div>
+					{{model.mtcDepartureDt | mtcDate}}
+				</div>
+			</td>
+		</tr>
+	</table>
+	<table class="mtc-itinerary" *ngIf="type === 'consulate-mtc'">
+		<tr class="exempt">
+			<th class="icon"></th> <!--This is the icon-->
+			<th class="location">Location</th>
+			<th class="time">Time</th>
+			<th class="date">Date</th>
+		</tr>
+		<tr>
+			<td>
+				<i class="material-icons travel-icon">location_on</i>
+			</td>
+			<td>MTC {{model.room}}</td>
+			<td>{{model.appointmentDate | date: 'hh:mm a'}}</td>
+			<td>{{model.appointmentDate | mtcDate}}</td>
+		</tr>
+	</table>
+	<table class="mtc-itinerary" *ngIf="type === 'consulate-uvu'">
+		<tr class="exempt">
+			<th></th> <!--This is the icon-->
+			<th>Transportation</th>
+			<th></th><!--This is dep/arr-->
+			<th>Location</th>
+			<th>Time</th>
+			<th>Date</th>
+		</tr>
+		<tr>
+			<td>
+				<i class="icon-bus travel-icon"></i>
+			</td>
+			<td>
+				<div>MTC vehicle</div>
+			</td>
+			<td class="right">
+				<div><b>Dep:</b></div>
+				<div><b>Arr:</b></div>
+			</td>
+			<td>
+				<div>Travel Office</div>
+				<div>Spain Consulate (UVU)</div>
+			</td>
+			<td class="align-with-departure">
+				<div>{{model.departureDate | date: 'hh:mm a'}}</div>
+			</td>
+			<td>
+				<div>
+					{{model.appointmentDate | mtcDate}}
+				</div>
+			</td>
+		</tr>
+	</table>
+	<table class="mtc-itinerary" *ngIf="type === 'consulate-slc'">
+		<tr class="exempt">
+			<th></th> <!--This is the icon-->
+			<th>Transportation</th>
+			<th></th><!--This is dep/arr-->
+			<th>Location</th>
+			<th>Time</th>
+			<th>Date</th>
+		</tr>
+		<tr>
+			<td>
+				<i class="icon-bus travel-icon"></i>
+			</td>
+			<td>
+				<div>MTC vehicle</div>
+			</td>
+			<td class="right">
+				<div><b>Dep:</b></div>
+				<div><b>Arr:</b></div>
+			</td>
+			<td>
+				<div>Travel Office</div>
+				<div id="driverArrivalLocation">{{getSlcDriverArrivalLocation()}}</div>
+			</td>
+			<td class="align-with-departure">
+				<div>{{model.departureDate | date: 'hh:mm a'}}</div>
+			</td>
+			<td>
+				<div>
+					{{model.appointmentDate | mtcDate}}
+				</div>
+			</td>
+		</tr>
+		<tr *ngIf="model?.travelType === 'Train'">
+			<td>
+				<i class="material-icons travel-icon">train</i>
+			</td>
+			<td>
+				<div>Frontrunner</div>
+			</td>
+			<td class="right">
+				<div><b>Dep:</b></div>
+				<div><b>Arr:</b></div>
+			</td>
+			<td>
+				<div>Provo Central Station</div>
+				<div id="frontrunnerArrivalLocation">{{getSlcFrontrunnerArrivalLocation()}}</div>
+			</td>
+			<td class="align-with-departure">
+					<div>{{model.frontRunnerTime | date: 'hh:mm a'}}</div>
+			</td>
+			<td>
+				<div>
+					{{model.appointmentDate | mtcDate}}
+				</div>
+			</td>
+		</tr>
+		<tr *ngIf="model?.travelType === 'Train'">
+			<td>
+				<i class="material-icons travel-icon">train</i>
+			</td>
+			<td>
+				<div>TRAX</div>
+			</td>
+			<td class="right">
+				<div><b>Dep:</b></div>
+				<div><b>Arr:</b></div>
+			</td>
+			<td>
+				<div>{{getSlcFrontrunnerArrivalLocation()}}</div>
+				<div id="traxArrivalLocation">{{getSlcTraxArrivalLocation()}}</div>
+			</td>
+			<td class="align-with-departure">
+					<div>{{model.traxTime | date: 'hh:mm a'}}</div>
+			</td>
+			<td>
+				<div>
+					{{model.appointmentDate | mtcDate}}
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>

@@ -1,0 +1,39 @@
+<div class="embed-confirmation" *ngIf="showConfirmation">
+	<simple-confirmation [config]="config" (confirmation)="confirmation($event)"></simple-confirmation>
+</div>
+<div class="modal" *ngIf="!showConfirmation" fxLayout="column">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>Edit Classroom Size Range</h2>
+		<button class="icon-btn" (click)="cancel()">
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div mat-dialog-content fxLayout>
+		<div fxLayout="column" fxLayoutAlign="space-between" class="room-names">
+			<div class="scrollable">
+				<div *ngFor="let room of classrooms" class="room-name">{{room.name}}</div>
+			</div>
+		</div>
+		<div fxLayout="column" class="edit-column">
+			<mtc-multi-auto-complete placeholder="Group Dates" [(itemChosen)]="selectedDates" [items]="groupDates"></mtc-multi-auto-complete>
+			<form (ngSubmit)="save(form)" [formGroup]="form">
+				<div class="right-margin" layout-align="space-between">
+					<mat-input-container class="input">
+						<input class="input-field" matInput type="number" [(ngModel)]="min" placeholder="Min" formControlName="minSize" min="0" [max]="max">
+						<mat-error *ngIf="form.controls?.minSize.errors?.notValid">Min greater than max</mat-error>
+						<mat-error *ngIf="form.controls?.minSize.errors?.required">Required Field</mat-error>
+					</mat-input-container>
+					<mat-input-container class="input">
+						<input class="input-field" matInput type="number" [(ngModel)]="max" placeholder="Max" formControlName="maxSize" [min]="min || 0">
+						<mat-error *ngIf="form.controls?.maxSize.errors?.notValid">Max less than min</mat-error>
+						<mat-error *ngIf="form.controls?.maxSize.errors?.required">Required Field</mat-error>
+					</mat-input-container>
+				</div>
+				<div mat-dialog-actions>
+					<button class="secondary-btn" type="button" (click)="cancel()">CANCEL</button>
+					<button class="primary-btn">SAVE</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

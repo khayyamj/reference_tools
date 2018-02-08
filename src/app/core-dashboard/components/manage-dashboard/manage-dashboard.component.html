@@ -1,0 +1,20 @@
+<div class="modal">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>Manage Dashboard</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div mat-dialog-content fxLayout>
+		<div class="available-widgets" fxLayoutAlign="space-between" fxLayoutWrap>
+			<div class="widget-thumbnail" *ngFor="let widget of availableWidgets" [ngStyle]="{'height.px': widget.rows * 85 + (widget.rows - 2 > 0 ? 10 : 0)}">
+				<img [src]="widget.imageUrl" [alt]="widget.title" (click)="widget.selected = true" [class.selected]="widget.selected">
+				<div class="image-overlay" [class.selected]="widget.selected" (click)="widget.selected = false"></div>
+			</div>
+		</div>
+	</div>
+	<div mat-dialog-actions>
+		<button class="secondary-btn" mat-dialog-close>Cancel</button>
+		<button class="primary-btn" (click)="save()">Save</button>
+	</div>
+</div>

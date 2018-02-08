@@ -1,0 +1,14 @@
+<div id="sub-header-component" fxFlex fxLayout="column">
+	<div class="progress-bar-container">
+		<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+	</div>
+	<div class="page-header" fxLayout="column">
+		<div fxLayout="row" fxLayoutAlign="space-between">
+			<div class="back-arrow" fxLayout="row">
+				<i (click)="backClick()" class="clickable material-icons back" *ngIf="this.back.observers.length > 0">arrow_back</i>
+				<h2 class="heading">{{title}}</h2>
+			</div>
+			<ng-content></ng-content>
+		</div>
+	</div>
+</div>

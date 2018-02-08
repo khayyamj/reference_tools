@@ -1,0 +1,28 @@
+<div class="modal" fxLayout="column">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title class="heading">EDIT SENIOR MISSIONARY</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div class="modal-edit-senior-missionary-container" fxLayout>
+		<div class="missionary-names">
+			<ul *ngFor="let missionary of missionaries">
+				<li>{{ missionary.fullName }}</li>
+			</ul>
+		</div>
+		<div class="three-input-options" fxLayout>
+			<mat-form-field class="limit-input-width" *ngFor="let key of keys">
+				<mat-select [placeholder]="selects[key].placeholder" [(ngModel)]="validate[key]">
+					<mat-option *ngFor="let listItem of selects[key].list" [value]="listItem.id" >
+						{{ listItem.name }}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+	</div>
+	<div mat-dialog-actions>
+		<button class="secondary-btn" mat-dialog-close>cancel</button>
+		<button class="primary-btn" (click)="onSave()">save</button>
+	</div>
+</div>

@@ -1,0 +1,47 @@
+@import '../../../../main.less';
+
+.mission-view{
+	padding: 20px;
+	height: calc(~'100% - 62px');
+	.header {
+		position: relative;
+		height: 125px;
+		background: @off-white;
+		border-radius: 10px;
+		margin-bottom: 20px;
+		.mission-name {
+			margin-left: 30px;
+		}
+		&.overlay {
+			position: absolute;
+			width: 100%;
+			background: transparent;
+			color: transparent;
+			div {
+				height: 100%;
+				&:hover {
+					i {
+						color: @white;
+						background: @black;
+						opacity: .15;
+					}
+				}
+				i {
+					cursor: pointer;
+					padding: 50px 13px;
+					&.left {
+						border-radius: 10px 0 0 10px;
+					}
+					&.right{
+						border-radius: 0 10px 10px 0;
+					}
+					&:hover {
+						color: @white;
+						background: @black;
+						opacity: .35;
+					}
+				}
+			}
+		}
+	}
+}

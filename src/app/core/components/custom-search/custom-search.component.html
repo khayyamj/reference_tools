@@ -1,0 +1,86 @@
+<app-sub-header [loading]="customSearchService.loading" [title]="'Custom Search'"></app-sub-header>
+<div id="custom-search" #container>
+	<div fxLayoutAlign="end center">
+		<button class="secondary-btn" type="button" (click)="router.navigate(['/custom-search/list']);" *ngIf="isEdit">Cancel</button>
+		<button class="primary-btn" type="button" (click)="confirmSave()">Save Search Criteria</button>
+	</div>
+	<div class="search-row" fxLayoutAlign="start center">
+		<mat-checkbox [(ngModel)]="customSearchService.criteria.preMTC">Pre-MTC</mat-checkbox>
+		<mat-checkbox [(ngModel)]="customSearchService.criteria.scheduled">Scheduled</mat-checkbox>
+		<mat-checkbox [(ngModel)]="customSearchService.criteria.inResidence">In Residence</mat-checkbox>
+		<mat-checkbox [(ngModel)]="customSearchService.criteria.departed">Departed</mat-checkbox>
+		<mat-checkbox [(ngModel)]="customSearchService.criteria.all" (change)="checkAll($event.checked)">All</mat-checkbox>
+	</div>
+	<div class="criteria-headers heading" fxLayoutAlign="space-between start" fxLayout="row">
+		<div class="criteria-header" fxFlex="18%">
+			Missionary
+		</div>
+		<div class="criteria-header" fxFlex="59%">
+			MTC
+		</div>
+		<div class="criteria-header" fxFlex="18%">
+			Mission
+		</div>
+	</div>
+	<div>
+		<div class="criteria-container" fxLayout="row" fxLayoutAlign="space-between start">
+			<div class="criteria-column" fxFlex="18%">
+				<mat-input-container class="input-field criteria">
+					<input matInput placeholder="Name or ID" [(ngModel)]="customSearchService.criteria.name">
+				</mat-input-container>
+				<mtc-multi-auto-complete [placeholder]="'Type'" 			[items]="toolsInfoService.info.types" 		[(itemChosen)]="customSearchService.criteria.types"></mtc-multi-auto-complete>
+				<mtc-multi-auto-complete [placeholder]="'Citizenship'" 		[items]="toolsInfoService.info.countries" 	[(itemChosen)]="customSearchService.criteria.citizenships"></mtc-multi-auto-complete>
+				<mtc-multi-auto-complete [placeholder]="'Home Country'" 	[items]="toolsInfoService.info.countries" 	[(itemChosen)]="customSearchService.criteria.homeCountries"></mtc-multi-auto-complete>
+				<mtc-multi-auto-complete [placeholder]="'Birth Country'" 	[items]="toolsInfoService.info.countries" 	[(itemChosen)]="customSearchService.criteria.birthCountries" *ngIf="customSearchService.isCriteriaExpanded"></mtc-multi-auto-complete>
+				<mat-input-container class="input-field criteria" *ngIf="customSearchService.isCriteriaExpanded">
+					<input matInput placeholder="City/State of Birth" [(ngModel)]="customSearchService.criteria.birthPlace">
+				</mat-input-container>
+				<mtc-date-picker [(date)]="customSearchService.criteria.birthdayStart" [(endDate)]="customSearchService.criteria.birthdayEnd" [title]="'Date of Birth'" class="criteria" *ngIf="customSearchService.isCriteriaExpanded"></mtc-date-picker>
+				<mtc-multi-auto-complete [placeholder]="'Gender'" *ngIf="customSearchService.isCriteriaExpanded" [items]="toolsInfoService.info.genders" [(itemChosen)]="customSearchService.criteria.genders"></mtc-multi-auto-complete>
+			</div>
+			<div class="criteria-column" fxFlex="18%">
+				<mtc-date-picker [(date)]="customSearchService.criteria.scheduledArrivalStart" 		[(endDate)]="customSearchService.criteria.scheduledArrivalEnd" 	[title]="'Scheduled Arrival'" 	class="criteria">	</mtc-date-picker>
+				<mtc-date-picker [(date)]="customSearchService.criteria.actualArrivalStart" 		[(endDate)]="customSearchService.criteria.actualArrivalEnd" 	[title]="'Actual Arrival'" 		class="criteria">	</mtc-date-picker>
+				<mtc-date-picker [(date)]="customSearchService.criteria.scheduledDepartureStart" 	[(endDate)]="customSearchService.criteria.scheduledDepartureEnd"[title]="'Scheduled Departure'" class="criteria">	</mtc-date-picker>
+				<mtc-date-picker [(date)]="customSearchService.criteria.actualDepartureStart" 		[(endDate)]="customSearchService.criteria.actualDepartureEnd"	[title]="'Actual Departure'" class="criteria">		</mtc-date-picker>
+				<mtc-date-picker [(date)]="customSearchService.criteria.residenceDateStart" 		[(endDate)]="customSearchService.criteria.residenceDateEnd"		[title]="'Residence Date'" class="criteria" *ngIf="customSearchService.isCriteriaExpanded"></mtc-date-picker>
+				<mtc-multi-auto-complete [placeholder]="'Sub Status'" 			*ngIf="customSearchService.isCriteriaExpanded" [items]="toolsInfoService.info.substatuses"		[(itemChosen)]="customSearchService.criteria.subStatuses">		</mtc-multi-auto-complete>
+				<mtc-multi-auto-complete [placeholder]="'Secure Sub Status'" 	*ngIf="customSearchService.isCriteriaExpanded" [items]="toolsInfoService.info.securesubstatuses"[(itemChosen)]="customSearchService.criteria.secureSubStatuses"></mtc-multi-auto-complete>
+			</div>
+			<div class="criteria-column" fxFlex="18%">
+				<mtc-multi-auto-complete [placeholder]="'Branch'" 			[items]="toolsInfoService.info.branches" 	[(itemChosen)]="customSearchService.criteria.branches">	</mtc-multi-auto-complete>
+				<mtc-multi-auto-complete [placeholder]="'District'" 		[items]="toolsInfoService.info.districts" 	[(itemChosen)]="customSearchService.criteria.districts"></mtc-multi-auto-complete>
+				<mtc-multi-auto-complete [placeholder]="'Residence Room'"	[items]="toolsInfoService.info.residences" 	[itemChosen]="customSearchService.criteria.residenceRooms"[partial]="true" (chipsChange)="customSearchService.criteria.residenceRooms = $event"></mtc-multi-auto-complete>
+				<mtc-multi-auto-complete [placeholder]="'Mailbox'" 			[items]="toolsInfoService.info.mailboxes" 	[(itemChosen)]="customSearchService.criteria.mailboxes"></mtc-multi-auto-complete>
+			</div>
+			<div class="criteria-column" fxFlex="18%">
+				<mtc-multi-auto-complete [placeholder]="'Classroom'" 				[items]="toolsInfoService.info.classrooms" 			[itemChosen]="customSearchService.criteria.classrooms" 			[partial]="true" (chipsChange)="customSearchService.criteria.classrooms = $event"></mtc-multi-auto-complete>
+				<mtc-multi-auto-complete [placeholder]="'Training Language'" 		[items]="toolsInfoService.info.traininglanguages" 	[itemChosen]="customSearchService.criteria.trainingLanguages"	[partial]="true" (chipsChange)="customSearchService.criteria.trainingLanguages = $event"></mtc-multi-auto-complete>
+				<mtc-multi-auto-complete [placeholder]="'Sub Training Language'" 	[items]="toolsInfoService.info.sublanguages" 		[(itemChosen)]="customSearchService.criteria.subTrainingLanguages"></mtc-multi-auto-complete>
+				<mtc-multi-auto-complete [placeholder]="'Training Schedule'" 		[items]="toolsInfoService.info.schedules" 			[(itemChosen)]="customSearchService.criteria.trainingSchedules"></mtc-multi-auto-complete>
+				<mtc-multi-auto-complete [placeholder]="'Training Week'" 			[items]="toolsInfoService.info.trainingWeeks" 		[(itemChosen)]="customSearchService.criteria.trainingWeeks"
+				 *ngIf="customSearchService.isCriteriaExpanded"></mtc-multi-auto-complete>
+			</div>
+			<div class="criteria-column" fxFlex="18%">
+				<mtc-multi-auto-complete [placeholder]="'Mission Name'" 	[items]="toolsInfoService.info.missions" 	[itemChosen]="customSearchService.criteria.missions" [partial]="true" (chipsChange)="customSearchService.criteria.missions = $event"></mtc-multi-auto-complete>
+				<mtc-multi-auto-complete [placeholder]="'Sub Mission Name'" [items]="toolsInfoService.info.missions" 	[(itemChosen)]="customSearchService.criteria.submissions">		</mtc-multi-auto-complete>
+				<mtc-multi-auto-complete [placeholder]="'Mission Language'" [items]="toolsInfoService.info.languages" 	[(itemChosen)]="customSearchService.criteria.missionLanguages">	</mtc-multi-auto-complete>
+				<mtc-multi-auto-complete [placeholder]="'Special Category'" [items]="toolsInfoService.info.categories" 	[(itemChosen)]="customSearchService.criteria.specialCategories"></mtc-multi-auto-complete>
+				<mtc-date-picker [(date)]="customSearchService.criteria.missionArrivalStart" [(endDate)]="customSearchService.criteria.missionArrivalEnd" [title]="'Mission Arrival Date'" class="criteria" *ngIf="customSearchService.isCriteriaExpanded"></mtc-date-picker>
+				<mtc-date-picker [(date)]="customSearchService.criteria.missionReleaseStart" [(endDate)]="customSearchService.criteria.missionReleaseEnd" [title]="'Mission Release Date'" class="criteria" *ngIf="customSearchService.isCriteriaExpanded"></mtc-date-picker>
+			</div>
+		</div>
+	</div>
+	<div fxLayoutAlign="center center" (click)="customSearchService.isCriteriaExpanded = !customSearchService.isCriteriaExpanded" class="expand-collapse">
+		<div>{{customSearchService.isCriteriaExpanded ? 'View Less' : 'View More'}}</div>
+		<i class="material-icons">{{customSearchService.isCriteriaExpanded ? 'expand_less' : 'expand_more'}}</i>
+	</div>
+
+	<div class="search-buttons" fxLayoutAlign="end center">
+		<button class="secondary-btn" type="button" (click)="customSearchService.clearCriteria()">Clear All</button>
+		<button class="primary-btn" type="button" (click)="search()" *ngIf="!isEdit">Search</button>
+	</div>
+	<div class="mtc-checkbox-table-container" #results>
+		<mtc-checkbox-table [(columns)]="customSearchService.columns" [(rows)]="customSearchService.missionaries" [config]="config" [placeholder]="isEdit ? '' : customSearchService.placeholder"></mtc-checkbox-table>
+	</div>
+</div>

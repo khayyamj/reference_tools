@@ -1,0 +1,31 @@
+<div class="modal">
+	<div class="modal-header" fxLayout="row" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>{{title}}</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div mat-dialog-content fxLayout="column">
+		<div fxLayout="row" >
+			<mtc-date-picker class="date-picker-padding" [(date)]="change.effectiveDate" [yearPicker]="true" title="Effective Date"></mtc-date-picker>
+			<mtc-auto-complete [items]="toolsInfoService.info.actions" [(itemChosen)]="change.action" placeholder="Action" required (itemChosenChange)="change.reason = null"></mtc-auto-complete>
+			<mtc-auto-complete [items]="change?.action?.reasons" [(itemChosen)]="change.reason" placeholder="Reason" required *ngIf="change?.action?.reasons?.length > 0"></mtc-auto-complete>
+		</div>
+		<h2 mat-dialog-title>Associated Field(s)</h2>
+		<div fxLayout="row" class="associated-fields">
+			<div *ngFor="let field of change?.action?.fields" fxLayout="column" fxLayoutAlign="center center">
+				<mtc-date-picker class="date-picker-padding" [yearPicker]="true" [title]="field.name" *ngIf="field.fieldTypeName === 'date'" [(date)]="field.value"></mtc-date-picker>
+				<mat-input-container class="input-field" *ngIf="field.fieldTypeName === 'text'">
+					<input matInput [placeholder]="field.name" class="text" [required]="field.required" alphaNumeric [(ngModel)]="field.value">
+				</mat-input-container>
+				<mtc-auto-complete [items]="toolsInfoService.info.missions" [placeholder]="field.name" *ngIf="field.fieldTypeName === 'mission'" (itemChosenChange)="field.value = $event.id"></mtc-auto-complete>
+				<mtc-auto-complete [items]="toolsInfoService.info.languages" [placeholder]="field.name" *ngIf="field.fieldTypeName === 'language'" (itemChosenChange)="field.value = $event.id"></mtc-auto-complete>
+				<mat-checkbox [(ngModel)]="field.value" [required]="field.required" *ngIf="field.fieldTypeName === 'checkbox'">{{field.name}}</mat-checkbox>
+			</div>
+		</div>
+	</div>
+	<div mat-dialog-actions>
+		<button class="secondary-btn" mat-dialog-close>Cancel</button>
+		<button class="primary-btn" (click)="create()">Create</button>
+	</div>
+</div>

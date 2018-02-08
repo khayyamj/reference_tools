@@ -1,0 +1,6 @@
+<div class="filter-container" *ngIf="options" fxLayoutAlign="space-between">
+	<div fxLayout>
+		<mat-checkbox class="filter-option" *ngFor="let opt of options" [(ngModel)]="opt.selected" (ngModelChange)="changeFilter(opt)">{{opt.name}}</mat-checkbox>
+	</div>
+	<ng-content></ng-content>
+</div>

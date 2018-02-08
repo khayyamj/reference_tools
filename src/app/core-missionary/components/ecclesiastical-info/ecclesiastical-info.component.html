@@ -1,0 +1,138 @@
+<div class="missionary-eccl-component" *ngIf="missionary?.missionaryId" fxLayout="column">
+	<div fxLayout="row" fxLayoutAlign="space-between" class="header">
+		<div fxLayoutAlign="start">
+			<span fxLayoutAlign="center center">
+				<a class="clickable" [routerLink]="'/missionary'" [queryParams]="{missionaryId: missionary.missionaryId}">
+					<i class="material-icons back">arrow_back</i>
+				</a>
+			</span>
+			<span class="page-title">Ecclesiastical Information</span>
+		</div>
+		<button class="primary-btn" *ngIf="!rolesService.isOnlyGeneralUser">Edit</button>
+	</div>
+	<div fxFlex>
+		<mat-tab-group [disableRipple]="true" (selectChange)="setSameLabel($event.tab.textLabel)">
+			<mat-tab *ngFor="let tab of tabs" [label]=tab></mat-tab>
+		</mat-tab-group>
+	</div>
+	<div class="mobile-header">
+		<div class="page-title">Ecclesiastical Information</div>
+		<mat-form-field class="mat-container-class">
+			<mat-select>
+				<mat-option (click)="setSameLabel('mtc')">MTC Ecclesiastical</mat-option>
+				<mat-option (click)="setSameLabel('home')">Home Ecclesiastical</mat-option>
+				<mat-option (click)="setSameLabel('submitting')">Submitting Ecclesiastical</mat-option>
+				<mat-option (click)="setSameLabel('funding')">Funding Ecclesiastical</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+	<div *ngIf="viewType === 'mtc'" class="info-section">
+		<div *ngIf="!missionary.mtcInfo.districtPresident">
+			This missionary has no MTC Ecclesiastical information.
+		</div>
+		<span *ngIf="missionary.mtcInfo.districtPresident">
+			<div fxLayout="column" class="info unit-info">
+				<span class="bigger-title">Branch/District</span>
+				<span>{{missionary.mtcInfo.branchDistrict}}</span>
+			</div>
+			<div>
+				<div fxLayout="column" fxLayoutAlign="space-between start" class="info person district-president">
+					<span class="bigger-title">District President</span>
+					<span class="info" fxLayout="row">
+						<span>Name:</span>
+						<span>&nbsp;{{missionary.mtcInfo.districtPresident.firstName}} {{missionary.mtcInfo.districtPresident.lastName}}</span>
+					</span>
+					<span class="info" fxLayout="row">
+						<span>Cell Phone:</span>
+						<span>&nbsp;{{missionary.mtcInfo.districtPresident.cellPhone}}</span>
+					</span>
+					<span class="info" fxLayout="row">
+						<span>Office Phone:</span>
+						<span>&nbsp;{{missionary.mtcInfo.districtPresident.workPhone}}</span>
+					</span>
+					<span class="info" fxLayout="row">
+						<span>Email:</span>
+						<span>&nbsp;<a class="link" href="mailto:{{missionary.mtcInfo.districtPresident.email}}">{{missionary.mtcInfo.districtPresident.email}}</a></span>
+					</span>
+				</div>
+			</div>
+			<div class="branch-positions" fxLayout="row">
+				<div fxLayout="column" fxLayoutAlign="space-between start" class="info person" *ngFor="let person of missionary.mtcInfo.branchPresidency" fxFlex>
+					<span class="bigger-title">Branch {{person.position}}</span>
+					<span class="info" fxLayout="row">
+						<span>Name:</span>
+						<span>&nbsp;{{person.firstName}} {{person.lastName}}</span>
+					</span>
+					<span class="info" fxLayout="row">
+						<span>Cell Phone:</span>
+						<span>&nbsp;{{person.cellPhone}}</span>
+					</span>
+					<span class="info" fxLayout="row">
+						<span>Home Phone:</span>
+						<span>&nbsp;{{person.homePhone}}</span>
+					</span>
+					<span class="info" fxLayout="row">
+						<span>Email:</span>
+						<span>&nbsp;<a class="link" href="mailto:{{person.email}}">{{person.email}}</a></span>
+					</span>
+				</div>
+			</div>
+		</span>
+	</div>
+	<span *ngFor="let unit of missionary.unitInfoList">
+		<div class="info-section" *ngIf="viewType === unit.type">
+			<div class="same-label">{{sameLabel}}</div>
+			<div fxLayout="column" class="info unit-info">
+				<span class="subheading">{{unit.parentUnitType}} Name</span>
+				<span>{{unit.parentUnitName}}</span>
+			</div>
+			<div class="person-list" fxLayout="row">
+				<div fxLayout="column" fxLayoutAlign="space-between start" class="info person" fxFlex *ngFor="let person of unit.parentUnitLeaders">
+					<span class="subheading">{{person.position}}</span>
+					<span class="info" fxLayout="row">
+						<span>Name:</span>
+						<span>&nbsp;{{person.fullName}}</span>
+					</span>
+					<span class="info" fxLayout="row">
+						<span>Cell Phone:</span>
+						<span>&nbsp;{{person.cellPhone}}</span>
+					</span>
+					<span class="info" fxLayout="row">
+						<span>Home Phone:</span>
+						<span>&nbsp;{{person.homePhone}}</span>
+					</span>
+					<span class="info" fxLayout="row">
+						<span>Email:</span>
+						<span>&nbsp;<a class="link" href="mailto:{{person.email}}">{{person.email}}</a></span>
+					</span>
+				</div>
+			</div>
+			<div class="separator"></div>
+			<div fxLayout="column" class="info unit-info">
+				<span class="bigger-title">{{unit.unitType}} Name</span>
+				<span>{{unit.unitName}}</span>
+			</div>
+			<div class="person-list" fxLayout="row">
+				<div fxLayout="column" fxLayoutAlign="space-between start" class="info person" fxFlex *ngFor="let person of unit.unitLeaders">
+					<span class="bigger-title">{{person.position}}</span>
+					<span class="info" fxLayout="row">
+						<span>Name:</span>
+						<span>&nbsp;{{person.fullName}}</span>
+					</span>
+					<span class="info" fxLayout="row">
+						<span>Cell Phone:</span>
+						<span>&nbsp;{{person.cellPhone}}</span>
+					</span>
+					<span class="info" fxLayout="row">
+						<span>Home Phone:</span>
+						<span>&nbsp;{{person.homePhone}}</span>
+					</span>
+					<span class="info" fxLayout="row">
+						<span>Email:</span>
+						<span>&nbsp;<a class="link" href="mailto:{{person.email}}">{{person.email}}</a></span>
+					</span>
+				</div>
+			</div>
+		</div>
+	</span>
+</div>

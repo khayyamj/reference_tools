@@ -1,0 +1,88 @@
+<div class="missionary-mission-component" *ngIf="missionary?.missionaryId" fxLayout="column">
+	<div fxLayout="row" fxLayoutAlign="space-between" class="header">
+		<div fxLayoutAlign="start">
+			<span fxLayoutAlign="center center" class="desktop">
+				<a class="clickable" [routerLink]="'/missionary'" [queryParams]="{missionaryId: missionary.missionaryId}">
+					<i class="material-icons back">arrow_back</i>
+				</a>
+			</span>
+			<span class="page-title">Mission Information</span>
+		</div>
+		<button class="primary-btn desktop" *ngIf="!rolesService.isOnlyGeneralUser">Edit</button>
+	</div>
+	<div fxLayout="row" fxLayoutAlign="start start" class="heading">
+		<span>General <span class="desktop">Information</span></span>
+	</div>
+	<div class="info-section general-info">
+		<div fxLayout="row" class="info-language">
+			<div fxLayout="column" class="language-column">
+				<div fxFlex="15%" fxLayout="column" class="info">
+					<span>Mission Name</span>
+					<span class="ellipsis-long-text">{{missionary.missionInfo.missionName}}</span>
+				</div>
+				<div fxFlex="15%" fxLayout="column" class="info">
+					<span>Mission Abbreviation</span>
+					<span>{{missionary.missionInfo.missionAbbreviation}}</span>
+				</div>
+				<span fxFlex="15%"></span>
+				<div fxFlex="15%" fxLayout="column" class="info">
+					<span>Mission Language</span>
+					<span>{{missionary.missionInfo.missionLanguage}}</span>
+				</div>
+				<div fxFlex="15%" fxLayout="column" class="info">
+					<span>Sub Mission</span>
+					<span>{{missionary.missionInfo.subMission}}</span>
+				</div>
+				<div fxFlex="15%" fxLayout="column" class="info">
+					<!--TODO what is special category?-->
+					<span>Special Category</span>
+				</div>
+			</div>
+			<div fxLayout="column" class="date-column">
+				<div fxFlex="15%" fxLayout="column" class="info">
+					<span>Mission Arrival Date</span>
+					<span>{{missionary.missionInfo.inFieldArrival | mtcDate}}</span>
+				</div>
+				<div fxFlex="15%" fxLayout="column" class="info">
+					<span>Mission Length</span>
+					<span>{{missionary.missionInfo.missionLength}} Months</span>
+				</div>
+				<div fxFlex="15%" fxLayout="column" class="info">
+					<span>Mission Release Date</span>
+					<span>{{missionary.missionInfo.releaseDate | mtcDate}}</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div fxLayout="column" class="president-column">
+				<div fxFlex="20%" fxLayout="column" class="info">
+					<span>Mission President</span>
+					<span>{{missionary.missionInfo.missionPresident}}</span>
+				</div>
+				<div fxFlex="20%" fxLayout="column" class="info">
+					<span>Email Address</span>
+					<span><a class="link" href="mailto:{{missionary.missionInfo.missionPresidentEmail}}">{{missionary.missionInfo.missionPresidentEmail}}</a></span>
+				</div>
+				<div fxFlex="20%" fxLayout="column" class="info">
+					<span>Cell Phone</span>
+					<span>{{missionary.missionInfo.missionPresidentCell}}</span>
+				</div>
+				<div fxFlex="20%" fxLayout="column" class="info">
+					<span>Office Phone</span>
+					<span>{{missionary.missionInfo.missionOfficePhone}}</span>
+				</div>
+				<div fxFlex="20%" fxLayout="column" class="info">
+					<span>Home Phone</span>
+					<span>{{missionary.missionInfo.missionHomePhone}}</span>
+				</div>
+				<div fxFlex="20%" fxLayout="column" class="info">
+					<span>Mission Mailing Address</span>
+					<p class="address" [innerHtml]="missionary.missionInfo.missionMailingAddress"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="mtc-checkbox-table-container" *ngIf="missionary.travelInfoList?.length">
+		<mtc-checkbox-table [rows]="missionary.travelInfoList" [columns]="checkboxColumns" [config]="checkboxConfig"></mtc-checkbox-table>
+	</div>
+</div>

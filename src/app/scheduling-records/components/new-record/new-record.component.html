@@ -1,0 +1,57 @@
+<app-sub-header class="no-print" [title]="'Create a New Record'"></app-sub-header>
+<div class="new-record-container">
+	<div fxLayoutAlign="end">
+		<input #csvInput type="file" accept=".csv" class="_file-upload" id="selectedFile" style="display: none;"
+			(change)="importCsv($event)"/>
+		<button class="primary-btn">
+			<a href="data:application/csv;charset=utf-8,type,lastName,firstName,middleName,gender,missionId,missionLanguageId,trainingLanguageId,specialCategory,scheduledArrival,scheduledDeparture"
+				download="CreateNewRecordTemplate.csv">download csv template</a>
+		</button>
+		<button class="primary-btn" (click)="csvInput.click()">IMPORT</button>
+	</div>
+	<p>
+		New records should only be created when missionary data is not found in Salt Lake data. Before creating a record, check
+		the latest download from Salt Lake missionary data. Younger missionaries and regular senior missionaries should not be
+		created.
+	</p>
+	<form fxLayout="row" (ngSubmit)="assignValuesRecord(f)" #f="ngForm" (keydown.enter)="$event.preventDefault()">
+		<div fxLayout="column" fxFlex="50%">
+			<mtc-auto-complete  [(itemChosen)]="newRecord.selectedType" [items]="types"  placeholder="Type" [required]="true" name="type" ngModel></mtc-auto-complete>
+			<mat-input-container>
+				<input alphaNumeric matInput type="text" placeholder="Last Name" [ngModel]="newRecord.lastName" name="lastName" required>
+				<mat-error>
+					<span [hidden]="!f?.controls.lastName?.errors?.required">Required Field</span>
+					<span [hidden]="!f?.controls.lastName?.errors?.specialCharacters">No special characters allowed</span>
+				</mat-error>
+			</mat-input-container>
+			<mat-input-container>
+				<input alphaNumeric matInput type="text" placeholder="First Name" [(ngModel)]="newRecord.firstName" name="firstName" required>
+				<mat-error>
+					<span [hidden]="!f?.controls.firstName?.errors?.required">Required Field</span>
+					<span [hidden]="!f?.controls.firstName?.errors?.specialCharacters">No special characters allowed</span>
+				</mat-error>
+			</mat-input-container>
+			<mat-input-container>
+				<input alphaNumeric matInput type="text" placeholder="Middle Name" [(ngModel)]="newRecord.middleName" name="middleName">
+				<mat-error>
+					<span>No special characters allowed</span>
+				</mat-error>
+			</mat-input-container>
+			<mtc-auto-complete  [(itemChosen)]="newRecord.selectedGender" [items]="toolsInfoService.info.genders"  placeholder="Gender" [required]="true" name="gender" ngModel></mtc-auto-complete>
+		</div>
+		<div fxLayout="column" fxFlex="50%">
+			<mtc-auto-complete  [(itemChosen)]="newRecord.selectedMission" [items]="toolsInfoService.info.missions"  placeholder="Mission" name="mission" ngModel></mtc-auto-complete>
+			<mtc-auto-complete  [(itemChosen)]="newRecord.selectedMissionLanguage" [items]="toolsInfoService.info.languages"  placeholder="Mission Language" name="missLanguage" ngModel></mtc-auto-complete>
+			<mtc-auto-complete  [(itemChosen)]="newRecord.selectedTrainingLanguage" [items]="toolsInfoService.info.traininglanguages"  placeholder="Training Language" name="trainingLanguage" ngModel></mtc-auto-complete>
+			<mtc-auto-complete  [(itemChosen)]="newRecord.selectedSpecialCategory" [items]="toolsInfoService.info.categories"  placeholder="Special Categories" name="specialCategory" ngModel></mtc-auto-complete>
+			<div fxLayout="row">
+				<mtc-date-picker [title]="'Departure Date'" ngModel #arrivalDate="ngModel" name="arrivalDate" [isBefore]="departureDate.control.value" [control]="f.controls.arrivalDate"></mtc-date-picker>
+				<mtc-date-picker class="small-date-picker" [title]="'Arrival Date'" ngModel #departureDate="ngModel" name="departureDate" [isAfter]="arrivalDate.control.value" [control]="f.controls.departureDate"></mtc-date-picker>
+			</div>
+			<div mat-dialog-actions fxLayoutAlign="end center">
+				<button class="secondary-btn" type="button" (click)="cancelRecord()">CANCEL</button>
+				<button class="primary-btn" type="submit">CREATE</button>
+			</div>
+		</div>
+	</form>
+</div>

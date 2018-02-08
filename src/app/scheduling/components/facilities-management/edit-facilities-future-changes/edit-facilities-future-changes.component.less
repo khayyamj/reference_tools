@@ -1,0 +1,79 @@
+@import '../../../../../main.less';
+
+@border-width:2px;
+
+.edit-facilities-future-changes-component{
+
+	.subheaders{
+		line-height: 35px;
+		height: 35px;
+		min-width: 106px;
+		text-align: left;
+		&.future{
+			width: 204px;
+		}
+		&.date{
+			width: 131px;
+		}
+		&.button{
+			width: 110px
+		}
+	}
+
+	.row{
+		margin: 15px 0px;
+	}
+
+	.thick-border{
+		border-bottom:@border-width solid @light-grey;
+	}
+
+	.row-border{
+		border-bottom:1.5px solid @light-grey;
+	}
+
+	.future-changes-table{
+		border-collapse: collapse;
+	}
+
+	.input-field{
+		min-height: 0px !important;
+		height: 15px;
+		margin: 5px 20px 0px 0px;
+		padding-top: 0px;
+
+		&.auto-complete{
+			width: 150px;
+		}
+		.text{
+			width: 150;
+			height: 17px;
+			margin-top:2px;
+			margin-right: 0px;
+			padding-top: 0px;
+		}
+	}
+
+	.overflow{
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		max-width: 99px;
+		overflow: hidden;
+	}
+
+	.button-bar{
+		padding: 20px 0px 15px 0px;
+	}
+
+	td{
+		padding-left: 10px;
+	}
+	
+	th{
+		padding-left: 10px;
+	}
+
+	.button{
+		margin-left: 30px;
+	}
+}

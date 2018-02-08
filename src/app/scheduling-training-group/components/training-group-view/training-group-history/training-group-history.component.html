@@ -1,0 +1,25 @@
+<div class="space-top">
+	<div class="page-title">
+		Training Group History
+	</div>
+	<div class="tables">
+		<div class="member-tables">
+			<div class="table-container">
+				<div class="subheading">
+					Missionaries Added
+				</div>
+				<div class="mtc-checkbox-table-container">
+					<mtc-checkbox-table [(rows)]="history.addedMissionaries" [columns]="columns" [config]="config"></mtc-checkbox-table>
+				</div>
+			</div>
+			<div class="table-container">
+				<div class="subheading">
+					Missionaries Removed
+				</div>
+				<div class="mtc-checkbox-table-container">
+					<mtc-checkbox-table [(rows)]="history.removedMissionaries" [columns]="newColumns" [config]="config"></mtc-checkbox-table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

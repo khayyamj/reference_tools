@@ -1,0 +1,80 @@
+@import '../../../../main.less';
+
+.dialog-search-component{
+  position: relative;
+
+  mat-input-container {
+		margin: 0px 0px;
+	}
+
+  .search-progress {
+    width: 100%;
+  }
+
+  .no-results {
+    margin-bottom: 15px;
+  }
+
+  .view-table {
+    display: table;
+    width: 100%;
+  }
+  .view-row {
+    display: table-row;
+  }
+  .bottom-border {
+    border-bottom: 1px solid @light-grey;
+    margin-bottom: 5px;
+  }
+  .missionary-col {
+    width: 60%;
+    padding-left: 10px;
+  }
+  .mtc-id-col {
+    width: 15%;
+  }
+  .icon-col {
+    width: 3%;
+  }
+  .mission-col {
+    width: 25%;
+  }
+
+  .autocomplete-dropdown {
+    cursor: pointer;
+    width: 580px;
+    z-index: @z-index-level-1;
+    position: absolute;;
+    background-color: @white;
+    padding: 5px 15px;
+    margin-top: 5px;
+    height: 200px;
+    overflow: scroll;
+    overflow-x: hidden;
+    border: 1px solid @light-grey;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px; /* for old Konqueror browsers */
+    -moz-border-radius: 10px;
+    border-radius: 10px; /* future proofing */
+    .add-icon {
+        border: none !important;
+        color: gray;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px; /* for old Konqueror browsers */
+        -moz-border-radius: 5px;
+        border-radius: 5px; /* future proofing */
+        z-index: @z-index-level-1;
+    }
+    .add-icon:active {
+        background-color: lightgray;
+    }
+  }
+  .ellipsis-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mtc-checkbox-table-container{
+    max-height: 400px;
+  }
+}

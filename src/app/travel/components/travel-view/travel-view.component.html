@@ -1,0 +1,49 @@
+<div class="group-info" fxLayout>
+	<div class="travel-group-information" *ngIf="travelGroup.travelers" fxFlex="55%">
+		<app-itinerary [model]="model" [type]="type"></app-itinerary>
+		<div fxLayout="row" fxLayoutAlign="end center">
+			<div *ngIf="travelGroup.emailDate && travelGroup.travelers.length > 1">
+				<span>Last Sent: {{ travelGroup.emailDate | date : 'dd MMM yyyy hh:mm a' }}</span>
+			</div>
+			<button class="primary-btn" (click)="reSendAllItinerary(travelGroup)" *ngIf="travelGroup.travelers.length > 1" matTooltip="Re-Send All Itineraries">
+				{{travelGroup.emailDate ? 'RESEND' : 'SEND TO GROUP'}}
+			</button>
+			<button class="primary-btn" (click)="printAllItinerary(travelGroup)" matTooltip="Print All Itineraries">
+				PRINT GROUP
+			</button>
+		</div>
+	</div>
+	<div class="travel-group-information" fxFlex="45%">
+		<!-- TODO: Probably should use checkbox table component -->
+		<table>
+			<tr class="exempt body-text" fxLayout>
+				<th fxFlex="10%"></th>
+				<th fxFlex="50%">Name</th>
+				<th fxFlex="10%">ID</th>
+				<th fxFlex="40%"></th>
+			</tr>
+			<tr *ngFor="let traveler of travelGroup.travelers" fxLayout>
+				<td fxFlex="10%" fxLayoutAlign="center center">
+					<i class="clickable material-icons sm-icon red-icon" [matTooltip]="travelGroup.changeLeader ? '' : 'Travel Leader'" (click)="travelGroup.changeLeader = true"  *ngIf="showTravelLeaderIcon(travelGroup, traveler)" [class.reduced-icon-padding]="traveler.hasTempAssign">account_circle</i>
+					<i *ngIf="travelGroup.changeLeader" (click)="assignAsLeader(traveler.missionaryId,travelGroup)" class="clickable material-icons sm-icon grey-icon" [class.reduced-icon-padding]="traveler.hasTempAssign">account_circle</i>
+					<i *ngIf="traveler.hasTempAssign" class="clickable icon-temp_mission sm-icon" [class.reduced-icon-padding]="reduceTempAssignLogoPadding(travelGroup, traveler)"></i>
+				</td>
+				<td (click)="setSelectedMissionary(traveler.missionaryId)" fxLayoutAlign="start center" class="clickable subheading name" fxFlex="50%">
+					<span [routerLink]="'/missionary'" [queryParams]="{missionaryId: traveler.missionaryId}">
+						{{traveler.fullName}}
+					</span>
+				</td>
+				<td fxFlex="10%" fxLayoutAlign="start center">{{traveler.missionaryId}}</td>
+				<td fxFlex="40%" fxLayoutAlign="end center">
+					<button class="primary-btn" (click)="reSendItinerary(traveler)">Email</button>
+					<button class="primary-btn" (click)="printItinerary(traveler,travelGroup)">Print</button>
+				</td>
+			</tr>
+		</table>
+		<div fxLayoutAlign="end center">
+			<div class="pull-right _individual-last-sent" *ngIf="travelGroup.emailDate && travelGroup.travelers.length <= 1">
+				<span class="pull-right">Last Sent: {{ travelGroup.emailDate | date : 'dd MMM yyyy hh:mm a' }}</span>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,65 @@
+<div class="departure-group-item" [class.dragging]="isDragging()">
+	<div class="group-header" fxLayout="row" [ngClass]="{'open': group.expanded}">
+		<div fxFlex="10%" class="small-text hide-on-drag">{{group.departureGroupItemTypeName}}</div>
+		<div [ngSwitch]="group.departureGroupItemType" fxFlex="55%">
+			<div *ngSwitchCase="'CONSULATE_APPT'" class="bold-text"><div class="overflow-ellipsis">{{group.consulateType}}</div></div>
+			<div *ngSwitchCase="'MANUAL_APPT_MED'" class="bold-text"><div class="overflow-ellipsis">{{group.address}}</div></div>
+			<div *ngSwitchCase="'MANUAL_APPT_OTHER'" class="bold-text"><div class="overflow-ellipsis">{{group.destination}}</div></div>
+			<ng-container *ngSwitchDefault>
+				<div class="unit-abbr bold-text">{{group.unitAbbr}}</div>
+				<div class="small-text hide-on-drag">TRAVEL LEADER&nbsp;</div>
+				<div class="bold-text hide-on-drag">{{group.tglLastName}}</div>
+			</ng-container>
+		</div>
+		<div fxFlex="15%" class="hide-on-drag">
+			<div class="small-text">PASSENGERS&nbsp;</div>
+			<div class="bold-text">{{group.mbrCnt}}</div>
+		</div>
+		<div fxFlex="15%" class="hide-on-drag">
+			<div *ngIf="isFlight && group.tgFlightDepartureDt">
+				<div *ngIf="isConsulatePickup; else nonpickup" class="small-text">PICKUP</div>
+				<ng-template #nonpickup>
+					<div class="small-text">FLIGHT</div>
+					<span class="bold-text">{{group.tgFlightDepartureDt | date:"shortTime"}}</span>
+				</ng-template>
+			</div>
+			<div *ngIf="isAppointment">
+				<div *ngIf="group.departureGroupItemTripType === 'PICKUP'; else nonpickup" class="small-text">PICKUP</div>
+				<ng-template #nonpickup><div class="small-text">APPT. TIME&nbsp;&nbsp;</div><span class="bold-text">{{group.appointmentDt | date:"shortTime"}}</span></ng-template>
+			</div>
+		</div>
+		<div fxFlex="5%" fxLayout="row" fxLayoutAlign="end center" class="clickable no-print hide-on-drag draggable" ><mtc-drag-handle></mtc-drag-handle></div>
+	</div>
+	<div class="clear"></div>
+	<div *ngIf="group.expanded" class="all-passengers hide-on-drag">
+		<div class="passenger" *ngFor="let passenger of group.members">
+			<div class="girl-icon pull-left" *ngIf="passenger.gender === 'F'">
+				<div class="whiteout"></div>
+				<i class="material-icons">wc</i>
+			</div>
+			<div class="boy-icon pull-left" *ngIf="passenger.gender === 'M'">
+				<div class="whiteout"></div>
+				<i class="material-icons">wc</i>
+			</div>
+			<div class="name pull-left">
+				<span class="_toggle-details" (click)="toggleDetails($event, passenger)">{{passenger.lastName}}, {{passenger.firstName[0]}}.</span>
+				<div *ngIf="passenger.moreDetailsOpen" class="passenger-details" fxLayout="row" (click)="$event.stopPropagation()">
+					<span class="pic">
+						<img [src]="getPicture(passenger)" alt="missionary picture">
+					</span>
+					<span fxLayout="column" class="text">
+						<span class="text-no-overflow">{{passenger.fullName}}</span>
+						<span>{{passenger.missionaryId}}</span>
+						<span>{{passenger.residenceRoomNm}}</span>
+						<span class="text-no-overflow" *ngFor="let companion of passenger.companions">{{companion.fullName}}</span>
+					</span>
+					<span fxLayoutAlign="end start" fxLayout>
+						<i class="material-icons close" (click)="toggleDetails($event, passenger)">close</i>
+					</span>
+				</div>
+			</div>
+			<button class="pull-right primary-btn">CHECKOUT</button>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>

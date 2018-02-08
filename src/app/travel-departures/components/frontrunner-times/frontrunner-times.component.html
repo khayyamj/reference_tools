@@ -1,0 +1,11 @@
+<div class="frontrunner-times-component" fxLayout="column" fxLayoutAlign="start start">
+	<mat-form-field>
+		<mat-select (change)="changeTime()" [(ngModel)]="departureSchedule" placeholder="Frontrunner Time" name="frontRunnerTime" [formControl]="childControl">
+			<mat-option *ngFor="let time of departureSchedules"  [value]="time">{{time.trainTimeDisplay}} *</mat-option>
+		</mat-select>
+		<mat-error>
+			<span class="validation-error" *ngIf="departureSchedules && departureSchedules.length === 0">Blackout Date</span>
+			<span class="validation-error" *ngIf="childControl?.errors?.required && childControl.touched">Required Field</span>
+		</mat-error>
+	</mat-form-field>
+</div>

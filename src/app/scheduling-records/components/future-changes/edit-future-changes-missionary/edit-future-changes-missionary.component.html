@@ -1,0 +1,83 @@
+<form class="modal content" #f="ngForm" (ngSubmit)="save(f)" (keydown.enter)="$event.preventDefault()">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title class="subheading">Edit Future Missionary</h2>
+		<button class="icon-btn" type="button" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div fxLayoutAlign="space-around">
+		<div fxFlex="40%" fxLayout="column" fxLayoutAlign="start start">
+			<div class="subheading">
+				<div fxFlex="20%">Id</div>
+				<div fxFlex="30%">Type</div>
+				<div fxFlex="30%">Name</div>
+			</div>
+			<div class="items">
+				<div class="body-text column" *ngFor="let missionary of missionaries">
+					<div fxFlex="20%">{{missionary.id}}</div>
+					<div fxFlex="30%">{{missionary.type}}</div>
+					<div fxFlex="30%">{{missionary.fullName}}</div>
+				</div>
+			</div>
+		</div>
+		<div fxLayout="column" class="first-column" fxFlex>
+			<div fxLayoutAlign="space-around">
+				<div fxLayout="column">
+					<!-- TODO can we move these out of field auto-complets div tags?-->
+					<!-- TODO Also let's use an ngFor here -->
+					<div class="field auto-complete">
+						<mtc-auto-complete ngModel placeholder="Status" [(itemChosen)]="edits.status" [items]="toolsInfoService.info.statuses" name="status"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete ngModel placeholder="Sub-Status" [(itemChosen)]="edits.substatus" [items]="toolsInfoService.info.substatuses" name="subStatus"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete ngModel class="_branch-auto-complete" placeholder="Branch" [(itemChosen)]="edits.branch" [items]="toolsInfoService.info.branches"
+							(change)="getDistricts()" name="branch"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete ngModel placeholder="District" [(itemChosen)]="edits.district" [items]="toolsInfoService.info.districts" name="district"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete ngModel placeholder="Training Schedule" [(itemChosen)]="edits.trainingSchedule" [items]="toolsInfoService.info.schedules" name="trainingSchedule"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete ngModel placeholder="Trianing Week" [(itemChosen)]="edits.trainingWeek" [items]="toolsInfoService.info.trainingWeeks" name="trainingWeek"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete ngModel placeholder="Mailbox" [(itemChosen)]="edits.mailbox" [items]="toolsInfoService.info.mailboxes" name="mailbox"></mtc-auto-complete>
+					</div>
+				</div>
+				<div fxLayout="column">
+					<div class="field auto-complete">
+						<mtc-auto-complete ngModel placeholder="Residence Room" [(itemChosen)]="edits.residenceRoom" [items]="toolsInfoService.info.residences" name="residenceRoom"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete ngModel placeholder="Classroom" [(itemChosen)]="edits.classroom" [items]="toolsInfoService.info.classrooms" name="classroom"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete ngModel placeholder="Mission Language" [(itemChosen)]="edits.missionLanguage" [items]="toolsInfoService.info.languages" name="missionLanguage"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete ngModel placeholder="Training Language" [(itemChosen)]="edits.trainingLanguage" [items]="toolsInfoService.info.traininglanguages" name="trainingLanguage"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete ngModel placeholder="Sub Training Language" [(itemChosen)]="edits.subTrainingLanguage" [items]="toolsInfoService.info.traininglanguages" name="subTrainingLanguage"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete ngModel placeholder="Special Category" [(itemChosen)]="edits.specialCategory" [items]="toolsInfoService.info.categories" name="specialCategory"></mtc-auto-complete>
+					</div>
+				</div>
+			</div>
+			<div mat-dialog-actions>
+				<div class="effective-date">
+					<mtc-date-picker [title]="'Effective Date'" [isAfter]="'today'" [(date)]="date" name="effectiveDate" ngModel></mtc-date-picker>
+				</div>
+				<div>
+					<button class="secondary-btn" type="button" mat-dialog-close>cancel</button>
+					<button class="primary-btn" type="submit">save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

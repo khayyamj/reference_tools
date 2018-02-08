@@ -1,0 +1,31 @@
+<div class="modal">
+	<div class="modal-header" fxLayout="column" fxLayoutAlgin="start start">
+		<div class="title-row" fxLayoutAlign="space-between">
+			<h2 mat-dialog-title class="heading">Print Summary</h2>
+			<button class="icon-btn" mat-dialog-close>
+				<i class="material-icons">clear</i>
+			</button>
+		</div>
+	</div>
+	<form class="app-dialog-component" #f="ngForm" (ngSubmit)="next()">
+		<div fxLayout="column">
+			<div fxLayout="row" class="summary-container">
+				<mat-radio-group name="reportType" [(ngModel)]="printSummaryInfo.reportType">
+					<mat-radio-button [value]="'one-page'">1-Page Summary</mat-radio-button>
+					<mat-radio-button [value]="'clinical'" *ngIf="rolesService.isMedicalUser || rolesService.isEcclUser">Clinical Summary</mat-radio-button>
+				</mat-radio-group>
+			</div>
+			<div [class.hidden]="printSummaryInfo.reportType === 'clinical'" fxLayout="row">
+				<div fxLayout="column">
+					<mat-checkbox [(ngModel)]="printSummaryInfo.includePublicNotes" name="includePublicNotes">Include Public Notes</mat-checkbox>
+					<mat-checkbox *ngIf="rolesService.isEcclUser || rolesService.isMedicalUser" [(ngModel)]="printSummaryInfo.includeConfidentialNotes" name="includeConfidentialNotes">Include Confidential Notes</mat-checkbox>
+					<mat-checkbox [(ngModel)]="printSummaryInfo.includeSchedule" name="includeSchedule">Include Schedule</mat-checkbox>
+				</div>
+			</div>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" type="button" mat-dialog-close>CANCEL</button>
+			<button class="primary-btn" type="submit">NEXT</button>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,41 @@
+<form class="modal" (ngSubmit)="save(f)" #f="ngForm">
+	<div class="modal-header" fxFlex fxLayoutAlign="space-between">
+		<h2 mat-dialog-title class="heading">
+			<span *ngIf="isNew">Add New</span>
+			<span *ngIf="!isNew">Edit</span>
+			Travel Time
+		</h2>
+		<button class="icon-btn" mat-dialog-close type="button">
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div class="new-lead-time-component" fxLayout="column" mat-dialog-content fxFlex>
+		<div fxLayout>
+			<mtc-time-picker fxFlex [time]="time.travelTime" name="travelTime" ngModel [required]="true" (changeTime)="time.travelTime = $event" [title]="'Travel Time'"></mtc-time-picker>
+			<mat-radio-group [(ngModel)]="time.scheduleType" required name="scheduleType" fxLayoutAlign="start center" fxFlex="60%">
+				<mat-radio-button fxFlex="40%" [value]="'regular'">Weekday</mat-radio-button>
+				<mat-radio-button fxFlex="60%" [value]="'holiday'">Holiday/Saturday</mat-radio-button>
+			</mat-radio-group>
+		</div>
+		<div fxLayout>
+			<mat-input-container fxFlex class="match-width">
+				<input matInput required placeholder="Limit" type="number" name="maxMissionaries" [(ngModel)]="time.maxMissionaries" />
+				<mat-error>Required Field</mat-error>
+			</mat-input-container>
+			<mat-radio-group [(ngModel)]="time.travelType" name="travelType" fxLayoutAlign="start center" fxFlex="60%">
+				<mat-radio-button fxFlex="40%" [value]="'train'">Train</mat-radio-button>
+				<mat-radio-button fxFlex="60%" [value]="'bus'">Bus</mat-radio-button>
+			</mat-radio-group>
+		</div>
+		<div>
+			<mtc-time-picker fxFlex="40%" [time]="time.flightTime" ngModel [required]="true"
+				name="flightTime" (changeTime)="time.flightTime = $event" [title]="'Associated Flight Time'"></mtc-time-picker>
+		</div>
+	</div>
+	<div mat-dialog-actions>
+		<button type="button" class="secondary-btn" mat-dialog-close>CANCEL</button>
+		<button type="submit" class="primary-btn">
+			{{isNew ? 'CREATE' : 'UPDATE'}}
+		</button>
+	</div>
+</form>

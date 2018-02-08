@@ -1,0 +1,68 @@
+<app-sub-header [title]="'Consulate Appointments'" [loading]="utahConsulateLoading && flightConsulateLoading"></app-sub-header>
+<div class="manual-appointment-component">
+	<div class="content" fxLayout="column" fxLayoutAlign="start end">
+		<button class="primary-btn" (click)="openApptDialog()">NEW APPOINTMENT</button>
+		<div class="expandable-row-component">
+			<div class="clickable link button-bar toggle-all-button no-text-selection" (click)="toggleAll()">
+				{{isAllOpen() ? 'Collapse All' : 'Expand All'}}
+			</div>
+		</div>
+		<div class="expandable-row-component full-width">
+			<div class="expand-utah-consulate" (click)="toggleOne('utahConsulateExpanded')">
+				<div class="header clickable" fxLayoutAlign="start center">
+					<span class="page-title dashboard-header">CONSULATE TRIPS - UTAH</span>
+				</div>
+			</div>
+			<div *ngIf="appointmentsExist(utahConsulateExpanded,'utahConsulate')">
+				<div class="expandable-row-component" *ngFor="let appointment of appointments.utahConsulate">
+					<div layout-padding fxLayoutAlign="start center" class="header" (click)="showUtahConsulateInfo(appointment)">
+						<div class="new-circle" [class.active]="!appointment.emailDate"></div>
+						<div fxFlex="25%" [class.honey-header]="isSenior(appointment)">
+							<strong>{{appointment.appointmentDate | mtcDate}} -
+								{{appointment.consulate}}</strong>
+						</div>
+						<div *ngIf="appointment.showInfo" fxLayoutAlign="end center" fxFlex>
+							<button class="primary-btn" (click)="openApptDialog(appointment)">EDIT</button>
+							<button class="secondary-btn" (click)="onDeleteApptClick(appointment,$event)">DELETE</button>
+						</div>
+					</div>
+					<div *ngIf="appointment.showInfo" class="tab-in" >
+						<travel-view [travelGroup]="appointment"
+						[printAll]="printConsulateGroup.bind(this, appointment)"
+						[printOne]="printConsulateMissionary.bind(this, appointment)"
+						></travel-view>
+					</div>
+				</div>
+			</div>
+			<div [class.header-show]="utahConsulateExpanded" class="empty-label" *ngIf="showNoAppointmentsText(utahConsulateExpanded,'utahConsulate')">
+				There are no Utah consulate trips scheduled.
+			</div>
+		</div>
+		<div class="expandable-row-component full-width">
+			<div class="expand-flight-consulate" (click)="toggleOne('flightConsulateExpanded')">
+				<div class="header clickable" fxLayoutAlign="start center">
+					<span class="page-title dashboard-header">CONSULATE TRIPS - FLIGHTS</span>
+				</div>
+			</div>
+			<div *ngIf="appointmentsExist(flightConsulateExpanded,'flightConsulate')">
+				<div class="expandable-row-component" *ngFor="let appointment of appointments.flightConsulate">
+					<div layout-padding fxLayoutAlign="start center" class="header" (click)="showFlightConsulateInfo(appointment)">
+						<div fxFlex="25%" class="tab-in" [class.honey-header]="isSenior(appointment.type)">
+							<strong>{{appointment.flightDepartureDate | mtcDate}}</strong>
+						</div>
+					</div>
+					<div *ngIf="appointment.showInfo" class="tab-in" >
+						<!--TODO should we make sendOne and sendAll outputs instead?-->
+						<travel-view [travelGroup]="appointment"
+							[sendOne]="sendConsulateMemo.bind(this,appointment,true)"
+							[sendAll]="sendAllConsulateMemos.bind(this,appointment,true)"
+						></travel-view>
+					</div>
+				</div>
+			</div>
+			<div [class.header-show]="flightConsulateExpanded" class="empty-label" *ngIf="showNoAppointmentsText(flightConsulateExpanded,'flightConsulate')">
+				There are no consulate flights scheduled.
+			</div>
+		</div>
+	</div>
+</div>

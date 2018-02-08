@@ -1,0 +1,116 @@
+@import '../../../../main.less';
+
+.missionary-personal-component{
+	padding: 25px;
+	height: 100%;
+
+	.info{
+		margin-bottom: 5px;
+		min-height: 34px;
+	}
+
+	.big-space-bottom{
+		padding-bottom: 30px;
+	}
+
+	.header{
+		margin-bottom: 20px;
+
+		.button-1{
+			width: 115px;
+			height: 25px;
+		}
+
+		.back{
+			color: @mtc-blue;
+			margin-right: 16px;
+		}
+	}
+
+	.heading{
+		height: 50px;
+	}
+
+	.general-info{
+		padding-bottom: 125px;
+	}
+
+	.contacts-heading{
+		padding-right: 40px;
+	}
+
+	.info-section{
+		.heritage-numbers-addresses{
+			margin-right: 30px;
+		}
+		.info{
+			span:first-child{
+				font-weight: bold;
+			}
+
+			&[flex="12"]{
+				-ms-flex: 0 0 12%;
+				-webkit-box-flex: 0;
+				flex: 0 0 12%;
+			}
+		}
+	}
+
+	.mat-select{
+		width: 250px !important;
+	}
+
+	.do-not-contact {
+		color: @red;
+	}
+}
+
+@media screen and (max-width: 1200px) {
+	.mobile-space-bottom{
+		padding-bottom: 20px;
+	}
+	.missionary-personal-component{
+		max-width: 500px;
+		.back-container{
+			display: none;
+		}
+		.button-container{
+			display: none;
+		}
+		.info-section{
+			width: 100%;
+			flex-direction: column;
+			.heritage-numbers-addresses{
+				margin-right: 30px;
+				display: flex;
+				flex-direction: column;
+				.heritage-numbers{
+					display: flex;
+					flex-direction: row;
+					order: 1;
+
+					.numbers{
+						order: 3;
+						flex-direction: column;
+					}
+					.spacer{
+						order: 2;
+					}
+					.heritage{
+						flex-direction: column;
+						order: 1;
+					}
+				}
+				.spacer{
+					order: 2;
+				}
+				.contact-info{
+					order: 3;
+				}
+			}
+			.contacts-heading{
+				padding-right: 10px;
+			}
+		}
+	}
+}

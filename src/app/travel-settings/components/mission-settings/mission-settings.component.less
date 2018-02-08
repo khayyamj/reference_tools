@@ -1,0 +1,57 @@
+@import '../../../../main.less';
+
+.mission-settings-component {
+	padding: 0 20px 20px 20px;
+
+	.mission-table-header {
+		background-color: @off-white;
+		height: 35px;
+		line-height: 35px;
+		color: @mtc-blue;
+		padding-right: 20px;
+		font-size: @paragraph-font-size;
+		font-weight: bold;
+		white-space: nowrap;
+
+		&:first-child {
+			padding-left: 20px;
+		}
+	}
+
+	.pad{
+		margin-bottom: 14px;
+	}
+
+	.head-bar{
+		padding-bottom: 5px;
+		border-bottom: 1px solid;
+	}
+
+	.missions-container{
+		overflow: scroll;
+		height: 70vh;
+	}
+
+	.mission{
+		padding-left: 5px;
+		height:68px;
+		border-bottom: 1px solid @light-grey;
+	}
+
+	.missingInfo{
+		background-color: lighten(@red,40%);
+	}
+
+	.notes{
+		width: 150px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+
+
+	.back-button{
+		width: 70px;
+	}
+}

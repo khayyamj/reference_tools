@@ -1,0 +1,208 @@
+@import '../../../../variables.less';
+
+.missionary-overview-component{
+	padding: 25px 20px;
+	height: 100%;
+
+	.button-container {
+		height: 30px;
+	}
+
+	.mtc-info-container,.information-container {
+		overflow-y:auto;
+	}
+
+	mat-card{
+		padding: 20px;
+		padding-bottom: 10px;
+		box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
+		transition: background-color 500ms;
+
+		i{
+			color: @accent-blue;
+		}
+
+		&:hover{
+			background-color: @off-white;
+			box-shadow: 0 3px 5px 0 rgba(0,0,0,.35);
+
+			i{
+				color: @action-orange;
+			}
+		}
+	}
+
+	.button-bar{
+		margin-top: 10px;
+	}
+
+	.small-info-group, .info-group{
+		background-color: @off-white;
+		border-radius: 5px;
+		cursor: pointer;
+
+		.info{
+
+			.teacher:first-child{
+				padding-bottom: 5px;
+			}
+
+			margin-bottom: 8px;
+			span:first-child, .header{
+				font-weight: bold;
+			}
+
+			a{
+				color: @accent-blue;
+				width: 100%;
+				&:hover{
+					cursor: pointer;
+					text-decoration: underline;
+				}
+			}
+
+			&.hide-overflow{
+				overflow: hidden;
+			}
+		}
+
+		.card-title{
+			margin-bottom:10px;
+		}
+
+		.email{
+			width: 170px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+
+	.info{
+		min-height: 35px;
+	}
+
+	.small-info-group{
+		height: 100%;
+	}
+
+	.small-info-group-container, .info-group{
+		height: 240px;
+	}
+
+	@media screen and (max-width: 1200px) {
+		&{
+			flex-direction: column;
+		}
+		.info{
+			max-width: 45%;
+			span:first-child{
+				white-space: nowrap;
+			}
+			span:nth-child(2), a:nth-child(2){
+				word-break: break-word;
+			}
+		}
+		&>div:first-child{
+			flex: 1 0 14%;
+		}
+		&>div:nth-child(2){
+			flex: 1 0 80%;
+		}
+		app-missionary-schedule {
+			display:none;
+		}
+		.button-bar {
+			display:none;
+		}
+		.basic-info {
+			.img-div {
+				margin-right:10px;
+				flex: 0 0 20%;
+			}
+			.text {
+				flex: 0 0 67%;
+			}
+		}
+		.info-group {
+			.mtc-info-container {
+				position:relative;
+				min-height:130px;
+				.first-mtc-group{
+					&>div:first-child{
+						position: absolute;
+						bottom:15px;
+					}
+					&>div:nth-child(2){
+						position: absolute;
+						top:0px;
+					}
+					&>div:last-child{
+						right:5%;
+						bottom:15px;
+						position: absolute;
+						text-align: right;
+					}
+				}
+				.status{
+					position: absolute;
+					right:5%;
+					text-align: right;
+					top:0px;
+				}
+			}
+		}
+		.small-info-group-container {
+			flex-direction: column;
+			height: 100%;
+			.small-info-group {
+				width:100%;
+				.information-container{
+					position: relative;
+					min-height: 130px;
+					&>div>div:first-child{
+						position: absolute;
+						bottom:15px;
+						&.district{
+							position: initial;
+						}
+					}
+					&>div>div:nth-child(2){
+						&.branch{
+							top:0px;
+							right:5%;
+							text-align: right;
+							bottom: initial;
+						}
+						position: absolute;
+						top:0px;
+					}
+					&>div>div:nth-child(3){
+						right:5%;
+						bottom:15px;
+						position: absolute;
+						text-align: right;
+					}
+					&>div>div:nth-child(4){
+						position: absolute;
+						right:5%;
+						text-align: right;
+					}
+				}
+
+			}
+
+		}
+		.mobile-hidden{
+			display:none;
+		}
+	}
+
+	@media screen and (max-width: 800px) {
+		.branch{
+			position: inherit !important;
+			margin-top: 10px;
+			text-align: left !important;
+		}
+	}
+}

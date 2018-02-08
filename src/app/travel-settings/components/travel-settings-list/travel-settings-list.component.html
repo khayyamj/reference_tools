@@ -1,0 +1,11 @@
+<mat-progress-bar mode="indeterminate" *ngIf="settings == null"></mat-progress-bar>
+<div class="travel-settings-main-component">
+	<div class="settings-header" fxLayout="row" *ngFor="let setting of settings; let f = first" [class.top]="f">
+		<a [routerLink]="setting.state">
+			<div fxLayout="column" fxLayoutAlign="space-between start">
+				<span fxFlex class="page-title">{{setting.title}}</span>
+				<span fxFlex class="setting-instructions">{{setting.instructions}}</span>
+			</div>
+		</a>
+	</div>
+</div>

@@ -1,0 +1,47 @@
+<div class="missionary-training-component" *ngIf="missionary?.missionaryId" fxLayout="column">
+	<div fxLayout="row" fxLayoutAlign="space-between" class="header">
+		<div fxLayoutAlign="start" fxLayout="row">
+			<span fxLayoutAlign="center start" class="desktop">
+				<a class="clickable" [routerLink]="'/missionary'" [queryParams]="{'missionaryId': missionary.missionaryId}">
+					<i class="material-icons back">arrow_back</i>
+				</a>
+			</span>
+			<span class="page-title">Training Information</span>
+		</div>
+		<div class="desktop" *ngIf="rolesService.isEcclUser">
+			<button class="navigation-btn" [routerLink]="'/missionary/teacher-comments'" [queryParams]="{'missionaryId': missionary.missionaryId}">TEACHER COMMENTS</button>
+		</div>
+	</div>
+	<div fxLayout="row" class="training-container">
+		<div fxLayout="column" fxFlex="50%" fxLayoutGap="20px">
+			<div *ngFor="let teacher of missionary.mtcInfo?.teachers">
+				<div class="header">Teacher</div>
+				<div>{{teacher.fullName}}</div>
+				<a href="mailto:{{teacher.email}}">{{teacher.email}}</a>
+				<div>{{teacher.cellPhone | telephone}}</div>
+			</div>
+		</div>
+		<div fxLayout="column" fxFlex="50%" fxLayoutGap="20px">
+			<div>
+				<div class="header">Training Manager</div>
+				<div>{{missionary.mtcInfo?.trainingManager?.fullName}}</div>
+				<div>{{missionary.mtcInfo?.trainingManager?.officeLocation}}</div>
+				<a href="mailto:{{missionary.mtcInfo?.trainingManager?.email}}">{{missionary.mtcInfo?.trainingManager?.email}}</a>
+				<div *ngIf="missionary.mtcInfo?.trainingManager?.cellPhone">C: {{missionary.mtcInfo?.trainingManager?.cellPhone | telephone}}</div>
+				<div *ngIf="missionary.mtcInfo?.trainingManager?.officePhone">O: {{missionary.mtcInfo?.trainingManager?.officePhone | telephone}}</div>
+			</div>
+			<div>
+				<div class="header">Training Coordinator</div>
+				<div>{{missionary.mtcInfo?.trainingCoordinator?.fullName}}</div>
+				<div>{{missionary.mtcInfo?.trainingManager?.officeLocation}}</div>
+				<a href="mailto:{{missionary.mtcInfo?.trainingCoordinator?.email}}">{{missionary.mtcInfo?.trainingCoordinator?.email}}</a>
+				<div *ngIf="missionary.mtcInfo?.trainingCoordinator?.cellPhone">C: {{missionary.mtcInfo?.trainingCoordinator?.cellPhone | telephone}}</div>
+				<div *ngIf="missionary.mtcInfo?.trainingCoordinator?.officePhone">O: {{missionary.mtcInfo?.trainingCoordinator?.officePhone | telephone}}</div>
+			</div>
+			<div>
+				<div class="header">Training Schedule</div>
+				<div>{{missionary.mtcInfo.trainingScheduleId}}</div>
+			</div>
+		</div>
+	</div>
+</div>

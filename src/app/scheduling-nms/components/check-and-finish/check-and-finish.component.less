@@ -1,0 +1,48 @@
+@import '../../../../variables.less';
+
+:host{
+	height: calc(~'100% - 14px');
+}
+
+.top-content {
+	margin: 0 20px;
+
+	.date-header {
+		font-size: 12px;
+		font-weight: bold;
+	}
+}
+.new-missionary-scheduling {
+	margin: 20px;
+	height: calc(~'100% - 94px');
+
+	.table-headers-container{
+		margin: 40px 20px;
+		.expand{
+			color: @accent-blue;
+			margin: 3px 0 0 20px;
+
+			&:hover {
+				cursor: pointer;
+				color: @action-orange;
+			}
+
+			.material-icons {
+				margin-top: -2px;
+			}
+		}
+
+		.mtc-checkbox-table-container{
+			max-height: 400px;
+		}
+	}
+
+	.all-missionaries-tab{
+		height: calc(~'100% - 87px');
+		margin: 20px 40px 20px 20px;
+
+		.mtc-checkbox-table-container{
+			max-height: 100%
+		}
+	}
+}

@@ -1,0 +1,167 @@
+<div class="missionary-personal-component" fxLayout="column" *ngIf="missionary?.missionaryId">
+	<div fxLayout="row" fxLayoutAlign="space-between" class="header">
+		<div fxLayoutAlign="start" fxLayout="row">
+			<span fxLayoutAlign="center start" class="back-container">
+				<a class="clickable" [routerLink]="'/missionary'" [queryParams]="{missionaryId: missionary.missionaryId}">
+					<i class="material-icons back">arrow_back</i>
+				</a>
+			</span>
+			<span class="page-title">Personal Information</span>
+		</div>
+		<button class="primary-btn" *ngIf="!rolesService.isOnlyGeneralUser">Edit</button>
+	</div>
+	<div class="info-section general-info" fxLayout="row">
+		<div fxLayout="row" fxFlex="40%" class="heritage-numbers-addresses">
+			<div class="heritage-numbers" fxFlex="50%" fxLayout="column">
+				<div class="numbers">
+					<div fxLayout="column" class="info">
+						<span>Membership Number</span>
+						<span>{{missionary.mrn}}</span>
+					</div>
+					<div fxLayout="column" class="info mobile-space-bottom big-space-bottom">
+						<span>DMBA Number</span>
+						<span>{{missionary.personalInfo.dmba}}</span>
+					</div>
+					<div fxLayout="column" class="info mobile-space-bottom big-space-bottom">
+						<span>Gender</span>
+						<span>{{missionary.personalInfo.gender}}</span>
+					</div>
+				</div>
+				<div class="heritage space-bottom">
+					<div fxLayout="column" class="info">
+						<span>Date of Birth</span>
+						<span>{{missionary.personalInfo.birthDate | mtcDate}}</span>
+					</div>
+					<div fxLayout="column" class="info">
+						<span>Equalized</span>
+						<span>{{missionary.personalInfo.equalized | yesNo}}</span>
+					</div>
+					<div fxLayout="column" class="info">
+						<span>Citizenship</span>
+						<span>{{missionary.personalInfo.citizenship}}</span>
+					</div>
+					<div fxLayout="column" class="info">
+						<span>Home Country</span>
+						<span>{{missionary.personalInfo.residenceCountry}}</span>
+					</div>
+					<div fxLayout="column" class="info">
+						<span>Birth Country</span>
+						<span>{{missionary.personalInfo.birthCountry}}</span>
+					</div>
+					<div fxLayout="column" class="info mobile-space-bottom">
+						<span>Home Town</span>
+						<span>{{missionary.personalInfo.homeCity}}</span>
+					</div>
+					<div fxLayout="column" class="info">
+						<span>Primary Language(s)</span>
+						<ng-container *ngFor="let language of missionary.mtcInfo.languages">
+							<span *ngIf="language.nativeYn === 'Y'">
+								{{language.name}}
+							</span>
+						</ng-container>
+					</div>
+					<div fxLayout="column" class="info">
+						<span>Additional Language(s)</span>
+						<ng-container *ngFor="let language of missionary.mtcInfo.languages">
+							<span *ngIf="language.nativeYn === 'N'">
+								{{language.name}} <ng-container *ngIf="language.yearsStudied">- {{language.yearsStudied}}yr<ng-container *ngIf="language.yearsStudied > 1">s</ng-container></ng-container> <ng-container *ngIf="language.grade">({{language.grade}} avg)</ng-container>
+							</span>
+						</ng-container>
+					</div>
+				</div>
+			</div>
+			<div fxLayout="column" class="contact-info mobile-space-bottom">
+				<div fxLayout="column" class="info">
+					<span>Mailing Address</span>
+					<span>{{missionary.personalInfo.mailStreet}}</span>
+					<span *ngIf="missionary.personalInfo.mailCity">{{missionary.personalInfo.mailCity}}, {{missionary.personalInfo.mailState}}</span>
+					<span>{{missionary.personalInfo.mailPostalCode}}</span>
+				</div>
+				<div fxLayout="column" class="info mobile-space-bottom big-space-bottom">
+					<span>Home Address</span>
+					<span>{{missionary.personalInfo.homeStreet}}</span>
+					<span>{{missionary.personalInfo.homeCity}}, {{missionary.personalInfo.homeState}}</span>
+					<span>{{missionary.personalInfo.homePostalCode}}</span>
+				</div>
+				<div fxLayout="column" class="info">
+					<span>MyLDSMail Email Address</span>
+					<a class="link" href="mailto:{{missionary.personalInfo.missionaryEmail}}">{{missionary.personalInfo.missionaryEmail}}</a>
+				</div>
+				<div fxLayout="column" class="info">
+					<span>Personal Email Address</span>
+					<a class="link" href="mailto:{{missionary.personalInfo.personalEmail}}">{{missionary.personalInfo.personalEmail}}</a>
+				</div>
+				<div fxLayout="column" class="info big-space-bottom">
+					<span>Cell Phone</span>
+					<span><a href="tel:{{missionary.personalInfo.cellphone}}">{{missionary.personalInfo.cellphone}}</a></span>
+				</div>
+				<div fxLayout="column" class="info">
+					<span>Marital Status</span>
+					<span>{{missionary.personalInfo.maritalStatus}}</span>
+					<!-- TODO get marital status -->
+				</div>
+			</div>
+		</div>
+		<div fxLayout="column" fxFlex="40%" class="contacts">
+			<div fxLayout="row" class="heading" fxLayoutAlign="start center">
+				<span class="contacts-heading">Contacts</span>
+				<mat-form-field *ngIf="missionary.contactList?.length > 1">
+					<mat-select [(ngModel)]="currentContact">
+						<mat-option *ngFor="let contact of missionary.contactList" [value]="contact">{{contact.contactType}} - {{contact.name}} </mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+			<div *ngIf="currentContact?.doNotContact" class="do-not-contact">DO NOT CONTACT</div>
+			<div fxLayout="row" *ngIf="currentContact">
+				<div fxLayout="column" fxFlex="40%">
+					<div fxLayout="column" class="info">
+						<span>Name</span>
+						<span>{{currentContact.name}}</span>
+					</div>
+					<div fxLayout="column" class="info">
+						<span>Relationship</span>
+						<span>{{currentContact.otherRelationship || currentContact.contactType}}</span>
+					</div>
+					<div fxLayout="column" class="info">
+						<span>Member Status</span>
+						<span>{{currentContact.member ? 'Yes' : 'No'}}</span>
+					</div>
+					<div fxLayout="column" class="info">
+						<span>Home Phone</span>
+						<span><a href="tel:{{currentContact.homePhone}}">{{currentContact.homePhone}}</a></span>
+					</div>
+					<div fxLayout="column" class="info">
+						<span>Cell Phone</span>
+						<span><a href="tel:{{currentContact.cellPhone}}">{{currentContact.cellPhone}}</a></span>
+						<!-- TODO Get contact cell phones -->
+					</div>
+					<div fxLayout="column" class="info">
+						<span>Work Phone</span>
+						<span><a href="tel:{{currentContact.workPhone}}">{{currentContact.workPhone}}</a></span>
+						<!-- TODO Get contact work phones -->
+					</div>
+				</div>
+				<div fxLayout="column" fxFlex="40%">
+					<div fxLayout="column" class="info">
+						<span>Email</span>
+						<span><a class="link" href="mailto:{{currentContact.email}}">{{currentContact.email}}</a></span>
+					</div>
+					<div fxLayout="column" class="info">
+						<span>Home Address</span>
+						<span>{{currentContact.addressLine | missingInfo}}</span>
+						<span>{{currentContact.city}}, {{currentContact.stateProvince}} {{currentContact.district}}</span>
+						<span>{{currentContact.countryName}} {{currentContact.postalCode}}</span>
+					</div>
+					<div fxLayout="column" class="info">
+						<span>Mailing Address</span>
+						<!--TODO get contacts mailing address-->
+					</div>
+					<div fxLayout="column" class="info">
+						<span>Deceased Status</span>
+						<span>{{currentContact.deceased ? 'Yes' : 'No'}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

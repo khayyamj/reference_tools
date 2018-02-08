@@ -1,0 +1,25 @@
+<div class="note-tags-component" fxLayout="column">
+	<div fxLayout="row" fxLayoutAlign="start start" class="header">
+		<span fxFlex="5%" fxLayout="column" fxLayoutAlign="center center">
+			<a class="clickable" [routerLink]="'/missionary/notes'" [queryParams]="{missionaryId: missionary.missionaryId}"><i class="material-icons back">arrow_back</i></a>
+		</span>
+		<span class="page-title">Tag View</span>
+	</div>
+	<div class="expand-all" (click)="onExpandAll()">{{expandAll ? 'Collapse All' : 'Expand All'}}</div>
+	<div fxLayoutAlign="end center">
+		<mat-slide-toggle color="primary" (change)="shouldShowArchivedNotes($event.checked, missionary)" [checked]="missionary.showArchivedNotes">Show Archived</mat-slide-toggle>
+	</div>
+
+	<div class="note-tags-container" *ngFor="let tag of displayTags">
+		<div class="headline" (click)="onSelect(tag)" fxLayout="row">
+			<div class="tag-name">{{tag.tag}}</div>
+			<div class="number-of-tags" *ngIf="tag.amount > 0">{{tag.amount}}</div>
+			<div class="headline-spacer"></div>
+			<i class="material-icons chevron">{{tag.expand ? 'expand_less' : 'expand_more'}}</i>
+		</div>
+		<div class="mtc-checkbox-table-container" *ngIf="tag.expand">
+			<mtc-checkbox-table [columns]="tableHeaders" [(rows)]="tag.notes" [config]="checkboxTableConfig"></mtc-checkbox-table>
+		</div>
+	</div>
+
+</div>

@@ -1,0 +1,34 @@
+<div class="progress-bar-position">
+	<app-sub-header (back)="back()" [loading]="generalNotes == null" [title]="'Travel Settings'"></app-sub-header>
+</div>
+<div class="general-travel-notes-component body-text" fxLayout="column" *ngIf="generalNotes != null">
+	<span class="pad" fxLayout>
+		<div fxFlex class="tab-page-display">
+			<mat-tab-group [disableRipple]="true" [(selectedIndex)]="reportId">
+				<mat-tab *ngFor="let tab of tabs" label="{{tab}}" [disabled]="edit"></mat-tab>
+			</mat-tab-group>
+		</div>
+		<span *ngIf="reportId < 2 && !edit" fxLayoutAlign="end center" class="column-title clickable" (click)="edit = true">Edit
+			<i class="material-icons micon">mode_edit</i>
+		</span>
+	</span>
+	<div *ngFor="let note of generalNotes">
+		<fieldset *ngIf="note.reportId == reportId" class="pad general-travel-note" fxLayout="column">
+			<legend class="column-title">{{note.noteDescription}}</legend>
+			<quill-editor [(ngModel)]="note.noteContent" [options]="editorConfig" *ngIf="edit">
+			</quill-editor>
+			<pre class="body-text ql-editor" *ngIf="!edit" [innerHtml]="note.noteContent"></pre>
+			<span *ngIf="edit">{{note.noteContent.length}} Characters Used</span>
+		</fieldset>
+	</div>
+	<div *ngIf="edit" fxLayoutAlign="end center">
+		<div class="last-edited">
+			Last Edited: {{getCurrentReport().modName}} {{getCurrentReport().modDate | date:"dd/MMM/yyyy hh:mm a"}}
+		</div>
+		<button (click)="cancel()" class="secondary-btn">Cancel</button>
+		<button (click)="save()" class="primary-btn">Save</button>
+	</div>
+	<div fxLayout="column" *ngIf="reportId == 2">
+		<travel-settings-luggage-notes></travel-settings-luggage-notes>
+	</div>
+</div>

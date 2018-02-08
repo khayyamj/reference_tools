@@ -1,0 +1,21 @@
+@import '../../../../main.less';
+
+.filter-container {
+    padding: 0 20px 25px 20px;
+    background-color:@white;
+    z-index: @z-index-level-1;
+    align-items: center;
+    position: sticky;
+    top: 39px;
+    width: 100%;
+
+    .filter-option {
+        color: @mtc-blue;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+	.filter-container{
+		left: 0px !important;
+	}
+}

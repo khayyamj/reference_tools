@@ -1,0 +1,32 @@
+<div fxLayout="column" class="schedule">
+	<div fxLayout="row" fxLayoutAlign="space-between" class="no-left-padding week-schedule-header">
+		<span>
+			<span class="page-title no-left-padding">SCHEDULE</span>
+			<span class="margin-top schedule-spacing" *ngIf="schedules?.length > 0">{{schedules[0].trainingScheduleId}} - Week {{schedules[0].week}} Day {{schedules[0].day}}</span>
+		</span>
+		<mtc-days-picker [(date)]="currentDate" [isDay]="true" [isAfter]="arrival" [isBefore]="departure" (dateChange)="getSchedule()"></mtc-days-picker>
+	</div>
+	<div *ngIf="schedules?.length > 0">
+		<div fxLayout="row" class="page-title schedule-header no-left-padding">
+			<span fxFlex="20%">Start Time</span>
+			<span fxFlex="20%">End Time</span>
+			<span fxFlex="25%">Activity</span>
+			<span fxFlex="20%">Location</span>
+			<span fxFlex="10%">Intercom</span>
+		</div>
+		<mat-progress-bar class="schedule-loading no-left-padding" mode="indeterminate" *ngIf="!schedules"></mat-progress-bar>
+		<div *ngFor="let scheduleItem of schedules" fxLayout="row" class="schedule-item no-left-padding" [class.current]="scheduleItem.currentLocation">
+			<span class="mobile-two" fxFlex="20%">{{scheduleItem.startTime | mtcTime}}</span>
+			<span class="dash">-</span>
+			<span class="mobile-three" fxFlex="20%">{{scheduleItem.endTime | mtcTime}}</span>
+			<span class="mobile-one" fxFlex="25%" fxLayout="row" fxLayoutAlign="start center">
+				<div fxFlex="10%">
+					<div class="new-circle" [class.is-temple]="scheduleItem.description === 'Temple'" [style.background-color]="scheduleItem.color"></div>
+				</div>
+				<span>{{scheduleItem.description}}</span>
+			</span>
+			<span fxFlex="20%">{{scheduleItem.location}}</span>
+			<span fxFlex="10%">{{scheduleItem.intercom}}</span>
+		</div>
+	</div>
+</div>

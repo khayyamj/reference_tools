@@ -1,0 +1,19 @@
+<div class="body-text browsing-data-app" fxLayout="column" *ngIf="missionary?.missionaryId">
+	<div fxLayout="row" fxLayoutAlign="space-between" class="header">
+		<div fxLayoutAlign="start" fxLayout="row">
+			<span fxLayoutAlign="center start">
+				<a class="clickable" [routerLink]="'/missionary'" [queryParams]="{missionaryId: missionary.missionaryId}">
+					<i class="material-icons back">arrow_back</i>
+				</a>
+			</span>
+			<span class="page-title">Web History</span>
+		</div>
+	</div>
+	<app-basic-missionary [missionary]="missionary"></app-basic-missionary>
+	<div class="filter-container">
+		<mat-checkbox class="filter-option" *ngFor="let opt of options" [(ngModel)]="opt.selected" (ngModelChange)="changeFilter()">{{opt.name}}</mat-checkbox>
+	</div>
+	<div class="mtc-checkbox">
+		<mtc-checkbox-table class="browsing-table" [columns]="columns" [rows]="filteredRows" [config]="checkboxTableConfig"></mtc-checkbox-table>
+	</div>
+</div>

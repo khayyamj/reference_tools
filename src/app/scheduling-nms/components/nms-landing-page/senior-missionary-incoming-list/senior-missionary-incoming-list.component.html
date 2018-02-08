@@ -1,0 +1,7 @@
+<mat-progress-bar mode="indeterminate" class="progress-bar-position" *ngIf="loading"></mat-progress-bar>
+<div class="main-content" fxLayout="column">
+	<mtc-days-picker class="date-picker" [isAfter]="'lastWeek'" (changeWeek)="changeSelected($event)"></mtc-days-picker>
+	<div class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="columns" [(rows)]="rows" [config]="config"></mtc-checkbox-table>
+	</div>
+</div>

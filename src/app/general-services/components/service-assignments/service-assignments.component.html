@@ -1,0 +1,9 @@
+<app-sub-header [title]="'Service Assignments'" [loading]="loading"></app-sub-header>
+<div class="service-assignment-component" fxLayout="column" fxLayoutGap="20px">
+	<div fxLayoutAlign="end end">
+		<button class="primary-btn" (click)="edit()">Add</button>
+	</div>
+	<div class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [config]="config" [columns]="columns" [rows]="assignments"></mtc-checkbox-table>
+	</div>
+</div>

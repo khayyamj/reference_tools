@@ -1,0 +1,58 @@
+<div class="embed-confirmation"  *ngIf="showConfirmation">
+	<simple-confirmation [config]="config" (confirmation)="confirmation($event)"></simple-confirmation>
+</div>
+
+<div *ngIf="!showConfirmation" class="modal">
+
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>{{room.room}} Future Changes</h2>
+		<button class="icon-btn" (click)="cancel()">
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+
+	<div mat-dialog-content>
+		<mat-progress-bar mode="indeterminate" *ngIf="loading" class="progress-bar"></mat-progress-bar>
+		<div class="futureChanges-container" *ngIf="!loading">
+			<div *ngIf="!changes[0]; else table">There are no changes scheduled for this room</div>
+			<!-- TODO: Change this to a /checkbox-table the current spacing is wonky -->
+			<ng-template  #table>
+				<table class="future-changes-table" *ngIf="!changes[0].changeType">
+					<tr class="thick-border">
+						<th class="subheaders column-title {{column.toLowerCase()}}" [class.button]="!column" *ngFor="let column of columns">{{column}}</th>
+					</tr>
+				</table>
+				<table class="future-changes-table" *ngIf="changes[0].changeType">
+					<tr class="thick-border">
+						<th class="subheaders column-title" *ngFor="let column of columns">{{column}}</th>
+					</tr>
+					<tr class="row-border" *ngFor="let change of changes;let i = index; let l = last" [class.thick-border]="l">
+						<td class="row">{{change.changeType}}</td>
+						<td class="overflow" title="{{change.currentValue}}">{{change.currentValue}}</td>
+						<td *ngIf="change.changeType !== 'Capacity'">
+							<div class="input-field auto-complete">
+								<mtc-auto-complete [items]="possibleItems[change.changeType]" [(itemChosen)]="change.futureValue" (itemChosenChange)="updateChange(change)"></mtc-auto-complete>
+							</div>
+						</td>
+						<td *ngIf="change.changeType==='Capacity'">
+							<mat-input-container class="input-field">
+								<textarea matInput class="text" [(ngModel)]="change.futureValue.name" (change)="updateChange(change)"></textarea>
+							</mat-input-container>
+						</td>
+						<td>
+							<mtc-date-picker [(date)]="change.effectiveDate" (dateChange)="updateChange(change)"></mtc-date-picker>
+						</td>
+						<td class="overflow" title="{{change.updatedBy}}">{{change.updatedBy}}</td>
+						<button (click)="delete(i)" class="secondary-btn">delete</button>
+					</tr>
+				</table>
+			</ng-template>
+		</div>
+	</div>
+
+	<div *ngIf="changes[0]" mat-dialog-actions>
+		<button class="secondary-btn" (click)="cancel()">cancel</button>
+		<button class="primary-btn" (click)="save()">save</button>
+	</div>
+
+</div>

@@ -1,0 +1,156 @@
+@import '../../../../../variables.less';
+
+.add-note {
+	padding: 20px;
+	position: relative;
+	height: 100%;
+	box-sizing: border-box;
+
+	.note-container{
+		max-height: 450px;
+		
+		.input-field{
+			box-sizing: border-box;
+			width: 25%;
+		}
+
+		quill-editor {
+			height: 315px;
+			overflow-y: auto;
+		}
+	}
+
+	.modal-buttons, #toolbar {
+		border: none;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		padding: 20px;
+	}
+
+	#toolbar {
+		.ql-underline {
+			height: 26px;
+		}
+
+		.format-color {
+			font-size: 22px;
+		}
+
+		.seperator {
+			border-right: solid 1px @light-grey; // changed from gray
+			height: 100%;
+		}
+
+		.arrow {
+			margin-left: 5px;
+		}
+
+		.hover-blue {
+			&:hover, &.open {
+				color: @accent-blue !important; // changed from #06c
+			}
+		}
+
+		//this is an override for the primary-btn because the quil editor changes buttons
+		.primary-btn {
+			padding: 6px 11px 8px 11px;
+			border-radius: 4px;
+			font-size: 14px;
+			font-family: @font-family;
+			text-transform: uppercase;
+			font-weight: 600;
+			border: none;
+			color: @white;
+			cursor: pointer;
+			margin: 0 5px;
+			height: 32px;
+			position: relative;
+			background-color: @button-primary;
+			width: fit-content;
+
+			&:hover {
+				background-color: @button-primary-hover;
+			}
+		}
+
+		.popup-container {
+			position: relative;
+			height: 26px;
+
+			.popup {
+				display: none;
+				position: absolute;
+				background-color: @white;
+				bottom: 45px;
+				box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
+
+				&.visible {
+					display: block;
+					z-index: @z-index-higher;
+				}
+
+				&.simple-popup {
+					width: 250px;
+					line-height: 35px;
+					color: black;
+
+					&.color-picker {
+						left: -50px;
+
+						.colors {
+							padding: 16px;
+
+							.color {
+								height: 20px;
+								width: 20px;
+								margin: 1px;
+								cursor: pointer;
+
+								&:hover, &.selected {
+									height: 22px;
+									width: 22px;
+									margin: 0;
+								}
+							}
+						}
+					}
+
+					.title {
+						border-bottom: 1px solid @white; // changed from #eeeeee
+						padding-left: 15px;
+						height: 41px;
+					}
+
+					.member {
+						padding-left: 40px;
+						height: 41px;
+
+						&.includes-check {
+							padding-left: 0;
+
+							.check-container {
+								width: 40px;
+								padding-top: 5px;
+							}
+						}
+
+						&:hover {
+							background-color: @off-white; // changed from #f2f2f2
+						}
+					}
+
+					&.visibilities {
+						width: 415px;
+
+						.member {
+							height: 60px;
+							line-height: 20px;
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,289 @@
+@import '../../../../main.less';
+
+
+.travel-lead-times-component {
+	padding: 0 20px 20px 20px;
+
+	i {
+		color: @light-grey;
+	}
+
+	.graph-area {
+		overflow-x: scroll;
+		padding-bottom: 12px;
+
+		.adjust-right{
+			padding-left: 4px;
+		}
+	}
+
+	.text-size{
+		font-size: 10px;
+		color: @black;
+		min-width: 48px;
+	}
+
+	.text-size-small{
+		font-size: 10px;
+		cursor: pointer;
+		color: black;
+		width: 42px;
+	}
+
+	.mini-circle {
+		width: 4px;
+		height: 4px;
+		position: relative;
+		bottom: 14px;
+		left: 27px;
+		border-radius: 50%;
+		padding: 0px !important;
+		background-color: transparent;
+	}
+
+	.mini-circle.active {
+		background-color: @red !important;
+	}
+
+	mat-radio-button.active {
+		color: @red; // changed from #FF0000 !important
+	}
+
+    .drop-down {
+        cursor: pointer;
+        width: 230px;
+    }
+
+	select {
+		border: none;
+	}
+
+	.meridiem-input {
+		width: min-content;
+		height: 40px;
+		padding: 0px;
+		text-transform: uppercase;
+	}
+
+	.micon1 {
+		height: 17px;
+		width: 17px;
+	}
+
+	.header {
+		padding: 20px 0;
+	}
+
+	.subhead {
+		border-bottom: 1px solid @dropdown-border;
+	}
+
+	.item {
+		height: 50px;
+		border-bottom: 1px solid @dropdown-border;
+		.time-dash {
+			padding-left: 22px;
+		}
+	}
+
+	input {
+		border-radius: 6px;
+		border-color: @light-grey;
+		width: 39px;
+		float: inherit;
+		padding: 2px 2px 2px 2px;
+	}
+
+	.new-period {
+		width: 200px;
+	}
+
+	.picker{
+		margin-left: 10px;
+	}
+
+	.space {
+		width: 5px;
+	}
+
+	.input {
+		text-align: center;
+	}
+
+	.missions-header {
+		padding-top: 15px;
+		padding-bottom: 10px;
+	}
+
+	.disabled-meridiem {
+		cursor: not-allowed;
+	}
+
+	.max-num-missionaries {
+		width: 22px;
+	}
+
+	.back-button{
+		width: 70px;
+		margin-left: 0px;
+		margin-bottom: 5px;
+	}
+
+	.main-dropdown{
+		padding: 3px;
+	}
+
+	.lg-icon{
+		font-size: 21px;
+		padding: 8px 12px;
+	}
+
+	.row {
+		width: max-content;
+	}
+
+	.icon-row {
+		width: 100%;
+
+		.remove {
+			background: transparent;
+			color: @red;
+			margin: 0px 4px 0px 10px;
+			i{
+				font-size: 16px;
+			}
+		}
+	}
+
+	.grey-bottom{
+		border-bottom: 1px solid @button-default;
+		color: @white;
+	}
+
+	.grey-row{
+		background-color: @button-default;
+		color: @white;
+
+		.white-icon{
+			color: @white;
+		}
+
+		.grey-icon{
+			color: @button-default;
+		}
+
+		.text-size{
+			color: @white;
+		}
+	}
+
+	.red-icon{
+		color:@red !important;
+
+		&:hover{
+			color:@maroon !important;
+		}
+	}
+
+	.exceptions{
+		border: 2px solid @button-default;
+		border-radius: 6px;
+		padding: 16px;
+
+		i {
+			color: @accent-blue;
+		}
+	}
+
+	.hovered{
+    	opacity: 0.75;
+	}
+
+	.tooltip {
+		position: relative;
+	}
+
+	.tooltip .tooltiptext {
+		visibility: hidden;
+		width: 150px;
+		background-color: @charcoal;
+		color: @white;
+		text-align: center;
+		border-radius: 6px;
+		padding: 4px;
+
+		/* Position the tooltip */
+		position: absolute;
+		z-index: 1;
+		right: -5px;
+		top: 30px;
+	}
+
+	.tooltip:hover .tooltiptext {
+		visibility: visible;
+	}
+
+	.exceptions-container{
+		margin: 15px 0px;
+		position: relative;
+
+		.exceptions-overlay{
+			opacity: 0;
+			-webkit-transition: opacity 300ms;
+		    transition: opacity 300ms;
+			border: 2px solid @button-default;
+			border-radius: 6px;
+			padding: 16px;
+			position: absolute;
+			top: 0;
+		    right: 0;
+		    bottom: 0;
+		    box-sizing: border-box;
+			width: 25%;
+			cursor:pointer;
+
+			&:hover{
+				opacity: 1;
+			}
+
+			.text{
+				padding: 16px;
+				padding-top: 7%;
+				position: absolute;
+				top: 0;
+			    right: 0;
+			    bottom: 0;
+				text-align: center;
+				font-weight: bold;
+				width: 100%;
+				box-sizing: border-box;
+				z-index: 101;
+			}
+
+			.background{
+				position: absolute;
+				top: 0;
+			    right: 0;
+			    bottom: 0;
+				background-color: @white;
+				opacity: .86;
+				width: 100%;
+				z-index: 100;
+			}
+		}
+
+		.exceptions{
+			border: 2px solid @button-default;
+			border-radius: 6px;
+			padding: 16px;
+
+			i {
+				color: @accent-blue;
+			}
+
+			.exception{
+				padding-bottom: 5px;
+			}
+		}
+	}
+}

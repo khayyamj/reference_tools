@@ -1,0 +1,78 @@
+@import '../../../../../main.less';
+
+.manual-itineraries-dialog {
+	mat-input-container{
+		width: 95%;
+	}
+
+	textarea {
+		height: 90px;
+		border: none;
+	}
+
+	mat-radio-group{
+		margin: 25px 0px;
+	}
+
+	.times {
+		input[type=text]::-webkit-inner-spin-button,
+		input[type=text]::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+		}
+	}
+
+	.stations {
+		margin-top: 10px;
+		min-height: 300px;
+		border: 1px solid @light-grey;
+		border-radius: 5px;
+		padding: 10px;
+	}
+
+	.get-on, .get-off, .bold-station {
+		.label {
+			background-color: @black;
+			color: @white;
+		}
+		font-weight: bold;
+	}
+
+	.get-on {
+		.label:after {
+			content: "Get On"
+		}
+	}
+
+	.get-off {
+		.label:after {
+			content: "Get Off"
+		}
+	}
+
+	.label {
+		width: 60px;
+		margin-right: 10px;
+		border-radius: 5px;
+		text-align: center;
+		&:after {
+			content: "-----"
+		}
+	}
+
+	.last-edited {
+		font-size: 10px;
+		padding-right: 15px;
+	}
+
+	.information-container{
+		max-height: 200px;
+		font-size: 16px;
+		.title {
+			color: rgba(0, 0, 0, 0.38);
+			padding-bottom: 10px;
+			font-size: 12px;
+		}
+	}
+}

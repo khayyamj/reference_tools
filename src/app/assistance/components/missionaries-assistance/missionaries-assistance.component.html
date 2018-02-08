@@ -1,0 +1,17 @@
+<div class="no-print">
+	<app-sub-header [title]="'Missionaries Requiring Assistance'" [loading]="assistanceService.loading"></app-sub-header>
+	<div class="assistance-content">
+		<mat-input-container class="search-bar">
+			<input matInput type="text" placeholder="Filter by Missionary" [(ngModel)]="searchText" (input)="filterRows()">
+		</mat-input-container>
+		<div class="filter-row" fxLayoutAlign="start center">
+			<mat-checkbox *ngFor="let filterNames of filterAttributes"[(ngModel)]="filters[filterNames.filter]" (change)="filterRows(filterNames.filter)">{{filterNames.display}}</mat-checkbox>
+			<mat-checkbox (change)="checkAll($event.checked)">All</mat-checkbox>
+		</div>
+		<div class="mtc-checkbox-table-container">
+			<mtc-checkbox-table [columns]="columns" [(rows)]="rows" [config]="config"></mtc-checkbox-table>
+		</div>
+	</div>
+</div>
+
+<app-print-assistance-page *ngIf="print" [missionaries]="printMissionaries"></app-print-assistance-page>

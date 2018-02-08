@@ -1,0 +1,20 @@
+<app-sub-header [title]="'Manage Mission Abbreviations'"></app-sub-header>
+<form class="mission-abbreviations-component"  [formGroup]="missionForm" (ngSubmit)="save(missionForm)" fxLayout="column">
+	<mtc-auto-complete class="search-bar" [(itemChosen)]="mission.selectedMission" (itemChosenChange)="missionSelected()" formControlName="name"
+		ngModel [required]="true" [items]="toolsInfoService.info.missions" placeholder="Mission Name"></mtc-auto-complete>
+	<p class="subheading mission-ID" *ngIf="mission.selectedMission?.id">
+		Mission ID: {{mission.selectedMission?.id}}
+	</p>
+	<mat-input-container *ngIf="mission.selectedMission?.id" class="abbreviation">
+		<input matInput class="edit-field" type="text" placeholder="Edit Abbreviation" [(ngModel)]="mission.abbreviation" formControlName="abbreviation">
+		<mat-error *ngIf="missionForm.controls?.abbreviation.errors?.abbreviationAlreadyInUse">
+			That abbreviation is currently in use by another mission</mat-error>
+		<mat-error *ngIf="missionForm.controls?.abbreviation.errors?.maxlength">
+			The abbreviation must be no longer than {{missionForm.controls?.abbreviation.errors?.maxlength.requiredLength}} characters
+		</mat-error>
+	</mat-input-container>
+	<div fxLayoutAlign="start center">
+		<button class="secondary-btn" type="button" (click)="cancel()">CANCEL</button>
+		<button class="primary-btn" type="submit">SAVE</button>
+	</div>
+</form>

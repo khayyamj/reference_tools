@@ -1,0 +1,19 @@
+<app-sub-header [title]="title" [loading]="isLanguageLoading && isExceptionLoading"></app-sub-header>
+<!--TODO the hidden tags are all using crazy long variables or functions, can we improve that?-->
+<div class="top-content">
+	<mtc-days-picker [class.hidden]="!newMissionarySchedulingService.showGroupDate" [date]="newMissionarySchedulingService.groupDate"
+	[isAfter]="newMissionarySchedulingService.earliestGroupDate" (changeWeek)="changeDate($event[0])"></mtc-days-picker>
+	<div fxLayoutAlign="space-between center">
+		<button class="navigation-btn" fxLayout="row" [routerLink]="['/scheduling/records/exception-management']">Manage Exceptions</button>
+		<button *ngIf="type" class="primary-btn"      [routerLink]="['check-and-finish']">RUN SCHEDULING</button>
+	</div>
+</div>
+
+<scheduling-senior-missionary-component *ngIf="type === 'Senior'; else young" [date]="newMissionarySchedulingService.formattedGroupDate"></scheduling-senior-missionary-component>
+
+<ng-template #young>
+	<div fxLayout="row" fxLayoutGap="20px" *ngIf="type === 'Young'" class="mtc-checkbox-table-container">
+		<mtc-checkbox-table fxFlex [(rows)]="incomingMissionaries" [(columns)]="languageColumns"></mtc-checkbox-table>
+		<mtc-checkbox-table fxFlex [(rows)]="exceptionMissionaries" [(columns)]="exceptionColumns"></mtc-checkbox-table>
+	</div>
+</ng-template>

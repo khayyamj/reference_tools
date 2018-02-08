@@ -1,0 +1,44 @@
+<div class="embed-confirmation" *ngIf="showConfirmation">
+	<simple-confirmation [config]="config" (confirmation)="confirmation($event)"></simple-confirmation>
+</div>
+<div class="modal" *ngIf="!showConfirmation">
+	<div class="modal-header" fxFlex fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>{{displayTitle}}</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<form #form="ngForm" fxLayout="column" fxLayoutAlign="space-between" (ngSubmit)="save(form)" (keydown.enter)="$event.preventDefault()" class="form">
+		<div fxLayout="row">
+			<div fxLayout="column" fxLayoutAlign="space-between" class="vehicle-ids">
+				<div class="vehicle-id">{{name}}</div>
+			</div>
+			<div fxLayout="column">
+				<div fxLayout="row" fxLayoutAlign="space-between">
+					<mat-input-container fxFlex="0 0 45%">
+						<input matInput required [placeholder]="first.placeholder" name="firstProperty" [(ngModel)]="selected[first.prop]">
+						<mat-error>Required Field</mat-error>
+					</mat-input-container>
+					<mat-input-container fxFlex="0 0 45%">
+						<input *ngIf="type === 'Driver'" matInput required [placeholder]="second.placeholder" name="secondProperty" [(ngModel)]="selected[second.prop]">
+						<input *ngIf="type === 'Vehicle'" matInput required type="number" [placeholder]="second.placeholder" name="secondProperty" [(ngModel)]="selected[second.prop]">
+						<mat-error>Required Field</mat-error>
+					</mat-input-container>
+				</div>
+				<div fxLayout="row">
+					<mat-form-field fxFlex="0 0 45%">
+						<mat-select required placeholder="CDL Required" name="CDL" [(ngModel)]="selected.commercialVehicle">
+							<mat-option [value]="true">Yes</mat-option>
+							<mat-option [value]="false">No</mat-option>
+						</mat-select>
+						<mat-error>Required Field</mat-error>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" type="button" mat-dialog-close>cancel</button>
+			<button class="primary-btn" type="submit">save</button>
+		</div>
+	</form>
+</div>

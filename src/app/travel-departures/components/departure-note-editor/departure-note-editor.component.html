@@ -1,0 +1,39 @@
+<div class="embed-confirmation" *ngIf="showConfirmation">
+	<simple-confirmation [config]="config" (confirmation)="confirmation($event)"></simple-confirmation>
+</div>
+
+<div class="modal" *ngIf="!showConfirmation">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title class="heading">Departure Notes</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<form class="note-editor-component app-dialog-component" fxLayout="column" (ngSubmit)="save(noteForm)"
+			(keydown.enter)="$event.preventDefault()" #noteForm="ngForm">
+		<div mat-dialog-content>
+			<div class="page-title" fxLayout>
+				<span fxFlex></span>
+			</div>
+			<div fxLayoutAlign="space-between">
+				<div class="page-title"></div>
+			</div>
+			<div fxLayout="column" class="dialog-content" fxFlex>
+				<div fxLayoutAlign="space-around" class="dialog-row">
+					<mat-input-container class="input-field auto-complete" *ngIf="edit">
+						<textarea matInput #input placeholder="Note" [(ngModel)]="note.note" name="note" required rows="8"
+								class="body-text" flex></textarea>
+						<mat-error *ngIf="noteForm.controls.note?.errors?.required">Required Field</mat-error>
+					</mat-input-container>
+					<pre fxFlex class="body-text" *ngIf="!edit">{{note.note}}</pre>
+				</div>
+			</div>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" type="button" *ngIf="!edit" (click)="cancelEdit()">CANCEL</button>
+			<button class="secondary-btn" type="button" *ngIf="edit && note.modBy === viewer.id" (click)="deleteNote()">DELETE</button>
+			<button class="primary-btn" type="button" *ngIf="note.modBy === viewer.id && !edit" (click)="startEdit()">EDIT</button>
+			<button class="primary-btn" type="submit" *ngIf="edit">SAVE</button>
+		</div>
+	</form>
+</div>

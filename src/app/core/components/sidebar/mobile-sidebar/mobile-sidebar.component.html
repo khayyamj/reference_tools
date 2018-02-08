@@ -1,0 +1,21 @@
+<mat-sidenav-container class="mobile-sidebar-container" [class.hide]="!open">
+	<mat-sidenav #sidenav class="mobile-sidebar" [mode]="'over'">
+		<div class="mobile-sidebar-header" layout="row" layout-align="start center">
+			<i class="material-icons">account_circle</i>
+			<div class="name" layout="column">
+				<span>{{userFullName}}</span>
+				<span class="role">{{userType}}</span>
+			</div>
+			<i class="material-icons chevron_left" (click)="close()">chevron_left</i>
+		</div>
+		<!-- 
+			TODO: Implement this way when angular bug with active routes and queryparams is fixed https://github.com/angular/angular/issues/13098 routerLinkActive
+			<a *ngFor="let route of routes" class="mobile-side-item" [routerLink]="route.url" [routerLinkActive]="['side-menu-link-active']" [routerLinkActiveOptions]="{exact:true}" [queryParams]="{missionaryId:missionaryId}">
+		-->
+		<a *ngFor="let route of routes" class="mobile-side-item" [routerLink]="route.url" [class.side-menu-link-active]="url === route.url" [queryParams]="{missionaryId:missionaryId}">
+			<li>{{route.name}}</li>
+		</a>
+		<div class="page-title sign-out" (click)="logout()">SIGN OUT</div>
+	</mat-sidenav>
+</mat-sidenav-container>
+<div class="opaque" [class.hide]="!open" (click)="close()"></div>

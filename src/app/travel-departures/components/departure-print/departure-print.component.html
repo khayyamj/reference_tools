@@ -1,0 +1,31 @@
+<div class="modal departure-print-component">
+	<div class="modal-header" fxLayoutAlign="space-between start">
+		<h2 mat-dialog-title class="heading">Print Options</h2>
+		<div class="subheading">{{getViewDateSunday()}} - {{getViewDateSaturday()}}</div>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<form (ngSubmit)="print(f)" #f=ngForm>
+		<div fxLayout="column" class="app-dialog-component">
+			<div fxLayout>
+				<mat-radio-group required name="printOption" ngModel [(ngModel)]="option" fxFlex="60%">
+					<mat-radio-button [value]="'week'" mat-no-ink>Print Departure Schedule for <b>week</b></mat-radio-button>
+					<mat-radio-button [value]="'day'" mat-no-ink>Print Departure Schedule by <b>day</b></mat-radio-button>
+				</mat-radio-group>
+				<div fxLayout="column" fxFlex="40%">
+					<mtc-auto-complete *ngIf="option == 'day'" [required]="true" ngModel name="Day" placeholder="Select Day"
+							[items]="days" [(itemChosen)]="printDay"></mtc-auto-complete>
+				</div>
+			</div>
+			<div fxLayout="column" fxLayoutAlign="end end">
+				<div class="stamp" *ngIf="weekPrintDate">Week Last Printed: {{weekPrintDate | date: 'dd MMM y hh:mma'}}</div>
+				<div class="stamp" *ngIf="dayPrintDate">Day Last Printed: {{dayPrintDate | date: 'dd MMM y hh:mma'}}</div>
+			</div>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" type="button" mat-dialog-close>CANCEL</button>
+			<button class="primary-btn" type="submit">PRINT</button>
+		</div>
+	</form>
+</div>

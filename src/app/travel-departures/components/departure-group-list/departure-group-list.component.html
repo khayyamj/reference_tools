@@ -1,0 +1,95 @@
+<app-sub-header class="no-print" [loading]="!departuresLoaded" [title]="'Departure Schedule'"></app-sub-header>
+<div id="departure-schedule-component" fxLayout="column">
+	<div class="departure-header no-print" fxLayout="column">
+		<div fxLayoutAlign="center center">
+			<mtc-days-picker (changeWeek)="changeSelected($event[0])" [date]="day"></mtc-days-picker>
+			<button class="primary-btn" (click)="print()">PRINT</button>
+			<div fxFlex></div>
+			<mat-checkbox [(ngModel)]="filter.myRoutes" (ngModelChange)="setFilter('myRoutes',$event)">Only My Routes</mat-checkbox>
+			<mat-checkbox [(ngModel)]="filter.hidePast" (ngModelChange)="setFilter('hidePast',$event)">Only Future Schedules</mat-checkbox>
+			<button class="secondary-btn" (click)="shuttle()">SHUTTLE</button>
+			<button class="primary-btn" (click)="openNewGroupModal()">NEW GROUP</button>
+		</div>
+	</div>
+	<div class="empty-label" *ngIf="selectedWeek.length === 0 && departuresLoaded">
+		There are no departure groups for this week.
+	</div>
+	<div class="day" *ngFor="let day of selectedWeek; let dayIndex = index">
+		<div *ngIf="checkDayFilter(day)" [class.no-print]="day.noPrint">
+			<div class="day-title">{{day.mtcDepartureDate | date: 'EEEE MMMM d'}}</div>
+			<!--TODO I think these inner departure groups should be their own component Thoughts? -->
+			<div *ngFor="let departure of day.departureGroups; let departureGroupIndex = index" class="departure-group">
+				<div class="day-information" fxLayout="row" *ngIf="checkFilter(departure)">
+					<div fxLayout="column" class="quick-info" fxFlex="22%" [ngStyle]="getDepartureGroupStyles(departure)">
+						<div class="time-info">
+							<div *ngIf="departure.mtcCheckoutDate">
+								<i class="material-icons pull-left">card_travel</i>
+								<div class="pull-left">CHECKOUT</div>
+								<div class="pull-right">{{departure.mtcCheckoutDate | date : 'shortTime'}}</div>
+								<div class="clear divider"></div>
+							</div>
+							<div *ngIf="departure.mtcDepartureDate">
+								<i class="icon-bus pull-left"></i>
+								<div class="pull-left">DEPARTURE</div>
+								<div class="pull-right">{{departure.mtcDepartureDate | date : 'shortTime'}}</div>
+								<div class="clear divider"></div>
+							</div>
+							<div *ngIf="departure.departureSchedule?.trainDate">
+								<i class="material-icons pull-left">train</i>
+								<div class="pull-left">TRAIN</div>
+								<div class="pull-right">{{departure.departureSchedule.trainDate | date : 'shortTime'}}</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+						<div *ngIf="departure.driverVehicles?.length > 0">
+							<div class="edit-txt clickable no-print" (click)="editDrivers(departure)">EDIT</div>
+							<div class="driver-info">
+								<div class="clear"></div>
+								<div *ngFor="let driverVehicle of departure.driverVehicles">
+									<div class="pull-left" [class.red]="driverVehicle.driver?.retiredDate">{{driverVehicle.driver.firstName}} {{driverVehicle.driver.lastName}}</div>
+									<div class="pull-right" [class.red]="driverVehicle.vehicle?.retiredDate" *ngIf="driverVehicle.vehicle?.vehicleName">{{driverVehicle.vehicle.vehicleName}}</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+						</div>
+						<div class="no-drivers clickable no-print" fxLayoutAlign="end center" *ngIf="departure.driverVehicles?.length === 0 && departure.departureGroupTypeName !== 'Pickup'"
+							(click)="editDrivers(departure)">
+							<i class="material-icons">add</i>
+							<span>Assign Driver</span>
+						</div>
+						<div class="clear"></div>
+						<div class="total-passengers pull-left" [class.error]="departure.departureSchedule?.trainDate && departure.totalTravelers > departure.departureSchedule?.maxMissionaries">Total Passengers <span>{{departure.totalTravelers}}</span></div>
+						<span flex></span>
+					</div>
+					<div fxLayout="column" fxFlex="78%">
+						<div class="top-bar" fxLayout="row" [ngStyle]="getDepartureGroupStyles(departure)">
+							<div [ngClass]="{'red-note': departure.note && !departure.note.readDate,
+									'read-note': departure.note && departure.note.readDate}" class="note clickable no-print"
+									(click)="openNote(departure)" *ngIf="departure.departureGroupTypeName !== 'Pickup'">
+								<i class="material-icons">edit</i>
+								<span *ngIf="!departure.note?.noteId">Add&nbsp;</span>
+								<span>Note</span>
+							</div>
+							<span fxFlex></span>
+							<div class="destination">{{departure.departureGroupTypeName}}</div>
+						</div>
+						<div class="groups">
+							<div *ngIf="departure.allGroups?.length > 0" class="expand-all clickable no-print no-text-selection" (click)="toggleAll(departure)">
+								{{departure.allExpanded ? 'COLLAPSE ALL' : 'EXPAND ALL'}}
+							</div>
+							<div *ngIf="departure.allGroups?.length < 1" class="delete-empty-departure-group-dialog">
+								There are no travel groups in this departure group. Would you like to <button class="primary button_1 button-in-text" (click)="deleteEmptyDepartureGroup(departure,day.departureGroups)">DELETE</button> it?
+							</div>
+							<div [dragula]="'groups-bag'" [dragulaModel]="departure.allGroups" class="dragula-bag" id="{{departure.departureGroupId}}">
+								<div *ngFor="let group of departure.allGroups; let groupIndex = index" id="{{group.departureGroupItemId}}" (click)="toggleOne(group, departure)">
+									<travel-departure-group-item [group]="group" [departure]="departure"></travel-departure-group-item>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<span class="page-break" *ngIf="departureGroupIndex%3===0"></span>
+			</div>
+		</div>
+	</div>
+</div>

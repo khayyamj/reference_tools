@@ -1,0 +1,6 @@
+<app-sub-header [loading]="loading" (back)="back()" [title]="'MISSING TRAVEL PACKETS'"></app-sub-header>
+<app-travel-type-filter (filterChange)="filterMissionaries($event)">
+</app-travel-type-filter>
+<div class="checkbox-container">
+	<mtc-checkbox-table fxFlex="95%" [config]="checkboxTableConfig" [columns]="columns" [rows]="missionaries"></mtc-checkbox-table>
+</div>

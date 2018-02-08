@@ -1,0 +1,22 @@
+<div class="manage-members-container">
+	<div class="page-title space-top">ADD MEMBERS</div>
+	<br>
+	<div class="search-container" fxLayout="row">
+		<mat-input-container>
+			<input matInput class="search-training-group" type="text" placeholder="Search Missionaries" [(ngModel)]="searchText" (keyup.enter)="search()">
+		</mat-input-container>
+	</div>
+	<div class="radio-calendar-container" fxLayout="row">
+		<h3>Search By: </h3>
+		<mat-radio-group class="radio-buttons" [(ngModel)]="type" ngDefaultControl>
+			<mat-radio-button value="Missionary">Missionary</mat-radio-button>
+			<mat-radio-button value="District">District</mat-radio-button>
+			<mat-radio-button value="Classroom">Classroom</mat-radio-button>
+			<mat-radio-button value="Residence Room">Residence Room</mat-radio-button>
+		</mat-radio-group>
+		<mtc-date-picker class="small-date-picker" [date]="date" [title]="'Start Date'" (dateChange)="dateToMoment($event)" [yearPicker]="false"></mtc-date-picker>
+	</div>
+	<div class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="columns" [(rows)]="results" [config]="config"></mtc-checkbox-table>
+	</div>
+</div>

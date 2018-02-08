@@ -1,0 +1,25 @@
+<div class="modal">
+	<div class="modal-header" fxLayout="column" fxLayoutAlgin="start start">
+		<div class="title-row" fxLayoutAlign="space-between">
+			<h2 mat-dialog-title class="heading">Print & Send Itineraries</h2>
+			<button class="icon-btn" mat-dialog-close>
+				<i class="material-icons">clear</i>
+			</button>
+		</div>
+		<span *ngIf="date" class="subheading date">{{date}}</span>
+	</div>
+	<form class="app-dialog-component" (ngSubmit)="next(form)" [formGroup]="form">
+		<div fxLayout="column" class="print-modal-component">
+			<div fxLayout="column">
+				<mat-checkbox [(ngModel)]="printIndividual" formControlName="option">Print individual itineraries</mat-checkbox>
+				<mat-checkbox [(ngModel)]="printGroup" formControlName="option">Print travel group itineraries</mat-checkbox>
+				<mat-checkbox [(ngModel)]="email" formControlName="option">Email individual itineraries</mat-checkbox>
+				<mat-error *ngIf="showError">Please choose at least one option</mat-error>
+			</div>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" type="button" mat-dialog-close>CANCEL</button>
+			<button class="primary-btn" type="submit">NEXT</button>
+		</div>
+	</form>
+</div>

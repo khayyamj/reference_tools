@@ -1,0 +1,52 @@
+@import '../../../../main.less';
+
+@border-width:1.5px;
+
+.zones-component-view{
+	position: relative;
+	width:100%;
+	padding: 0 20px;
+}
+
+.fields {
+	border-width:@border-width;
+	width: 100%;
+	margin-bottom: 10px;
+	padding: 0 5px 4px 5px;
+
+	.normal-input{
+		width: 90%;
+		border: none;
+		padding: none;
+	}
+
+	&.date{
+		width: 150px;
+		
+		.normal-input{
+			width: 80%;
+		}
+	}
+}
+
+.zone-options{
+	margin-right: 20px;
+
+	.options-area{
+		margin: 14px 0 20px 0;
+	}
+}
+
+.mtc-checkbox-table-container{
+	height: 395px;
+	margin: 20px 0px;
+}
+
+.subheaders{
+	border-bottom:@border-width solid @light-grey;
+	line-height: 35px;
+	height: 35px;
+	>span{
+		height: 35px
+	}
+}

@@ -1,0 +1,11 @@
+<app-sub-header [title]="'Inventory Items'" [loading]="loading"></app-sub-header>
+<div class="manage-items-component" fxLayout="column" *ngIf="!loading">
+	<div class="action-bar" fxLayout="row" fxLayoutAlign="end end">
+		<div fxFlex="20" fxLayout="row" fxLayoutAlign="end end">
+			<button class="primary-btn" (click)="openManageCategoriesDialog()">Manage Categories</button>
+		</div>
+	</div>
+	<div class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="columns" [(rows)]="rows" [config]="config"></mtc-checkbox-table>
+	</div>
+</div>

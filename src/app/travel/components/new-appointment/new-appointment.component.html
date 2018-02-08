@@ -1,0 +1,162 @@
+<div class="modal" fxLayout="column">
+	<mat-progress-bar mode="indeterminate" *ngIf="saving"></mat-progress-bar>
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title class="heading">
+			<span *ngIf="!appointmentToEdit; else editTitle">New</span>
+			<ng-template #editTitle>Edit</ng-template>{{modalTitle}}
+		</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+
+	<form fxFlex (ngSubmit)="save(f)" (keydown.enter)="$event.preventDefault()" #f="ngForm">
+		<div mat-dialog-content class="new-appt-dialog">
+			<div class="missionary-search-div" class="search-bar">
+				<app-travel-missionary-search class="missionary-search" ngModel name="travelers" [(missionaries)]="travelers" [isFormControl]="true" [required]="travelersRequired(f)" [disabled]="f.controls.passengerCount?.value != null"></app-travel-missionary-search>
+				<mat-error class="validation-error" *ngIf="showError">Invalid number of missionaries</mat-error>
+			</div>
+			<div class="form-container" fxFlex>
+				<div class="input-row">
+					<mat-form-field class="field-size">
+						<mat-select *ngIf="type === 'manual'" [ngModel]="appointmentToEdit?.travelReason" required name="travelReason" placeholder="Travel Reason">
+							<mat-option *ngFor="let travelReason of travelReasons" value="{{travelReason}}">{{travelReason}}</mat-option>
+						</mat-select>
+						<mat-select *ngIf="type === 'consulate'" [ngModel]="appointmentToEdit?.consulate" required name="consulate" placeholder="Consulate">
+							<mat-option *ngFor="let consulate of consulates" value="{{consulate}}">{{consulate}}</mat-option>
+						</mat-select>
+						<mat-error class="validation-error" *ngIf="f.controls.travelReason?.errors?.required && f.controls.travelReason?.touched ||
+						f.controls.consulate?.errors?.required && f.controls.consulate?.touched">Required Field</mat-error>
+					</mat-form-field>
+				</div>
+				<div *ngIf="f.value.consulate || f.value.travelReason">
+					<div *ngIf="showTravelType(f)" class="input-row-small" fxLayout>
+						<mat-radio-group [ngModel]="appointmentToEdit?.travelType || 'Driver'" name="travelType" required fxFlex="50%">
+							<mat-radio-button [value]="'Driver'">Driver</mat-radio-button>
+							<mat-radio-button [value]="'Train'">Train</mat-radio-button>
+						</mat-radio-group>
+						<mat-form-field *ngIf="'consulate' === type && ('Spain (MTC)' !== f.value.consulate && 'Spain (UVU)' !== f.value.consulate)" class="field-size">
+							<mat-select  [ngModel]="appointmentToEdit?.phone || 'None Assigned'" required name="phone" placeholder="Assigned Cellphone">
+								<mat-option *ngFor="let cell of cellphones" value="{{cell}}">{{cell}}</mat-option>
+							</mat-select>
+							<mat-error class="validation-error" *ngIf="f.controls.phone?.errors?.required && f.controls.phone?.touched">Required Field</mat-error>
+						</mat-form-field>
+					</div>
+					<div class="input-row" fxLayout>
+						<div fxLayout="column" fxFlex="50%">
+							<mat-input-container *ngIf="'Spain (MTC)' === f.value.consulate" class="match-width">
+								<input alphaNumeric matInput placeholder="Room" [ngModel]="appointmentToEdit?.room" name="room" />
+								<mat-error>
+									<span>No special characters allowed</span>
+								</mat-error>
+							</mat-input-container>
+							<mtc-time-picker *ngIf="'Spain (MTC)' !== f.value.consulate" [time]="f.value.checkoutTime" [title]="'Checkout Time'"
+							 (changeTime)="f.value.checkoutTime = $event" [ngModel]="appointmentToEdit?.checkoutDate" name="checkoutTime"
+							 [required]="true"></mtc-time-picker>
+							<mtc-time-picker *ngIf="'manual' === type ||'Spain (MTC)' !== f.value.consulate" [time]="f.value.departureTime" [title]="'Departure Time'"
+							 (changeTime)="f.value.departureTime = $event" [ngModel]="appointmentToEdit?.departureDate" name="departureTime"
+							 [required]="true"></mtc-time-picker>
+						</div>
+						<div fxLayout="column" fxFlex="50%">
+							<mtc-date-picker class="field-size" [date]="f.value.appointmentDate" [title]="'Appointment Date'" (dateChange)="f.controls.frontRunnerTime?.reset()"
+							[ngModel]="appointmentToEdit?.appointmentTime" name="appointmentDate" [control]="f.controls.appointmentDate" required></mtc-date-picker>
+							<mtc-time-picker [time]="f.value.appointmentTime" [title]="'Appointment Time'" (changeTime)="f.value.appointmentTime = $event"
+							 [ngModel]="appointmentToEdit?.appointmentTime" name="appointmentTime" [required]="f.value.travelReason != 'Other'"></mtc-time-picker>
+						</div>
+					</div>
+					<div *ngIf="'Medical' === f.value.travelReason" class="input-row">
+						<div fxLayout="column" fxFlex="50%">
+							<mat-input-container class="match-width">
+								<input alphaNumeric matInput placeholder="Doctor Name" [ngModel]="appointmentToEdit?.doctorName" [maxLength]=50 name="doctorName" />
+								<mat-error>
+									<span>No special characters allowed</span>
+								</mat-error>
+							</mat-input-container>
+							<mat-input-container class="medical-input-box match-width">
+								<textarea matInput placeholder="Address" class="address" [ngModel]="appointmentToEdit?.address" [maxLength]=50 name="address"></textarea>
+							</mat-input-container>
+						</div>
+						<div fxLayout="column" fxFlex="50%">
+							<mat-input-container class="match-width">
+								<input alphaNumeric matInput placeholder="Appointment Type" [ngModel]="appointmentToEdit?.appointmentType" [maxLength]=20 name="appointmentType"
+								/>
+								<mat-error>
+									<span>No special characters allowed</span>
+								</mat-error>
+							</mat-input-container>
+							<mat-input-container class="match-width">
+								<input alphaNumeric matInput placeholder="Phone Number" [ngModel]="appointmentToEdit?.phone" [maxLength]=20 name="phone" />
+								<mat-error>
+									<span>No special characters allowed</span>
+								</mat-error>
+							</mat-input-container>
+						</div>
+					</div>
+					<div *ngIf="'Other' === f.value.travelReason" class="input-row">
+						<div fxFlex="50%">
+							<mat-form-field class="field-size">
+								<mat-select placeholder="Destination" [ngModel]="appointmentToEdit?.destination" name="destination" required>
+									<mat-option *ngFor="let destination of destinations" value="{{destination.name}}">{{destination.name}}</mat-option>
+								</mat-select>
+								<mat-error class="validation-error" *ngIf="f.controls.destination?.errors?.required && f.controls.destination?.touched">Required Field</mat-error>
+							</mat-form-field>
+							<mat-input-container *ngIf="'Other' === f.value.destination" fxFlex="35%" class="match-width">
+								<input alphaNumeric matInput placeholder="Other Destination" [ngModel]="appointmentToEdit?.destination" name="otherDestination"
+								 required>
+								<mat-error class="validation-error-input">
+									<span *ngIf="f?.controls.otherDestination?.errors?.required">Required Field</span>
+									<span *ngIf="f?.controls.otherDestination?.errors?.specialcharacters">No special characters allowed</span>
+								</mat-error>
+							</mat-input-container>
+						</div>
+						<div fxFlex="50%">
+							<mat-input-container *ngIf="!specifyPassengers(f.value.destination)" class="match-width">
+								<input type="number" min="0" matInput placeholder="Total Passengers" [required]="travelers.length === 0" [disabled]="travelers.length != 0" [ngModel]="appointmentToEdit?.passengerCount" name="passengerCount">
+							</mat-input-container>
+						</div>
+					</div>
+					<div *ngIf="'Train' === f.value.travelType" class="input-row">
+						<div fxFlex="50%">
+							<travel-frontrunner-times fxFlex [date]="f.value.appointmentDate" [(time)]="f.value.frontRunnerTime" (departureScheduleChange)="updateDepartureSchedule($event, f)"
+							 name="frontRunnerTime" [ngModel]="appointmentToEdit?.frontRunnerTime" required [control]="f.controls.frontRunnerTime"></travel-frontrunner-times>
+						</div>
+						<div *ngIf="'manual' === type" fxFlex="50%">
+							<mtc-time-picker [time]="f.value.traxTime" (changeTime)="f.value.traxTime = $event" [ngModel]="appointmentToEdit?.traxTime"
+							 name="traxTime" [title]="'Trax Time'"></mtc-time-picker>
+						</div>
+						<div *ngIf="'consulate' === type" fxFlex="50%">
+							<mtc-time-picker [time]="f.value.traxTime" (changeTime)="f.value.traxTime = $event" [ngModel]="appointmentToEdit?.traxTime"
+							 name="traxTime" [required]="true" [title]="'Trax Time'"></mtc-time-picker>
+						</div>
+					</div>
+					<div *ngIf="'Train' === f.value.travelType" class="input-row">
+						<mtc-time-picker class="pickup-time" [time]="f.value.pickupTime" [title]="'Pickup Departure Time'"
+						     (changeTime)="f.value.pickupTime = $event" [ngModel]="appointmentToEdit?.pickupDate"
+						     name="pickupTime" [required]="true" ></mtc-time-picker>
+					</div>
+					<div class="input-row-small">
+						<mat-checkbox *ngIf="'manual' === type" [ngModel]="appointmentToEdit?.displayOnSchedule || false" name="displayOnSchedule">
+							Display on Departure Schedule
+						</mat-checkbox>
+					</div>
+					<div *ngIf=" 'consulate' !== type || 'Spain (MTC)' !== f.value.consulate" class="input-row">
+						<mat-input-container class="driver-notes-container">
+							<textarea matInput placeholder="Driver Notes" class="driver-notes" [ngModel]="appointmentToEdit?.notes" name="notes"></textarea>
+						</mat-input-container>
+					</div>
+					<div class="input-row-small">
+						<mat-checkbox *ngIf="'consulate' === type && 'Spain (MTC)' !== f.value.consulate" name="emailSent" [ngModel]="appointmentToEdit?.emailSent || true"><span *ngIf="appointmentToEdit?.emailSent === true">Re-</span>Send Itineraries On Save</mat-checkbox>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" type="button" mat-dialog-close>cancel</button>
+			<button class="primary-btn" type="submit">
+				<span *ngIf="!appointmentToEdit">Create</span>
+				<span *ngIf="appointmentToEdit">Save</span>
+			</button>
+		</div>
+	</form>
+
+</div>

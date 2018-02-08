@@ -1,0 +1,59 @@
+@import '../../../../main.less';
+
+.individual-travel-packet-component{
+	min-width: 1200px;
+	overflow-x: auto;
+
+	.back-button{
+		width: 70px;
+		margin: 12px 24px;
+	}
+
+	.today{
+		margin: 4px 24px 0 30px;
+	}
+
+	.mission-abbr{
+		margin: 4px 0 0 0;
+	}
+
+	.travel-packet-table{
+		margin-top: 20px;
+		margin-bottom: 24px;
+
+			td, th{
+				height: 40px;
+			}
+			
+			tr{
+				border-bottom: 1px solid @off-white;
+			}
+
+			mat-radio-button{
+				margin-right: 5px;
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+
+			.attention-red{
+				background-color: lighten(@red,40%);
+			}
+
+			.icon-col{
+				padding-left: 0;
+
+				.icon-temp_mission{
+					color: @green;
+					height: 20px;
+					width: 20px;
+					font-size: 20px;
+				}
+			}
+    }
+
+    .total-num-missionaries{
+        margin-bottom: 200px;
+        margin-left: 13px;
+        font-weight: bold;
+    }
+}

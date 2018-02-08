@@ -1,0 +1,142 @@
+@import '../../../../../main.less';
+
+.holiday-exception-modal{
+	height: 100%;
+
+	.exceptions{
+		span{
+			float: left;
+		}
+	}
+
+	.exception-table{
+		input{
+			width: 80%;
+			margin: 0px;
+		}
+
+		th{
+			font-size: 10px;
+			border-bottom: 1px solid @light-grey;
+		}
+
+		mat-radio-button{
+			margin: 0px;
+		}
+
+		tr{
+			&:first-child {
+				border-bottom: 1.5px solid @off-white;
+			}
+		}
+	}
+
+	.add-date{
+		margin: 10px 5px;
+	}
+
+	.remove{
+		background: transparent;
+		color: @red;
+		margin-top: 8px;
+
+		i{
+			font-size: 16px;
+		}
+	}
+
+	mat-checkbox{
+		color: @light-grey;
+		span{
+			color:white;
+		}
+	}
+
+	.border{
+		border: 1px solid black;
+	}
+
+	.dialog-button{
+		margin-left: 17px;
+		width: 114px;
+		height: 24px;
+		font-size: 12px;
+	}
+
+	.new-exception{
+		mat-radio-button{
+			margin: 0px;
+		}
+		input{
+			width: 80%;
+			margin: 0px;
+		}
+		.small-button{
+			margin-left: 15px;
+			width: 24px;
+			height: 24px;
+			i{
+				font-size: 15px;
+			}
+		}
+	}
+	.dropdown{
+		margin: 0px;
+		padding: 0px;
+		padding-bottom: 8px;
+		width: 100px;
+		.dropdown-display{
+			padding: 0px 10px;
+			padding-right: 0px;
+			margin: 0px;
+			width: 100px;
+			height: 25px;
+			background-color: @off-white;
+			border: 1px solid @light-grey;
+			border-radius: 4px;
+
+		}
+		.dropdown-options{
+			z-index: @z-index-level-2;
+			padding: 0px;
+			margin: 0px 5px;
+			background-color: @off-white;
+			width: 100px;
+			border: 1px solid @light-grey;
+			border-radius: 4px;
+			position: absolute;
+			.dropdown-option{
+				color: @black;
+				border-bottom: 1px solid @light-grey;
+				padding: 3px 10px;
+				&:last-child{
+					color: @light-grey;
+					border-bottom: none;
+					padding: 3px 0px;
+					font-size: 10px;
+					i{
+						font-size: 12px;
+					}
+				}
+			}
+		}
+	}
+
+	.table-body{
+		padding-top: 0px;
+		margin-top: 0px;
+	}
+
+	.error-here{
+		border-color:@red;
+	}
+}
+
+.mat-input-container{
+	text-overflow: clip;
+	font-size: 14px;
+}
+
+mat-radio-group{
+	padding-top: 6px;
+}

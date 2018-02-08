@@ -1,0 +1,21 @@
+<app-sub-header [title]="'Training Groups'"></app-sub-header>
+<div class="training-group-search-component">
+	<div class="search-container search-bar">
+		<mat-input-container>
+			<input matInput class="search-training-group" type="text" placeholder="Search" [(ngModel)]="searchText" (keyup.enter)="search()" ngDefaultControl/>
+		</mat-input-container>
+	</div>
+	<div class="filter-options" fxLayout="row" fxLayoutAlign="space-between center">
+		<div fxLayout="row" fxLayoutAlign="start end">
+			<mat-checkbox [(ngModel)]="type.schedule">Scheduled</mat-checkbox>
+			<mat-checkbox [(ngModel)]="type.residence">In-Residence</mat-checkbox>
+			<mat-checkbox class="departed" [(ngModel)]="type.departed">Departed</mat-checkbox>
+			<mtc-date-picker *ngIf="type.departed" class="mtc-date-picker" [date]="startDate" [title]="'Start Date'" [yearPicker]="true"></mtc-date-picker>
+			<mtc-date-picker *ngIf="type.departed" class="mtc-date-picker" [date]="endDate" [title]="'End Date'" [yearPicker]="true"></mtc-date-picker>
+		</div>
+		<button class="primary-btn" (click)="createNew()">Create</button>
+	</div>
+	<div class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="columns" [(rows)]="rows" [config]="config"></mtc-checkbox-table>
+	</div>
+</div>

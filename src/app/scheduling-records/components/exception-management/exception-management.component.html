@@ -1,0 +1,12 @@
+<app-sub-header [title]="'Exceptions'" (back)="''" [loading]="isActiveLoading || isInactiveLoading"></app-sub-header>
+<div class="exception-management-component" fxLayout="column" fxLayoutAlign="start end">
+	<button class="primary-btn" (click)="editException('create')">new exception</button>
+	<div class="table-title">Active</div>
+	<div class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="columns" [(rows)]="active.list" [config]="activeExceptionCheckboxTableConfig"></mtc-checkbox-table>
+	</div>
+	<div class="table-title">Inactive</div>
+	<div class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="columns" [(rows)]="inactive.list" [config]="inactiveExceptionCheckboxTableConfig"></mtc-checkbox-table>
+	</div>
+</div>

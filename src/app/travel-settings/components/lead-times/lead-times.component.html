@@ -1,0 +1,165 @@
+<div class="progress-bar-position">
+	<app-sub-header (back)="back()" [loading]="periods.length <= 0" [title]="'Travel Settings'"></app-sub-header>
+</div>
+<div class="travel-lead-times-component" fxLayout="column" *ngIf="periods.length > 0">
+	<div fxLayout>
+		<span class="column-title clickable tooltip" *ngIf="!addNew && !edit" (click)="addNewFuture()" fxLayoutAlign="center center">
+			<i class="material-icons">add</i>
+			ADD NEW FUTURE PERIOD
+			<span class="tooltiptext">
+				<strong>Click to clone selected period and edit</strong>
+			</span>
+		</span>
+		<button *ngIf="edit || addNew" (click)="delete($event)" class="primary-btn">DELETE</button>
+	</div>
+	<span class="page-title header">TRAVEL LEAD TIMES</span>
+	<div fxLayout>
+		<fieldset *ngIf="!addNew && !edit" class="main-dropdown">
+			<select class="drop-down" [ngModel]="currentPeriod" (ngModelChange)="changeSelect($event)">
+				<option *ngFor="let period of periods" [ngValue]="period">{{period.name}}
+					<span *ngIf="isCurrent(period) == 2"> - Current</span>
+					<span *ngIf="isCurrent(period) == 1"> (Current)</span>
+				</option>
+			</select>
+		</fieldset>
+		<input [disabled]="true" *ngIf="addNew" class="new-period" value="{{newPeriod.name}}" placeholder="Please choose a start date" />
+		<mtc-date-picker *ngIf="addNew" class="picker" [title]="'START DATE'" [date]="newPeriod.startDate" (dateChange)="setNewName(newPeriod.startDate = $event)" [setDisabled]="isAfter3Weeks"></mtc-date-picker>
+		<input [disabled]="true" *ngIf="edit && !addNew" class="new-period" value="{{currentPeriod.name}}" />
+	</div>
+	<div fxLayout="column">
+		<div fxLayout="row" class="subhead">
+			<span class="missions-header">Lead Times</span>
+			<span class="column-title clickable" (click)="editMode()" *ngIf="!edit && !addNew && isEditable(currentPeriod)">EDIT
+				<i class="material-icons micon">mode_edit</i>
+			</span>
+		</div>
+		<div class="subhead layout-padding" fxLayout>
+			<span class="side-menu-header" fxFlex="15%" fxLayoutAlign="center center">
+				<span fxFlex="40%">Check Out</span>
+				<div *ngIf="!edit && !addNew">{{display(currentPeriod.checkInMinutes)}}</div>
+				<div class="mini-circle" [class.active]="edit && currentPeriod.changeCheck"></div>
+				<input *ngIf="edit" [(ngModel)]="currentPeriod.checkInMinutes" (ngModelChange)="currentPeriod.changeCheck = true" />
+				<div class="mini-circle" [class.active]="addNew && newPeriod.changeCheck"></div>
+				<input *ngIf="addNew" [(ngModel)]="newPeriod.checkInMinutes" (ngModelChange)="newPeriod.changeCheck = true" />
+			</span>
+			<span class="side-menu-header" fxFlex="15%" fxLayoutAlign="center center">
+				<span fxFlex="40%">Departure</span>
+				<div *ngIf="!edit && !addNew">{{display(currentPeriod.departureMinutes)}}</div>
+				<div class="mini-circle" [class.active]="edit && currentPeriod.changeDepart"></div>
+				<input *ngIf="edit" [(ngModel)]="currentPeriod.departureMinutes" (ngModelChange)="currentPeriod.changeDepart = true" />
+				<div class="mini-circle" [class.active]="addNew && newPeriod.changeDepart"></div>
+				<input *ngIf="addNew" [(ngModel)]="newPeriod.departureMinutes" (ngModelChange)="newPeriod.changeDepart = true" />
+			</span>
+			<span class="side-menu-header" fxFlex="15%" fxLayoutAlign="center center">
+				<span fxFlex="40%">Exceptions</span>
+				<div *ngIf="!edit && !addNew">{{display(currentPeriod.exceptionMinutes)}}</div>
+				<div class="mini-circle" [class.active]="edit && currentPeriod.changeExcept"></div>
+				<input *ngIf="edit" [(ngModel)]="currentPeriod.exceptionMinutes" (ngModelChange)="currentPeriod.changeExcept = true" />
+				<div class="mini-circle" [class.active]="addNew && newPeriod.changeExcept"></div>
+				<input *ngIf="addNew" [(ngModel)]="newPeriod.exceptionMinutes" (ngModelChange)="newPeriod.changeExcept = true" />
+			</span>
+		</div>
+
+		<div fxLayout>
+			<span class="missions-header" fxFlex="15%">Departure Times</span>
+			<mat-radio-group [(value)]="scheduleType" fxLayoutAlign="space-between center" fxFlex="15%">
+				<mat-radio-button (click)="setValue('regular')" [class.active]="regularChange" value='regular'>Weekday</mat-radio-button>
+				<mat-radio-button (click)="setValue('holiday')" [class.active]="holidayChange" value='holiday'>Holiday/Saturday</mat-radio-button>
+			</mat-radio-group>
+			<span class="clickable column-title _add-new" fxLayoutAlign="center center" fxFlex="10%" (click)="addNewTravelTime($event, departureSchedule)" *ngIf="edit || addNew">
+				<i class="material-icons"> add </i>
+				<span>ADD NEW TRAVEL TIME</span>
+			</span>
+		</div>
+		<div class="graph-area">
+			<div class="row grey-row" *ngIf="edit || addNew">
+				<i class="material-icons lg-icon white-icon" fxLayoutAlign="center center"> group </i>
+				<div *ngFor="let time of departureSchedule; let i = index;" [class.hovered]="i !== hoverIndex && edit" (mouseover)="hoverIndex = i" fxLayoutAlign="center center">
+					<div class="mini-circle" [class.active]="time.maxChange"></div>
+					<input type="number" readonly value="{{time.maxMissionaries}}" (click)="changeTime(time,$event)" class="text-size-small" />
+				</div>
+			</div>
+			<div fxLayout="row" class="row">
+				<i class="material-icons lg-icon grey-bottom"> close </i>
+				<div id="departure_times" style="height: 200px; width: 100%;"></div>
+			</div>
+			<div fxLayout="column">
+				<div fxLayout="row" class="row" id="graph-area">
+					<i class="icon-bus adjust-right" fxLayout fxLayoutAlign="center center"></i>
+					<div *ngFor="let time of departureSchedule; let i = index;" [class.hovered]="i !== hoverIndex && edit" (mouseover)="hoverIndex = i" fxLayout="row" fxLayoutAlign="center center">
+						<span class="column-title text-size" *ngIf="!edit && !addNew">{{time.busDate | date:'h:mm a'}}</span>
+						<div class="mini-circle" [class.active]="time.busChange"></div>
+						<input type="text" *ngIf="edit || addNew" readonly value="{{time.busDate | date:'h:mm a'}}" (click)="changeTime(time,$event)" class="text-size-small" />
+					</div>
+				</div>
+				<div fxLayout class="row grey-row">
+					<i class="material-icons lg-icon white-icon" fxLayoutAlign="center center">train</i>
+					<div *ngFor="let time of departureSchedule; let i = index;" [class.hovered]="i !== hoverIndex && edit" (mouseover)="hoverIndex = i" fxLayoutAlign="center center">
+						<span class="column-title text-size" *ngIf="!edit && !addNew">{{time.trainDate | date:'h:mm a'}}</span>
+						<div class="mini-circle" [class.active]="time.trainChange"></div>
+						<input type="text" *ngIf="edit || addNew" readonly value="{{time.trainDate | date:'h:mm a'}}" (click)="changeTime(time,$event)" class="text-size-small" />
+					</div>
+				</div>
+				<div fxLayout="row" class="row" [ngClass]="{'grey-bottom': edit}">
+					<i class="material-icons lg-icon" fxLayoutAlign="center center">airplanemode_active</i>
+					<div *ngFor="let time of departureSchedule; let i = index;" [class.hovered]="i !== hoverIndex && edit" (mouseover)="hoverIndex = i" fxLayoutAlign="center center">
+						<span class="column-title text-size" *ngIf="!edit && !addNew">{{time.flightDate | date:'h:mm a'}}</span>
+						<div class="mini-circle" [class.active]="time.flightChange"></div>
+						<input type="text" *ngIf="edit || addNew" readonly value="{{time.flightDate | date:'h:mm a'}}" (click)="changeTime(time,$event)" class="text-size-small" />
+					</div>
+				</div>
+				<div class="icon-row" *ngIf="edit || addNew">
+					<i class="material-icons lg-icon" fxLayoutAlign="center center"> close </i>
+					<div *ngFor="let time of departureSchedule; let i = index;" class="remove" [class.hovered]="i !== hoverIndex" (mouseover)="hoverIndex = i" fxLayoutAlign="center center">
+						<i class="material-icons clickable lg-icon" [class.red-icon]="i === hoverIndex" (click)="removeTime(i, $event)"> close </i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div fxLayout="row" fxLayoutAlign="end center" class="exceptions-container">
+			<div class="exceptions-overlay" *ngIf="edit || addNew" (click)="onHolidayExceptionClick()">
+				<div class="text">CLICK TO EDIT</div>
+				<div class="background"></div>
+			</div>
+			<div class="exceptions" fxLayout="column" fxFlex="25%">
+				<div fxLayoutAlign="space-between center">
+					<span class="missions-header">
+						<span *ngIf="scheduleType === 'holiday'">HOLIDAY/</span>EXCEPTIONS</span>
+					<span fxLayoutAlign="end center">
+						<div class="clickable exception-year-arrow" (click)="previous()">
+							<i class="material-icons" *ngIf="yearlyExceptions[currentYear - 1]">chevron_left</i>
+						</div>
+						<div>{{currentYear}}</div>
+						<div class="clickable exception-year-arrow" (click)="next()">
+							<i class="material-icons" *ngIf="yearlyExceptions[currentYear + 1]">chevron_right</i>
+						</div>
+					</span>
+				</div>
+				<div fxLayout>
+					<div fxLayout="column" fxFlex="50%">
+						<div *ngFor="let exception of exceptionList; let i = index">
+							<div *ngIf="i % 2 == 0" fxLayoutAlign="space-between center" class="exception">
+								<span fxFlex>{{exception.myDate | date:'MMM d'}}</span>
+								<span fxFlex *ngIf="exception.type === 'Blackout'">{{exception.type}}</span>
+								<span fxFlex *ngIf="exception.isException && scheduleType === 'holiday'">Exception</span>
+							</div>
+						</div>
+					</div>
+					<div fxLayout="column" fxFlex="50%">
+						<div *ngFor="let exception of exceptionList; let i = index">
+							<div *ngIf="i % 2 == 1" fxLayoutAlign="space-between center" class="exception">
+								<span fxFlex>{{exception.myDate | date:'MMM d'}}</span>
+								<span fxFlex *ngIf="exception.type === 'Blackout'">{{exception.type}}</span>
+								<span fxFlex *ngIf="exception.isException && scheduleType === 'holiday'">Exception</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div fxLayoutAlign="end" *ngIf="edit || addNew">
+			<button (click)="cancelPopup($event)" class="secondary-btn">CANCEL</button>
+			<button (click)="save()" class="primary-btn" [disabled]="!canSave()">SAVE</button>
+		</div>
+	</div>
+</div>

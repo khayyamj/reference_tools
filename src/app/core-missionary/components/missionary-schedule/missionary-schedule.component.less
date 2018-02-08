@@ -1,0 +1,87 @@
+@import '../../../../main.less';
+
+.schedule-header{
+	background-color: @off-white;
+	padding: 8px;
+	border-radius: 5px;
+}
+
+.schedule-item{
+	padding: 5px 8px;
+	margin-left: 3px;
+	.dash{
+		display: none;
+	}
+	&.current{
+		background-color: @off-white;
+	}
+
+	.is-temple{
+		border: grey solid 1px;
+		width: 10px;
+		height: 10px;
+	}
+}
+
+.schedule-loading{
+	width: inherit;
+}
+
+.week-schedule-header{
+	align-items: baseline;
+	padding: 8px 10px 8px 0;
+}
+
+.schedule-spacing{
+	padding-left: 10px;
+}
+
+.schedule-header, .schedule-item, .schedule-loading{
+	margin-right: 15px;
+}
+@media screen and (max-width: 1200px) {
+	.schedule {
+		max-height: inherit;
+		.schedule-header {
+			display:none;
+		}
+		.schedule-item {
+			flex-wrap: wrap;
+			
+			.dash {
+				display: inline;
+				order:3;
+				margin-right: 3px;
+				margin-left:3px;
+			}
+		}
+		.page-title {
+			display: None;
+		}
+		.mobile-one {
+			order: 1;
+			flex: 0 0 100%;
+			.subheading;
+		}
+		.mobile-two {
+			order: 2;
+			margin-left:10%;
+			margin-bottom:5%;
+			flex: initial;
+		}
+		.mobile-three {
+			order: 4;
+			flex: initial;
+		}
+		.schedule-item > span:last-child{
+			display: none;
+		}
+		.margin-top {
+			margin-top: 5px;
+		}
+	}
+}
+
+.current-date, .calendar {
+	padding: 0 15px;
+}

@@ -1,0 +1,117 @@
+@import '../../../../main.less';
+
+.room-component {
+	margin: 0 20px 20px 20px;
+	overflow: hidden;
+
+	.higher-visibility{
+		z-index: @z-index-highest !important;
+	}
+
+	mat-input-container {
+		.search-input{
+			width: 250px;
+		}
+	}
+
+	.subheading {
+		margin-top: 6px;
+		margin-bottom: 10px;
+	}
+
+	.primary {
+		margin-left: 0px !important;
+		margin-bottom: 8px;
+	}
+
+	.separator {
+		border-bottom: 1px solid @light-grey;
+		margin: 12px 0;
+	}
+
+	.table-container {
+		overflow-y: scroll;
+		height: ~"calc(100vh - 260px)";
+
+		.room {
+			border: 1px solid @brand-cement-highlight;
+			border-radius: 4px;
+			margin-bottom: 12px !important;
+
+			.building-header {
+				padding: 10px;
+				background-color: @blue-grey;
+
+				.display-notes-container {
+					position: relative;
+
+					.notes {
+						position:absolute;
+						background: @white;
+						border: 2px @brand-cement-highlight solid;
+						top: 43px;
+						right: -90px;
+						width: 325px;
+						padding: 6px 12px;
+						cursor: pointer;
+						z-index: @z-index-highest;
+
+						.arrow-up {
+							width: 0;
+							height: 0;
+							border-left: 15px solid transparent;
+							border-right: 15px solid transparent;
+							border-bottom: 15px solid @white;
+							position: relative;
+							bottom: 21px;
+							left: 188px;
+						}
+
+						.note-header {
+							margin-bottom: 10px;
+						}
+
+						.note-body {
+							width: 20em;
+							word-wrap: break-word;
+						}
+
+						.note-footer {
+							margin: 10px 10px 5px 0px;
+							float: right;
+							color: @light-grey;
+							font-size: 10px;
+						}
+
+						.edit-notes {
+							margin-left: 20%;
+							margin-top: 2px;
+						}
+					}
+				}
+			}
+
+			.lower-table-container {
+				overflow: hidden;
+				padding: 10px;
+			}
+		}
+	}
+
+	.sm-icon {
+		font-size: 20px;
+		margin-left: 5px;
+		cursor:pointer;
+	}
+
+	.search-icon {
+		position: relative;
+		top: 5px;
+		right: 25px;
+		font-size: 18px;
+		color: @light-grey;
+		height: 18px;
+		width: 18px;
+		user-select: none;
+	}
+}

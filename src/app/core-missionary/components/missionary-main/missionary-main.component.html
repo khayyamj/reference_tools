@@ -1,0 +1,7 @@
+<mat-progress-bar mode="indeterminate" *ngIf="missionaryService.loadingCount" class="no-bump-position"></mat-progress-bar>
+<div class="missionaries-main-component">
+	<app-tabs [titleAttr]="'fullName'" [uniqueId]="'missionaryId'" [(tabs)]="missionaries" (currentTabChange)="missionaryService.setActiveMissionary($event)"
+		[currentTab]="currentMissionary" (onRemoveTab)="missionaryService.removeMissionary($event)" (onRemoveAllClick)="missionaryService.removeAllMissionaries()" class="no-print"></app-tabs>
+	<div class="clear no-print"></div>
+	<router-outlet></router-outlet>
+</div>

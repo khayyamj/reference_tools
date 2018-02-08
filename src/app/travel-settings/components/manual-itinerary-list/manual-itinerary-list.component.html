@@ -1,0 +1,42 @@
+<div class="progress-bar-position">
+	<app-sub-header (back)="back()" [loading]="missions == null" [title]="'Travel Settings'"></app-sub-header>
+</div>
+<div class="manual-itineraries-component" fxLayout="column">
+	<div class="header" fxLayoutAlign="space-between">
+		<span class="page-title">Non-Flight Itineraries</span>
+		<button class="primary-btn" (click)="showItineraryDialog({}, 'New')" [disabled]="disableNewItineraryButton()">
+			New Itinerary
+		</button>
+	</div>
+	<span class="column-title itinerary-table-header" fxLayout="row" fxLayoutAlign="start center">
+		<span fxFlex="20%" class="adjust-left">Mission</span>
+		<span fxFlex="20%" class="adjust-left">Mission Title</span>
+		<span fxFlex="20%" class="adjust-left">Mission President</span>
+		<span fxFlex="25%" class="adjust-left">Checkout Procedure</span>
+		<span fxFlex="10%" class="adjust-left">Method of Travel</span>
+		<span fxFlex></span>
+	</span>
+	<div class="table-body">
+		<div *ngFor="let mission of missions">
+			<div class="item" fxLayout="row" fxLayoutAlign="start center" *ngIf="mission.travelMethodDesc">
+				<span fxFlex="20%">{{mission.missionAbbreviation}}</span>
+				<span fxFlex="20%">{{mission.missionName}}</span>
+				<span fxFlex="20%">{{mission.missionPresident}}</span>
+				<span fxFlex="25%" fxLayoutAlign="start center">
+					<span class="overflow">
+						{{mission.checkoutProc}}
+					</span>
+				</span>
+				<span fxFlex="10%">{{mission.travelMethodDesc}}</span>
+				<span fxFlex fxLayoutAlign="end center">
+					<span fxLayout="row" class="column-title clickable" (click)="showItineraryDialog(mission, 'Edit')">
+						Edit <i class="material-icons micon">mode_edit</i>
+					</span>
+					<span fxLayout="row" class="column-title clickable _delete-button" (click)="showDeleteDialog(mission)">
+						Delete <i class="material-icons micon">delete</i>
+					</span>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>

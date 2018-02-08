@@ -1,0 +1,145 @@
+<div class="manual-appointment-component" fxLayout="column">
+	<app-sub-header [title]="'Manual Appointments'" [loading]="!appointmentsLoaded"></app-sub-header>
+	<div fxLayout="column" fxLayoutAlign="start end" class="content">
+		<div fxLayoutAlign="end">
+			<button class="primary-btn" (click)="openApptDialog()">New Appointment</button>
+		</div>
+		<div class="expandable-row-component">
+			<div class="clickable link button-bar toggle-all-btn no-text-selection" (click)="toggleAll()">
+				{{isAllOpen() ? 'Collapse All' : 'Expand All'}}
+			</div>
+		</div>
+		<div class="expandable-row-component full-width" fxFlex>
+			<div class="_expand-med-btn" (click)="toggleOne('medicalExpanded')">
+				<div class="expandable-row-header header page-title">Medical</div>
+			</div>
+			<div *ngIf="appointmentsExist(medicalExpanded,'Medical')">
+				<div class="expandable-row-component" *ngFor="let appointment of appointments.Medical">
+					<div fxLayoutAlign="start center" class="appointment-row header" (click)="appointment.showInfo= !appointment.showInfo">
+						<div fxFlex="25%" fxLayout="column" [class.honey-header]="isSenior(appointment)">
+							<strong class="tab-in">{{appointment.appointmentDate | mtcDate}}</strong>
+						</div>
+						<div *ngIf="appointment.showInfo" fxLayoutAlign="end center" fxFlex>
+							<button class="primary-btn" (click)="openApptDialog(appointment)">EDIT</button>
+							<button class="secondary-btn" (click)="onDeleteApptClick(appointment,$event,'Medical')">DELETE</button>
+						</div>
+					</div>
+					<div *ngIf="appointment.showInfo" layout-padding>
+						<div fxFlex="60%">
+							<table>
+								<tr class="exempt body-text">
+									<th ><span class="padding-left">Type</span></th>
+									<th >Location</th>
+									<th ><span class="padding-left-md">Time</span></th>
+									<th >Date</th>
+								</tr>
+								<tr>
+									<td ><span class="padding-left">{{appointment.appointmentType}}</span></td>
+									<td ><pre *ngIf="appointment.address">{{appointment.address}}</pre></td>
+									<td >
+										<div fxLayout>
+											<strong class="align-right">Dep:</strong>
+											<span class="padding-left">{{appointment.departureDate | mtcTime}}</span>
+										</div>
+										<div fxLayout>
+											<strong class="align-right">Appt:</strong>
+											<span class="padding-left">{{appointment.appointmentDate | mtcTime}}</span>
+										</div>
+									</td>
+									<td >{{appointment.appointmentDate | mtcDate }}</td>
+								</tr>
+							</table>
+						</div>
+						<div fxFlex="40%">
+							<table>
+								<tr class="exempt">
+									<th fxFlex="50%">Name</th>
+									<th fxFlex="50%">ID</th>
+								</tr>
+								<tr *ngFor="let traveler of appointment.travelers; let f = first">
+									<td (click)="setSelectedMissionary(traveler.missionaryId)" class="clickable subheading name" fxFlex="50%">
+										<span [routerLink]="'/missionary'" [queryParams]="{missionaryId: traveler.missionaryId}">
+											{{traveler.fullName}}
+										</span>
+									</td>
+									<td fxFlex="50%">{{traveler.missionaryId}}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div [class.header-show]="medicalExpanded" class="empty-label" *ngIf="showNoAppointmentsText(medicalExpanded,'Medical')">
+				There are no medical appointments.
+			</div>
+		</div>
+		<div class="expandable-row-component full-width">
+			<div class="_expand-other-btn" (click)="toggleOne('otherExpanded')">
+				<div class="expandable-row-header header page-title">Other</div>
+			</div>
+			<div *ngIf="appointmentsExist(otherExpanded,'Other')">
+				<div class="expandable-row-component" *ngFor="let appointment of appointments.Other">
+					<div fxLayoutAlign="start center" class="appointment-row header" (click)="appointment.showInfo= !appointment.showInfo">
+						<div fxFlex="25%" fxLayout="column" [class.honey-header]="isSenior(appointment)">
+							<strong class="tab-in">
+								{{appointment.appointmentDate | mtcDate}}
+							</strong>
+						</div>
+						<div *ngIf="appointment.showInfo" fxLayoutAlign="end center" fxFlex>
+							<button class="primary-btn" (click)="openApptDialog(appointment)">EDIT</button>
+							<button class="secondary-btn" (click)="onDeleteApptClick(appointment,$event,'Medical')">DELETE</button>
+						</div>
+					</div>
+					<div *ngIf="appointment.showInfo" fxLayout="row" layout-padding>
+						<div fxFlex="60%">
+							<table>
+								<tr class="exempt body-text">
+									<th><span class="padding-left">Destination</span></th>
+									<th></th>
+									<th><span class="padding-left-md">Time</span></th>
+									<th>Date</th>
+								</tr>
+								<tr>
+									<td class="icon-container">
+										<i class="material-icons icon" *ngIf="appointment.travelType === 'Driver'">directions_car</i>
+										<i class="material-icons icon" *ngIf="appointment.travelType !== 'Driver'">train</i>
+										<div>
+											{{appointment.destination}}
+										</div>
+									</td>
+									<td ><pre *ngIf="appointment.address">{{appointment.destination}}</pre></td>
+									<td>
+										<div fxLayout>
+											<strong class="align-right">Dep:</strong>
+											<span class="padding-left">{{appointment.departureDate | mtcTime}}</span>
+										</div>
+									</td>
+									<td>{{appointment.appointmentDate | mtcDate }}</td>
+								</tr>
+							</table>
+						</div>
+						<div fxFlex="40%">
+							<table>
+								<tr class="exempt">
+									<th>Name</th>
+									<th>ID</th>
+								</tr>
+								<tr *ngFor="let traveler of appointment.travelers; let f = first">
+									<td (click)="setSelectedMissionary(traveler.missionaryId)" class="clickable subheading name">
+										<span [routerLink]="'/missionary'" [queryParams]="{missionaryId: traveler.missionaryId}">
+											{{traveler.fullName}}
+										</span>
+									</td>
+									<td>{{traveler.missionaryId}}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div [class.header-show]="otherExpanded" class="empty-label" *ngIf="showNoAppointmentsText(otherExpanded,'Other')">
+				There are no other manual appointments.
+			</div>
+		</div>
+	</div>
+</div>

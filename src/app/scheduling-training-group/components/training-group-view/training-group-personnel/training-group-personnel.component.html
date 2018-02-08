@@ -1,0 +1,46 @@
+<div class="page-title space-top">TRAINING STAFF</div>
+<div *ngIf="loading">The data for this Training Group is currently loading</div>
+<div *ngIf="!loading">
+	<div fxLayout="row">
+		<div class="officer-container" fxLayout="column">
+			<span class="column-title subheaders">ZONE COORDINATOR</span>
+			{{personnel.zoneCoordinator}}
+			<div *ngIf="displayZoneCoordinator" fxLayout="column">
+				<span class="column-title subheaders">CELL PHONE:</span>
+				{{personnel.zoneCoordinatorCellPhone | telephone}}
+				<span class="column-title subheaders">EMAIL:</span>
+				{{personnel.zoneCoordinatorEmail}}
+			</div>
+		</div>
+		<div class="officer-container" fxLayout="column">
+			<span class="column-title subheaders">TRAINING COORDINATOR</span>
+			{{personnel.trainingCoordinator}}
+			<div *ngIf="displayTrainingCoordinator" fxLayout="column">
+				<span class="column-title subheaders">CELL PHONE:</span>
+				{{personnel.trainingCoordinatorCellPhone | telephone}}
+				<span class="column-title subheaders">EMAIL:</span>
+				{{personnel.trainingCoordinatorEmail}}
+			</div>
+		</div>
+		<div class="officer-container" fxLayout="column">
+			<span class="column-title subheaders">TRAINING MANAGER</span>
+			{{personnel.trainingManager}}
+			<div *ngIf="displayTrainingManager" fxLayout="column">
+				<span class="column-title subheaders">CELL PHONE:</span>
+				{{personnel.trainingManagerCellPhone | telephone}}
+				<span class="column-title subheaders">WORK PHONE:</span>
+				{{personnel.trainingManagerWorkPhone | telephone}}
+				<span class="column-title subheaders">EMAIL:</span>
+				{{personnel.trainingManagerEmail}}
+			</div>
+		</div>
+	</div>
+	<div fxLayout="column" *ngIf="personnel.teachers">
+		<span class="column-title subheaders top">TEACHERS</span>
+		<div *ngFor="let teacher of personnel.teachers" class="teacher-list" fxLayout="row">
+			<a flex="40">{{teacher.name}}</a>
+			<a flex="30">{{teacher.cellPhone | telephone}}</a>
+			<a flex="30">{{teacher.email}}</a>
+		</div>
+	</div>
+</div>

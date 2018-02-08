@@ -1,0 +1,46 @@
+<div class="modal">
+	<div class="modal-header" fxLayout="row" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title class="heading">Edit Mission</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<form layout-padding novalidate (ngSubmit)="save(form)" (keydown.enter)="$event.preventDefault" [formGroup]="form">
+		<div mat-dialog-content layout-padding fxLayout="column" class="body-text confirmation-dialog">
+			<span class="body-text"><span class="subheading">{{mission.missionAbbreviation}}</span> {{mission.missionName}}</span>
+			<div fxLayout="row" fxLayoutAlign="start">
+				<div fxLayout="row" class="group" fxFlex="33%">
+					<span class="label body-text">Need Medical Scheduling: </span>
+					<mat-radio-group formControlName="medSched" fxLayoutAlign="start center" required>
+						<mat-radio-button [value]="true">Yes</mat-radio-button>
+						<mat-radio-button [value]="false">No</mat-radio-button>
+						<mat-error class="validation-error" *ngIf="showError">Required Field</mat-error>
+					</mat-radio-group>
+				</div>
+				<div class="group" fxFlex="33%" fxLayout="row">
+					<span class="label">Need Passport Check: </span>
+					<mat-radio-group formControlName="passportCheck" fxLayoutAlign="start center" required>
+						<mat-radio-button [value]="true">Yes</mat-radio-button>
+						<mat-radio-button [value]="false">No</mat-radio-button>
+						<mat-error class="validation-error" *ngIf="showError">Required Field</mat-error>
+					</mat-radio-group>
+				</div>
+			</div>
+			<div fxLayout="row" fxLayoutGap="20px">
+				<mat-input-container fxFlex="50%">
+					<textarea matInput maxlength="2000" placeholder="Travel Leader Notes" class="notes" rows="8" formControlName="travelLeaderNotes"></textarea>
+					<mat-hint align="end">{{form.get('travelLeaderNotes').value ? form.get('travelLeaderNotes').value?.length : 0}} / 2000</mat-hint>
+				</mat-input-container>
+				<mat-input-container fxFlex="50%">
+					<textarea matInput maxlength="2000" placeholder="Mission Travel Notes" class="notes" rows="8" formControlName="missionTravelNotes"></textarea>
+					<mat-hint align="end">{{form.get('missionTravelNotes').value ? form.get('missionTravelNotes').value?.length : 0}} / 2000</mat-hint>
+				</mat-input-container>
+			</div>
+			<div class="last-edited body-text">Last Edited: {{mission.modNm}} {{mission.modDt | date:"dd/MMM/yyyy hh:mm a"}}</div>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" type="button" mat-dialog-close>cancel</button>
+			<button class="primary-btn" type="submit">create</button>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,6 @@
+<app-sub-header [loading]="loading" (back)="back()" [title]="'NON-MATCHING ITINERARY'"></app-sub-header>
+<app-travel-type-filter (filterChange)="filterMissionaries($event)">
+</app-travel-type-filter>
+<div class="checkbox-container" fxLayoutAlign="center" fxFlex="50%">
+	<mtc-checkbox-table fxFlex="95%" [config]="config" [placeholder]="loading ? 'Non-Matching-Itineraries loading...' : 'There is no information to display'" [columns]="columns" [rows]="missionaries"></mtc-checkbox-table>
+</div>

@@ -1,0 +1,14 @@
+<div class="modal">
+	<div class="modal-header" fxFlex fxLayout="row" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>{{room.room}} History</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div fxLayout="column" class="history-container">
+		<mat-progress-bar mode="indeterminate" *ngIf="!loaded"></mat-progress-bar>
+		<div class="mtc-checkbox-table-container">
+			<mtc-checkbox-table *ngIf="loaded" [columns]="columns" [(rows)]="history" [placeholder]="tablePlaceholder"></mtc-checkbox-table>
+		</div>
+	</div>
+</div>

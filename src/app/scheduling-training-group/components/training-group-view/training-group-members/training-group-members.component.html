@@ -1,0 +1,10 @@
+<div>
+	<div class="missions-header space-top">
+		<span>TRAINING GROUP MEMBERS</span>
+		<button class="primary-btn" (click)="showAddMembers = !showAddMembers">ADD MEMBERS</button>
+	</div>
+	<div class="mtc-checkbox-table-container" *ngIf="results.length">
+		<mtc-checkbox-table [columns]="columns" [(rows)]="results" [config]="config"></mtc-checkbox-table>
+	</div>
+	<scheduling-training-group-manage-members [members]="results" (membersAdded)="refreshList()" *ngIf="showAddMembers"></scheduling-training-group-manage-members>
+</div>

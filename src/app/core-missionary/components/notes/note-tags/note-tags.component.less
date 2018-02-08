@@ -1,0 +1,66 @@
+@import '../../../../../main.less';
+
+.note-tags-component {
+	padding: 25px;
+	border-collapse: collapse;
+	border-spacing: 50px 0;
+
+	.header{
+		padding-bottom: 15px;
+	}
+
+	.back{
+			color: @mtc-blue;
+	}
+	.expand-all {
+		text-transform: uppercase;
+		text-align: right;
+		color: @accent-blue;
+		cursor: pointer;
+	}
+	.note-tags-container {
+		.mtc-checkbox-table-container{
+			max-height: 500px;
+		}
+		
+		.headline {
+			height: 50px;
+			border-bottom: 2px solid @light-grey;
+			display: flex;
+			align-items: center;
+			color: @mtc-blue;
+			cursor: pointer;
+			&:hover {
+				background-color: @off-white;
+				color: @action-orange;
+				.tag-name {
+					color: @mtc-blue;
+				}
+			}
+			.tag-name {
+				font-size: 18px;
+				font-weight: bold;
+				letter-spacing: .08em;
+				width: 300px;
+				padding-left: 15px;
+			}
+			.number-of-tags {
+				display: flex;
+				min-width: 25px;
+				height: 20px;
+				background-color: @black;
+				border-radius: 5px;
+				justify-content: center;
+				color: @off-white;
+				font-size: 12px;
+				font-weight: bold;
+				text-align: center;
+				padding: 3px 0px 4px 1px;
+			}
+			.headline-spacer {
+				display: flex;
+				flex-grow: 1;
+			}
+		}
+	}
+}

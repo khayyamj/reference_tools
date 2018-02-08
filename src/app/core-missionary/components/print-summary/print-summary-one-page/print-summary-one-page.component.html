@@ -1,0 +1,178 @@
+<div *ngIf="isDataAvailable" class="print summary-page">
+	<header fxLayout="row" fxLayoutAlign="space-between center">
+		<div fxFlex="50%" fxLayoutAlign="space-between">
+			<span>Printed by: {{user.name}}</span>
+			<span>Date: {{todaysDate | mtcDate}}</span>
+		</div>
+	</header>
+	<div>
+		<hr>
+	</div>
+	<div fxLayout="row">
+		<div fxLayout="column">
+			<img class="missPic" [src]="missionaryService.getPicture(missionary)" alt="missionary picture">
+		</div>
+		<div fxLayout="column" fxFlex class="missionary-info">
+			<div fxLayout="row"><span class="label">{{missionary.personalInfo.missionaryType}}:</span><span>{{missionary.fullName | uppercase}}</span></div>
+			<div fxLayout="row" *ngFor="let companion of missionary.companions"><span class="label">Companion:</span><span>{{companion.fullName | uppercase}}</span></div>
+			<div fxLayout="row"><span class="label">MTC Status:</span><span>{{missionary.personalInfo.missionaryStatus}}</span></div>
+			<div fxLayout="row"><span class="label">Sub Status:</span><span>No sub status</span></div>
+			<div fxLayout="row"><span class="label">Special Category:</span><span>No special category</span></div>
+			<div fxLayout="row"><span class="label">Group Date:</span><span>{{missionary.mtcInfo.mtcArrival}}</span></div>
+			<div fxLayout="row"><span class="label">Depart Date:</span><span>{{missionary.mtcInfo.mtcDeparture}}</span></div>
+			<div fxLayout="row"><span class="label">Depart Time:</span><span>No depart time</span></div>
+		</div>
+		<div fxLayout="column" fxFlex class="missionary-info">
+			<div fxLayout="row"><span class="label">ID:</span><span>{{missionary.missionaryId}}</span></div>
+			<div fxLayout="row"><span class="label">Mission Language:</span><span>{{missionary.missionInfo.missionLanguage}}</span></div>
+			<div fxLayout="row"><span class="label">Training Schedule:</span><span>{{missionary.mtcInfo.trainingScheduleId}}</span></div>
+			<div fxLayout="row"><span class="label">Branch District:</span><span>{{missionary.mtcInfo.branchDistrict}}</span></div>
+			<div fxLayout="row"><span class="label">Residence:</span><span>{{missionary.mtcInfo.residenceRoomName}}</span></div>
+			<div fxLayout="row"><span class="label">Mailbox:</span><span>{{missionary.mtcInfo.mailboxName}}</span></div>
+			<div fxLayout="row"><span class="label">Classroom:</span><span>{{missionary.mtcInfo.classroomName}}</span></div>
+		</div>
+	</div>
+	<div>
+		<hr>
+	</div>
+	<div fxLayout="row">
+		<div fxLayout="column" fxFlex>
+			<div fxLayout="row" fxLayoutAlign="center"><span class="section-header">Mission Information</span></div>
+			<div fxLayout="row"><span class="label">Mission:</span><span>{{missionary.missionInfo.missionName}}</span></div>
+			<div fxLayout="row"><span class="label">President:</span><span>{{missionary.missionInfo.missionPresident}}</span></div>
+			<div fxLayout="row"><span class="label">Home Phone:</span><span>{{missionary.missionInfo.missionPresidentHomePhone}}</span></div>
+			<div fxLayout="row"><span class="label">Office Phone:</span><span>{{missionary.missionInfo.missionOfficePhone}}</span></div>
+			<div fxLayout="row"><span class="label">Cell Phone:</span><span>{{missionary.missionInfo.missionPresidentCell}}</span></div>
+			<div fxLayout="row"><span class="label">Address:</span><span [innerHTML]="missionaryService.formatAddress(missionary.missionInfo.missionOfficeAddress)"></span></div>
+		</div>
+		<div fxLayout="column" fxFlex>
+			<div fxLayout="row" fxLayoutAlign="center"><span class="section-header">Home Ward Information</span></div>
+			<div fxLayout="row"><span class="label">Ward:</span><span>{{missionary.unitInfoList[0]?.unitName}}</span></div>
+			<div fxLayout="row"><span class="label">Bishop:</span><span>{{missionary.unitInfoList[0]?.unitLeaders[0]?.fullName}}</span></div>
+			<div fxLayout="row"><span class="label">Home Phone:</span><span>{{missionary.unitInfoList[0]?.unitLeaders[0]?.homePhone}}</span></div>
+			<div fxLayout="row"><span class="label">Cell Phone:</span><span>{{missionary.unitInfoList[0]?.unitLeaders[0]?.cellPhone}}</span></div>
+			<div fxLayout="row"><span class="label">Email:</span><span>{{missionary.unitInfoList[0]?.unitLeaders[0]?.email}}</span></div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div fxLayout="row">
+		<div fxFlex fxLayout="column" *ngIf="missionary.mtcInfo.branchPresidency.length > 0">
+			<div fxLayoutAlign="center" class="section-header">MTC Branch Information</div>
+			<div fxLayout="row"><span class="label">President:</span><span>{{missionary.mtcInfo.branchPresidency[0]?.lastName}}, {{missionary.mtcInfo.branchPresidency[0]?.firstName}}</span></div>
+			<div fxLayout="row"><span class="label">Home Phone:</span><span>{{missionary.mtcInfo.branchPresidency[0]?.homePhone}}</span></div>
+			<div fxLayout="row"><span class="label">Work Phone:</span><span>{{missionary.mtcInfo.branchPresidency[0]?.workPhone}}</span></div>
+			<div fxLayout="row"><span class="label">Cell Phone:</span><span>{{missionary.mtcInfo.branchPresidency[0]?.cellPhone}}</span></div>
+
+			<div fxLayout="row"><span class="label">1st Counselor:</span> <span>{{missionary.mtcInfo.branchPresidency[1]?.lastName}}, {{missionary.mtcInfo.branchPresidency[1]?.firstName}}</span></div>
+			<div fxLayout="row"><span class="label">Home Phone:</span><span>{{missionary.mtcInfo.branchPresidency[1]?.homePhone}}</span></div>
+			<div fxLayout="row"><span class="label">Work Phone:</span><span>{{missionary.mtcInfo.branchPresidency[1]?.workPhone}}</span></div>
+			<div fxLayout="row"><span class="label">Cell Phone:</span><span>{{missionary.mtcInfo.branchPresidency[1]?.cellPhone}}</span></div>
+
+			<div fxLayout="row"><span class="label">2nd Counselor:</span><span>{{missionary.mtcInfo.branchPresidency[2]?.lastName}}, {{missionary.mtcInfo.branchPresidency[2]?.firstName}}</span></div>
+			<div fxLayout="row"><span class="label">Home Phone:</span><span>{{missionary.mtcInfo.branchPresidency[2]?.homePhone}}</span></div>
+			<div fxLayout="row"><span class="label">Work Phone:</span><span>{{missionary.mtcInfo.branchPresidency[2]?.workPhone}}</span></div>
+			<div fxLayout="row"><span class="label">Cell Phone:</span><span>{{missionary.mtcInfo.branchPresidency[2]?.cellPhone}}</span></div>
+		</div>
+		<div fxFlex fxLayout="column">
+			<div fxLayoutAlign="center" class="section-header">Home Stake Information</div>
+			<div fxLayout="row"><span class="label">Stake: </span><span>{{missionary.unitInfoList[0]?.parentUnitName}}</span></div>
+			<div fxLayout="row"><span class="label">President:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[0]?.fullName}}</span></div>
+			<div fxLayout="row"><span class="label">Home Phone:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[0]?.homePhone}}</span></div>
+			<div fxLayout="row"><span class="label">Work Phone:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[0]?.workPhone}}</span></div>
+			<div fxLayout="row"><span class="label">Cell Phone:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[0]?.cellPhone}}</span></div>
+
+			<div fxLayout="row"><span class="label">1st Counselor:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[1]?.fullName}}</span></div>
+			<div fxLayout="row"><span class="label">Home Phone:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[1]?.homePhone}}</span></div>
+			<div fxLayout="row"><span class="label">Work Phone:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[1]?.workPhone}}</span></div>
+			<div fxLayout="row"><span class="label">Cell Phone:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[1]?.cellPhone}}</span></div>
+
+			<div fxLayout="row"><span class="label">2nd Counselor:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[2]?.fullName}}</span></div>
+			<div fxLayout="row"><span class="label">Home Phone:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[2]?.homePhone}}</span></div>
+			<div fxLayout="row"><span class="label">Work Phone:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[2]?.workPhone}}</span></div>
+			<div fxLayout="row"><span class="label">Cell Phone:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[2]?.cellPhone}}</span></div>
+		</div>
+		<div *ngIf="missionary.mtcInfo.branchPresidency.length === 0" fxFlex></div>
+	</div>
+	<br>
+	<div fxLayout="row" fxLayoutAlign="center" class="section-header">Contact Information</div>
+	<div fxLayout="row">
+		<div fxLayout="column" fxFlex="33%" *ngIf="missionary.contactList[0]">
+			<div fxLayout="row"><span class="label">{{missionary.contactList[0]?.contactType}}:</span><span>{{missionary.contactList[0]?.name}}</span></div>
+			<div fxLayout="row"><span class="label">Mem: <span class="regular-font">{{missionary.contactList[0]?.member ? "Y" : "N"}}</span></span><span class="label">Dec: <span class="regular-font">{{missionary.contactList[0]?.deceased ? "Y" : "N"}}</span></span></div>
+			<div fxLayout="row"><span class="label">Phone:</span><span>{{missionary.contactList[0]?.homePhone}}</span></div>
+			<div fxLayout="row"><span class="label">Work:</span><span>{{missionary.contactList[0]?.workPhone}}</span></div>
+			<div fxLayout="row"><span class="label">Address:</span><span>{{missionary.contactList[0]?.addressLine}}</span></div>
+		</div>
+		<div fxLayout="column" fxFlex="33%" *ngIf="missionary.contactList[1]">
+			<div fxLayout="row"><span class="label">{{missionary.contactList[1]?.contactType}}:</span><span>{{missionary.contactList[1]?.name}}</span></div>
+			<div fxLayout="row"><span class="label">Mem: <span class="regular-font">{{missionary.contactList[1]?.member ? "Y" : "N"}}</span></span><span class="label">Dec: <span class="regular-font">{{missionary.contactList[1]?.deceased ? "Y" : "N"}}</span></span></div>
+			<div fxLayout="row"><span class="label">Phone:</span><span>{{missionary.contactList[1]?.homePhone}}</span></div>
+			<div fxLayout="row"><span class="label">Work:</span><span>{{missionary.contactList[1]?.workPhone}}</span></div>
+			<div fxLayout="row"><span class="label">Address:</span><span>{{missionary.contactList[1]?.addressLine}}</span></div>
+		</div>
+		<div fxFlex="33%" fxLayout="column" *ngIf="missionary.contactList[2]">
+			<div fxLayout="row"><span class="label">{{missionary.contactList[2]?.contactType}}:</span><span>{{missionary.contactList[2]?.name}}</span></div>
+			<div fxLayout="row"><span class="label">Mem:<span class="regular-font">{{missionary.contactList[2]?.member ? "Y" : "N"}}</span></span><span class="label">Dec:<span class="regular-font">{{missionary.contactList[2]?.deceased ? "Y" : "N"}}</span></span></div>
+			<div fxLayout="row"><span class="label">Phone:</span><span>{{missionary.contactList[2]?.homePhone}}</span></div>
+			<div fxLayout="row"><span class="label">Work:</span><span>{{missionary.contactList[2]?.workPhone}}</span></div>
+			<div fxLayout="row"><span class="label">Address:</span><span>{{missionary.contactList[2]?.addressLine}}</span></div>
+		</div>
+	</div>
+	<div class="page-break-before" *ngIf="hasScheduleOrNotes()">
+		<header fxLayout="row" fxLayoutAlign="space-between center">
+			<div fxFlex="50%" fxLayoutAlign="space-between">
+				<span>Printed by: {{user.name}}</span>
+				<span>Date: {{todaysDate | mtcDate}}</span>
+			</div>
+			<div fxFlex fxLayoutAlign="end" class="bold">
+				{{missionary.fullName | uppercase}} ({{missionary.missionaryId}})
+			</div>
+		</header>
+		<div>
+			<hr>
+		</div>
+		<div *ngIf="missionary.printSummaryModalInfo.includeSchedule && schedules.length > 0">
+			<div fxLayoutAlign="center" class="section-header">Schedule Week {{schedules[0]?.week}} Day {{schedules[0]?.day}} {{todaysDate.toDate() | mtcDate}}</div>
+			<div fxLayout="row" class="bold">
+				<span fxFlex="25%" class="underline">Start Time</span>
+				<span fxFlex="25%" class="underline">End Time</span>
+				<span fxFlex="25%" class="underline">Activity</span>
+				<span fxFlex="25%" class="underline">Location</span>
+			</div>
+			<div *ngFor="let scheduleItem of schedules" fxLayout="row" class="schedule-item no-left-padding" [class.current]="scheduleItem.currentLocation">
+				<span class="mobile-two" fxFlex="25%">{{scheduleItem.startTime | mtcTime}}</span>
+				<span class="mobile-three" fxFlex="25%">{{scheduleItem.endTime | mtcTime}}</span>
+				<span class="mobile-one" fxFlex="25%" fxLayout="row" fxLayoutAlign="start center">{{scheduleItem.description}}</span>
+				<span fxFlex="25%">{{scheduleItem.location}}</span>
+			</div>
+		</div>
+		<br>
+		<div fxLayout="column">
+			<div *ngIf="showPublicNotes()" fxLayoutAlign="center" class="section-header">Notes</div>
+			<div *ngIf="noMissionaryNotes" fxFlex fxLayoutAlign="center" class="no-notes">No Missionary Notes</div>
+			<div *ngFor="let note of displayNotes">
+				<div *ngIf="(note.visName === 'Ecclesiastical') || note.visName === 'Public'">
+					<div fxFlex fxLayout="row" fxLayoutAlign="space-between">
+						<div class="label">{{note.createdByName}}</div>
+						<div class="label">{{note.createdDt | mtcDate}}</div>
+						<div>{{note.visName}}</div>
+					</div>
+					<div><span [innerHTML]="note.summary"></span>: <span [innerHTML]="note.noteTxt"></span></div>
+				</div>
+			</div>
+			<div *ngIf="missionary.printSummaryModalInfo.includeConfidentialNotes" fxLayoutAlign="center" class="section-header">Medical/Clinical Notes</div>
+			<div *ngIf="noteCnt.medicalNotes === 0 && missionary.printSummaryModalInfo.includeConfidentialNotes" fxFlex fxLayoutAlign="center">No Medical/Clinical Notes</div>
+			<div *ngFor="let note of displayNotes">
+				<div *ngIf="note.visName === 'Medical-Clinical'">
+					<div fxFlex fxLayout="row" fxLayoutAlign="space-between">
+						<div class="label">{{note.createdByName}}</div>
+						<div class="label">{{note.createdDt | mtcDate}}</div>
+						<div>{{note.visName}}</div>
+					</div>
+					<div><span [innerHTML]="note.summary"></span>: <span [innerHTML]="note.noteTxt"></span></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

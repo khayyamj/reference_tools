@@ -1,0 +1,24 @@
+<app-sub-header [title]="'Facilities Management'" [loading]="loading"></app-sub-header>
+<div class="facilities-management-component">
+	<div fxLayout>
+		<div fxFlex="25%" class="room-options">
+			<div fxLayoutAlign="space-between">
+				<span class="page-title">ROOMS</span>
+				<button class="flat-btn" (click)="createRoom()">ADD NEW ROOM</button>
+			</div>
+			<div class="options-area">
+				<div class="fields" *ngFor="let input of inputList">
+					<mtc-multi-auto-complete placeholder="{{input.placeholder}}" [displayBy]="input.displayBy || 'name'" [(itemChosen)]="criteria[input.items]"
+					(itemChosenChange)="input.items === 'buildings' ? onBuildingChosen():''" [items]="getItems(input.items)"></mtc-multi-auto-complete>
+				</div>
+				<div fxLayoutAlign="end">
+					<button class="secondary-btn" (click)="clearCriteria()">CLEAR ALL</button>
+					<button class="primary-btn" (click)="searchRooms()">SEARCH</button>
+				</div>
+			</div>
+		</div>
+		<div fxFlex="75%" class="mtc-checkbox-table-container">
+			<mtc-checkbox-table [columns]="columns" [(rows)]="results" [config]="checkboxTableConfig" [placeholder]="tablePlaceholder"></mtc-checkbox-table>
+		</div>
+	</div>
+</div>

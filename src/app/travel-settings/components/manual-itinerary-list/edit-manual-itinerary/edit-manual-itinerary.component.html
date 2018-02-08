@@ -1,0 +1,112 @@
+<div class="modal manual-itineraries-dialog" fxLayout="column">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title class="heading">{{dialogData.type}} Non-Flight Itinerary</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<form (ngSubmit)="save(f)" #f="ngForm">
+		<div fxLayout>
+			<div fxFlex="45%" fxLayout="column">
+				<mtc-auto-complete *ngIf="dialogData.type === 'Edit'" ngModel name="mission" [required]="true" [displayBy]="'displayName'" (itemChosenChange)="onMissionNameChosen($event)"
+					[items]="manualItineraries" [itemChosen]="workingCopy" [disabled]="dialogData.type === 'EDIT'" [placeholder]="'Mission'">
+				</mtc-auto-complete>
+				<mtc-auto-complete *ngIf="dialogData.type === 'New'" ngModel name="mission"  [required]="true" [displayBy]="'displayName'" (itemChosenChange)="onMissionNameChosen($event)"
+				 [items]="manualItineraries" [itemChosen]="workingCopy.mission" [disabled]="dialogData.type === 'EDIT'" [placeholder]="'Mission *'">
+				</mtc-auto-complete>
+				<div class="information-container" fxLayoutAlign="space-around stretch">
+					<div fxFlex fxLayout="column">
+						<div fxLayout="column" class="info">
+							<span class="title">Mission President</span>
+							<span>{{workingCopy.missionPresident}}</span>
+						</div>
+						<div fxLayout="column" class="info">
+							<span class="title">Mission Home Phone</span>
+							<span>{{workingCopy.missionHomePhone}}</span>
+						</div>
+						<div fxLayout="column" class="info">
+							<span class="title">Misison Office Phone</span>
+							<span>{{workingCopy.missionOfficePhone}}</span>
+						</div>
+					</div>
+				</div>
+				<mat-input-container>
+					<textarea matInput placeholder="Checkout Procedure" name="Checkout Procedure" [(ngModel)]="workingCopy.checkoutProc" [disabled]="!workingCopy.missionId"
+						maxlength="2000"></textarea>
+					<mat-hint align="end">{{workingCopy.checkoutProc ? workingCopy.checkoutProc.length : 0}} / 2000</mat-hint>
+				</mat-input-container>
+				<mat-input-container>
+					<textarea matInput placeholder="Travel Notes" name="Travel Notes" [(ngModel)]="workingCopy.travelNotes" [disabled]="!workingCopy.missionId"
+						maxlength="2000"></textarea>
+					<mat-hint align="end"> {{workingCopy.travelNotes ? workingCopy.travelNotes.length : 0}} / 2000</mat-hint>
+				</mat-input-container>
+				<div class="last-edited">
+					Last Edited: {{workingCopy.modNm}} {{workingCopy.modDt | date:"dd/MMM/yyyy hh:mm a"}}
+				</div>
+			</div>
+			<div fxFlex="55%" fxLayout="column" *ngIf="workingCopy.missionId">
+				<mat-radio-group ngModel required name="Travel Method" [(ngModel)]="workingCopy.travelMethodId" ngDefaultControl>
+					<mat-radio-button [value]="dialogData.travelMethods[0].travelMethodId" (selected)="onRadioCheck(dialogData.travelMethods[0].travelMethodId)">
+						{{dialogData.travelMethods[0].travelMethodDesc}}
+					</mat-radio-button>
+					<mat-radio-button [value]="dialogData.travelMethods[1].travelMethodId" (selected)="onRadioCheck(dialogData.travelMethods[1].travelMethodId)">
+						{{dialogData.travelMethods[1].travelMethodDesc}}
+					</mat-radio-button>
+				</mat-radio-group>
+				<div fxLayout="column">
+					<div fxLayoutAlign="space-between" class="times">
+						<div>
+							<mtc-time-picker ngModel name="Checkout Time" [required]="true"
+								[time]="workingCopy.mtcCheckoutDt" (changeTime)="workingCopy.mtcCheckoutDt = $event"
+								[title]="'MTC Checkout'"></mtc-time-picker>
+						</div>
+						<div>
+							<mtc-time-picker ngModel name="MTC Departure Time" [required]="true"
+								[time]="workingCopy.mtcDepartureDt" (changeTime)="workingCopy.mtcDepartureDt = $event"
+								[title]="getTimeTitleType()"></mtc-time-picker>
+						</div>
+						<mat-form-field>
+							<mat-select ngModel required placeholder="Departure Day" name="dayOfWeek" #dayOfWeek="ngModel"
+								[(ngModel)]="workingCopy.dayOfWeek">
+								<mat-option *ngFor="let day of weekdays" [value]="day.name">{{day.name}}</mat-option>
+							</mat-select>
+							<mat-error class="validation-error" *ngIf="dayOfWeek?.errors?.required && (f.controls.dayOfWeek.touched || f.submitted)">Required Field</mat-error>
+						</mat-form-field>
+					</div>
+				</div>
+				<div *ngIf="workingCopy.travelMethodId == '1'" fxLayout="column">
+					<div class="times">
+						<mtc-time-picker fxFlex ngModel name="Train Departure Time" [required]="true"
+							[time]="workingCopy.trainDepartureDt" (changeTime)="workingCopy.trainDepartureDt = $event"
+							[title]="'Train Departure'"></mtc-time-picker>
+						<mtc-time-picker fxFlex ngModel name="Train Arrival Time" [required]="true"
+							[time]="workingCopy.trainArrivalDt" (changeTime)="workingCopy.trainArrivalDt = $event"
+							[title]="'Train Arrival'"></mtc-time-picker>
+					</div>
+
+					<div class="stations" fxLayout>
+						<div dnd-sortable-container [sortableData]="dragAndDrop.selections" fxLayout="column">
+							<div *ngFor="let selection of dragAndDrop.selections; let i = index;" fxLayout
+								fxLayoutAlign="center center" dnd-sortable [sortableIndex]="i" [class.get-on]="selection.isGetOn"
+								[class.get-off]="selection.isGetOff" (onDragEnd)="onDragEnd(selection, i)" (onDragStart)="onDragStart(i)"
+								[dropEnabled]="selection.dropEnabled">
+								<span class="label"></span>
+							</div>
+						</div>
+						<div fxLayout="column">
+							<div *ngFor="let station of dialogData.stations"
+								[class.bold-station]="station === dragAndDrop.getOn || station === dragAndDrop.getOff"
+							 	class="station-name-address">
+								{{station.trainStationName}} ({{station.trainStationAddr}})
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" type="button" mat-dialog-close>cancel</button>
+			<button class="primary-btn" type="submit">save</button>
+		</div>
+	</form>
+</div>

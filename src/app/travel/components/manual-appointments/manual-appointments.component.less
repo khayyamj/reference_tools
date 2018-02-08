@@ -1,0 +1,113 @@
+@import '../../../../main.less';
+
+.manual-appointment-component {
+	padding-bottom: 50px;
+
+	.expandable-row-header {
+		cursor: pointer;
+		line-height: 45px;
+		letter-spacing: .08em;
+		width: 100%;
+	}
+
+	.toggle-all-btn {
+		text-align: right;
+	}
+
+	.primary-btn {
+		margin-right: 0;
+	}
+
+	.full-width {
+		width: 100%;
+	}
+
+	.content {
+		padding: 0px 20px;
+
+		.appointment-row {
+			padding: 8px 0;
+			height: 50px;
+
+			.appointment-date {
+				:first-child {
+					margin-right: 13px;
+				}
+			}
+		}
+	}
+
+	.padding-left {
+		padding-left: 15px;
+	}
+
+	.padding-left-md {
+		padding-left: 55px;
+	}
+
+	table, tr, th, td {
+		border: none;
+	}
+
+	tr {
+		height: 41px;
+
+		&.exempt {
+			height:28px;
+			border-bottom:0px;
+		}
+	}
+
+	.align-right {
+		text-align: right;
+		width: 40px;
+	}
+
+	td.name {
+		color: @accent-blue; // changed from #4078c0
+		max-width: 280px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	.blue-table {
+		.sm-icon {
+			padding: 6px;
+			margin: 0px;
+			font-size: 20px;
+
+			&.no-padding {
+				padding: 0px;
+			}
+		}
+
+		.red-icon {
+			cursor: pointer;
+			color: @red;
+		}
+
+		.maroon-icon {
+			color: @maroon;
+		}
+	}
+
+	.icon-container {
+		padding-left: 8px !important;
+
+		.icon {
+			float: left;
+			padding-right: 8px;
+			font-size: 20px;
+		}
+
+		div {
+			float: left;
+			display: inline-block;
+		}
+	}
+}

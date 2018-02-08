@@ -1,0 +1,10 @@
+<app-sub-header [loading]="loading" (back)="back()" [title]="'Itineraries'"></app-sub-header>
+<div *ngIf="!loading" class="itineraries-component-travelgroup-view" fxLayout="column">
+	<div fxLayout="row" fxLayoutAlign="start center" class="left-padding">
+	</div>
+	<div fxLayout="row" fxLayoutAlign="start center" class="left-padding">
+		<h2 class="page-title">{{itineraryInfo.flightDepartureDate | date: 'EEEE d MMM y'}} </h2>
+		<span class="mission-abbrev"> {{itineraryInfo.missionAbbreviation}}</span>
+	</div>
+	<travel-view [travelGroup]="itineraryInfoClone"></travel-view>
+</div>

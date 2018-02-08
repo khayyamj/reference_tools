@@ -1,0 +1,41 @@
+@import '../../main.less';
+
+.widget {
+	.header {
+		font-weight: 600;
+		font-size: 20px;
+		padding: 5px 12px;
+		height: 40px;
+		line-height: 40px;
+		text-transform: uppercase;
+
+		.notification {
+			background: @red;
+			color: @white;
+			font-size: 16px;
+			border-radius: 3px;
+			min-width: 20px;
+			padding: 4px;
+		}
+	}
+
+
+	.alert{
+		border-top: 5px solid @red;
+		color: @red;
+	}
+	.pie {
+		border-top: 5px solid @purple;
+		color: @purple;
+	}
+	.bar {
+		border-top: 5px solid @green;
+		color: @green;
+	}
+	.widget-title {
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		padding-right: 10px;
+	}
+}

@@ -1,0 +1,14 @@
+<div class="mission-view" *ngIf="mission.name">
+	<div class="header" fxLayout="row" fxLayoutAlign="start center">
+		<div class="mission-name" fxFlex="50%" fxLayout="column">
+			<div class="heading">{{mission.name}}</div>
+			<div><strong>Unit #</strong> {{mission.id}}</div>
+		</div>
+	</div>
+	<div fxFlex>
+		<mat-tab-group [disableRipple]="true" [(selectedIndex)]="tabIndex">
+			<mat-tab *ngFor="let tab of tabs" [label]="tab"></mat-tab>
+		</mat-tab-group>
+	</div>
+	<app-mission-assistance *ngIf="isOnTab('ASSISTANCE')" [assistance]="mission.assistance" [missionId]="mission.id"></app-mission-assistance>
+</div>

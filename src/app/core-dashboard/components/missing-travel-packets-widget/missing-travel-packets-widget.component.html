@@ -1,0 +1,17 @@
+<div class="widget" fxLayout="column">
+	<div class="header alert drag-handler" fxLayout="row">
+		<div fxFlex="90%" fxLayoutAlign="space-between">
+			<span fxFlex="90%" fxLayoutAlign="start center"><span class="widget-title">MISSING TRAVEL PACKETS</span></span>
+			<span class="notification gridster-item-content" fxLayoutAlign="center center" [routerLink]="'missing-packets'">{{missionaries.length}}</span>
+		</div>
+		<mtc-drag-handle fxFlex="10%" fxLayoutAlign="center center"></mtc-drag-handle>
+	</div>
+	<div fxLayout="column" fxLayoutAlign="center" class="widget-content">
+		<div fxLayoutAlign="center center" fxFlex="50%">
+			<div class="graph" #graph></div>
+		</div>
+		<div class="checkbox-table-container" fxLayoutAlign="center" fxFlex="50%">
+			<mtc-checkbox-table fxFlex="95%" [placeholder]="checkboxTablePlaceholder" [columns]="columns" [rows]="missionaries" [config]="checkboxConfig"></mtc-checkbox-table>
+		</div>
+	</div>
+</div>

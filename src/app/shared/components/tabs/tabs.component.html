@@ -1,0 +1,29 @@
+<div class="tab-bar" *ngIf="tabs.length" fxFlex fxLayout="row" id="tab-bar" fxLayoutAlign="space-between">
+	<div class="arrow-picker" [class.left]="showArrow()" (click)="tabViewChange('left')" [class.selected]="isArrowHighlighted('left')">
+		<i class="material-icons" *ngIf="showArrow()" [class.highlighted]="highlightArrow('left')">chevron_left</i>
+	</div>
+	<div class="tabs" fxFlex fxLayout="row">
+		<div class="tab body-text clickable" fxLayout="row" fxLayoutAlign="space-between center" fxFlex *ngFor="let tab of tabs; let i = index"
+			[class.active-tab]="isActiveTab(tab)" (click)="setActiveTab(tab)"
+			[style.min-width.px]="getWidth()" [style.transform]="getTransform()">
+			<div class="tab-name">{{tab[titleAttr]}}</div>
+			<span class="remove-icon" (click)="removeTab(i)" [class.no-border]="i === selectedTabIndex - 1" fxLayoutAlign="start center">
+				<i class="remove material-icons"> clear</i>
+			</span>
+		</div>
+	</div>
+	<div fxLayout="row">
+		<div class="arrow-picker" [class.right]="showArrow()" (click)="tabViewChange('right')" [class.selected]="isArrowHighlighted('right')">
+			<i class="material-icons" *ngIf="showArrow()" [class.highlighted]="highlightArrow('right')">chevron_right</i>
+		</div>
+		<div class="clickable close-all column-title" (click)="removeAllTabs()" *ngIf="tabs.length">
+			<span>Close All</span>
+			<i class="remove material-icons"> clear </i>
+		</div>
+		<div class="clickable search column-title" (click)="searchButtonClick()" *ngIf="onSearchBtnClick.observers.length > 0" [class.active-tab]="isActiveTab(searchId)">
+			<i class="material-icons">search</i>
+		</div>
+	</div>
+</div>
+
+<div class="clear"></div>

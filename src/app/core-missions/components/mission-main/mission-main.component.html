@@ -1,0 +1,6 @@
+<mat-progress-bar mode="indeterminate" *ngIf="missionService.isSearching" class="no-bump-position"></mat-progress-bar>
+<div class="missions-main-component">
+	<app-tabs [titleAttr]="'name'" [(tabs)]="missions" (currentTabChange)="onTabClicked($event)" [currentTab]="currentMission"
+	 (onRemoveTab)="missionService.removeMission($event)" (onSearchBtnClick)="openSearchPage()" (onRemoveAllClick)="missionService.removeAllMissions()"></app-tabs>
+	<router-outlet></router-outlet>
+</div>

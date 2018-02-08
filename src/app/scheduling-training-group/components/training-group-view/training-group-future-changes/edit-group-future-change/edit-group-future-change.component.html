@@ -1,0 +1,20 @@
+<div class="modal">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>Edit Future Changes</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+	    </button>
+	</div>
+	<form class="app-dialog-component" (ngSubmit)="save(f)" #f="ngForm">
+		<div fxLayout>
+			<mtc-auto-complete class="auto-complete" [(itemChosen)]="futureValue" placeholder="{{changeType}}"
+				[items]="toolsInfoService.info[autoCompleteList]" ngModel [required]="true" name="newItem"></mtc-auto-complete>
+			<mtc-date-picker fxFlex [title]="'Effective Date'" ngModel required name="futureDate" [control]="f.controls.futureDate"
+				(dateChange)="newDate = $event" [yearPicker]="false"></mtc-date-picker>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" mat-dialog-close>CANCEL</button>
+			<button class="primary-btn" type="submit">CREATE</button>
+		</div>
+	</form>
+</div>

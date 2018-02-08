@@ -1,0 +1,10 @@
+<div class="mission-assistance">
+	<mat-radio-group [(ngModel)]="itemType">
+		<mat-radio-button value="E">Elder Items</mat-radio-button>
+		<mat-radio-button value="S">Sister Items</mat-radio-button>
+	</mat-radio-group>
+
+	<div class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="columns" [(rows)]="filteredRows" [config]="config"></mtc-checkbox-table>
+	</div>
+</div>

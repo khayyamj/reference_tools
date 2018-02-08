@@ -1,0 +1,41 @@
+@import '../../../../main.less';
+
+.calendar-picker{
+	position:relative;
+	margin-top: 5px;
+	.calendar-popup {
+		padding: 0 15px;
+	}
+	i{
+		color: @accent-blue;
+	}
+	.mini-calendar-float{
+		width: 190px;
+		right: 256px;
+	}
+	.arrow-picker, .calendar-popup{
+		border-radius: 10px;
+		display: inline-block;
+		&:hover{
+			cursor: pointer;
+		}
+	}
+	.view-date{
+		vertical-align: top;
+		margin-top: 2px;
+		display:inline-block;
+		width: 180px;
+		text-align: center;
+		padding: 0 15px;
+	}
+}
+
+.print-button{
+	margin-right: 10px;
+	z-index: @z-index-level-1;
+}
+
+.week-picker{
+	margin-right: 30px;
+}
+

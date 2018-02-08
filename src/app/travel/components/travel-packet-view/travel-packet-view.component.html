@@ -1,0 +1,46 @@
+<app-sub-header [loading]="loading" (back)="back()" [title]="'Travel Packets'"></app-sub-header>
+<div class="individual-travel-packet-component" fxLayout="column" *ngIf="travelGroup">
+	<div fxLayout="row" fxLayoutAlign="start center">
+		<span class="page-title today" *ngIf="travelGroup.flightDepartureDate">{{travelGroup.flightDepartureDate | date:'EEEE dd MMM y'}}</span>
+		<strong class="mission-abbr">{{travelGroup.missionAbbreviation}}</strong>
+	</div>
+	<div fxLayout="row" fxLayoutAlign="center start" *ngIf="travelGroup">
+		<app-itinerary fxFlex="55%" class="travel-packet-table" [model]="itineraryModel" [type]="type"></app-itinerary>
+		<div fxFlex="40%" class="special-wrapper">
+			<table class="travel-packet-table">
+				<tr class="header-text" fxLayout="row">
+					<th fxFlex="5%"></th>
+					<th fxFlex="50%">Name</th>
+					<th fxFlex="20%">ID</th>
+					<th fxFlex="25%">Received?</th>
+				</tr>
+				<tr fxLayout="row">
+					<td class="icon-col" fxFlex="5%"></td>
+					<td fxFlex="50%"></td>
+					<td fxFlex="20%"></td>
+					<td fxFlex="25%" fxLayoutAlign="start center">
+						<mat-radio-group fxFlex class="no-text-selection" [(ngModel)]="masterRadio">
+							<mat-radio-button #masterRadioNo (mouseup)="markEverythingReceived(false)" [value]="false">No</mat-radio-button>
+							<mat-radio-button (mouseup)="markEverythingReceived(true)" [value]="true">Yes</mat-radio-button>
+						</mat-radio-group>
+					</td>
+				</tr>
+				<tr class="bottom-border" fxLayout="row" *ngFor="let traveler of travelGroup.travelers; let i = index; trackBy: index"
+						[class.attention-red]="traveler.travelPacketStatus.received === false">
+					<td fxFlex="5%" class="icon-col" fxLayoutAlign="start center">
+						<i *ngIf="traveler.hasTempAssign" class="icon-temp_mission"></i>
+					</td>
+					<td fxFlex="50%" class="special-ellipsis subheading title-case" fxLayoutAlign="start center">{{traveler.fullName}}</td>
+					<td fxFlex="20%" fxLayoutAlign="start center">{{traveler.missionaryId}}</td>
+					<td fxFlex="25%" fxLayoutAlign="start center">
+						<mat-radio-group fxFlex class="no-text-selection" [(ngModel)]="traveler.travelPacketStatus.received">
+							<mat-radio-button #radioNo (mouseup)="markReceived(traveler, i, false)" [value]="false">No</mat-radio-button>
+							<mat-radio-button (mouseup)="markReceived(traveler, i, true)" [value]="true">Yes</mat-radio-button>
+						</mat-radio-group>
+					</td>
+				</tr>
+			</table>
+			<div class="total-num-missionaries" *ngIf="travelGroup.travelers.length">{{travelGroup.travelers.length}} {{travelGroup.travelers.length === 1 ? 'Missionary' : 'Missionaries'}}</div>
+		</div>
+	</div>
+</div>

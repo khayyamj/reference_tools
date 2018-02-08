@@ -1,0 +1,47 @@
+<div class="modal">
+	<div class="modal-header" fxLayoutAlign="space-between center">
+		<h2 mat-dialog-title>CREATE TRAINING GROUP</h2>
+		<button class="icon-btn" mat-dialog-close>
+		<i class="material-icons">clear</i>
+	</button>
+	</div>
+	<form class="app-dialog-component" (ngSubmit)="save(f)" (keydown.enter)="$event.preventDefault()" #f="ngForm">
+		<div mat-dialog-content>
+			<div class="dialog-content" fxFlex>
+				<div [attr.layout-align]="getLayout()">
+					<mat-input-container *ngIf="showName" class="input-field auto-complete">
+						<input alphaNumeric matInput placeholder="Name" class="text" ngModel name="trainingGroup" required>
+						<mat-error>
+							<span [hidden]="!f?.controls.trainingGroup?.errors.required">Required Field</span>
+							<span [hidden]="!f?.controls.trainingGroup?.errors.specialCharacters">No special characters allowed</span>
+						</mat-error>
+					</mat-input-container>
+					<div class="input-field auto-complete solo-input">
+						<mtc-auto-complete placeholder="Language" [items]="toolsInfoService.info.traininglanguages" ngModel name="language"></mtc-auto-complete>
+					</div>
+				</div>
+				<div fxLayoutAlign="space-around">
+					<div class="input-field auto-complete">
+						<mtc-auto-complete placeholder="Training Week" [items]="toolsInfoService.info.trainingWeeks" ngModel name="week" [required]="true"></mtc-auto-complete>
+					</div>
+					<div class="input-field auto-complete">
+						<mtc-auto-complete placeholder="Training Schedule" [items]="toolsInfoService.info.schedules" ngModel name="schedule" [required]="true"></mtc-auto-complete>
+					</div>
+				</div>
+				<div fxLayoutAlign="space-around">
+					<div class="input-field auto-complete">
+						<mtc-auto-complete placeholder="Class Building" [items]="toolsInfoService.info.buildings" (itemChosenChange)="onBuildingChosen($event, f)" [required]="true"
+							ngModel name="building"></mtc-auto-complete>
+					</div>
+					<div class="input-field auto-complete">
+						<mtc-auto-complete placeholder="Room" [itemChosen]="f.value.room" [items]="classrooms" [(ngModel)]="classroom" name="room" [required]="true"></mtc-auto-complete>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" mat-dialog-close>cancel</button>
+			<button class="primary-btn" type="submit">create</button>
+		</div>
+	</form>
+</div>

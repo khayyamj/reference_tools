@@ -1,0 +1,23 @@
+<app-sub-header [title]="'Manage Future Changes'" [loading]="isMissionaryLoading || isTrainingGroupLoading || isRoomsLoading"></app-sub-header>
+<div class="main-display">
+	<div class="main-container" fxLayout="column">
+		<div class="range small-date-picker">
+			<mtc-date-picker [(date)]="startDay" [(endDate)]="endDay" [title]="'Date Range'" (dateChange)="changeSelectedDate()"
+				(endDateChange)="changeSelectedDate()" [yearPicker]="true"></mtc-date-picker>
+		</div>
+		<mat-tab-group [disableRipple]="true" (selectChange)="selectedTab = $event.tab.textLabel">
+			<mat-tab *ngFor="let tab of tabs" label={{tab}}></mat-tab>
+		</mat-tab-group>
+		<div class="rooms-search">
+			<div *ngIf="selectedTab === 'Missionary'">
+				<mtc-checkbox-table [(rows)]="missionaries" [columns]="missionaryColumns" [placeholder]="missionariesPlaceholder" [config] = "checkboxTableConfig"></mtc-checkbox-table>
+			</div>
+			<div *ngIf="selectedTab === 'Training Group'">
+				<mtc-checkbox-table [(rows)]="trainingGroups" [columns]="trainingGroupColumns" [placeholder]="trainingGroupsPlaceholder" [config] = "checkboxTableConfig"></mtc-checkbox-table>
+			</div>
+			<div *ngIf="selectedTab === 'Rooms'">
+				<mtc-checkbox-table [(rows)]="rooms" [columns]="roomColumns" [placeholder]="roomsPlaceholder" [config] = "checkboxTableConfig"></mtc-checkbox-table>
+			</div>
+		</div>
+	</div>
+</div>

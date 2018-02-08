@@ -1,0 +1,70 @@
+<div class="embed-confirmation" *ngIf="showConfirmation; else modal">
+	<simple-confirmation [config]="config" (confirmation)="confirmation($event)"></simple-confirmation>
+</div>
+
+<ng-template #modal>
+	<div  class="modal">
+		<form class="edit-exception-component" (ngSubmit)="checkSave(f)" (keydown.enter)="$event.preventDefault()" #f="ngForm">
+			<div fxLayout="column">
+				<div fxLayoutAlign="space-between" class="modal-header">
+					<h2 mat-dialog-title>{{title}}</h2>
+					<button class="icon-btn" type="button" (click)="cancel(false)">
+						<i class="material-icons">clear</i>
+					</button>
+				</div>
+				<div fxLayout>
+					<div *ngIf="exceptionType !== 'create'"  class="left-column">
+						{{exceptionName}} - {{exceptionAbbreviation}}
+					</div>
+					<div fxLayout="column">
+						<div fxLayout="row">
+							<mat-input-container class="first-field">
+								<input alphaNumeric matInput type="text" placeholder="Exception Name" [(ngModel)]="exception.name" name="exceptionName" required>
+								<mat-error>
+									<span *ngIf="f?.controls.exceptionName?.errors?.required">Required Field</span>
+									<span *ngIf="f?.controls.exceptionName?.errors?.specialCharacters">No special characters allowed</span>
+								</mat-error>
+							</mat-input-container>
+							<div fxLayout="column" class="exception-field-title" *ngIf="fields.length !== exception.fields.length">
+								<mtc-auto-complete placeholder="Add Field" [(itemChosen)]="searchText" (itemChosenChange)="addField($event)" [items]="possibleFields"></mtc-auto-complete>
+							</div>
+						</div>
+						<div fxLayout>
+							<mat-input-container class="first-field">
+								<input alphaNumeric matInput type="text" placeholder="Exception Abbreviation" [(ngModel)]="exception.abbreviation" name="exceptionAbbreviation" required>
+								<mat-error>
+									<span *ngIf="f?.controls.exceptionAbbreviation?.errors?.required">Required Field</span>
+									<span *ngIf="f?.controls.exceptionAbbreviation?.errors?.specialCharacters">No special characters allowed</span>
+								</mat-error>
+							</mat-input-container>
+							<div class="fields-container" fxLayout>
+								<div *ngFor="let field of exception.fields; let i = index" class="single-field">
+									<div *ngIf="!field?.delete" fxLayout="row">
+										<mtc-date-picker class="range small-date-picker" *ngIf="field?.isDate; else notDateField" [title]="field.name" (dateChange)="setDate(field.values[0])"
+											(endDateChange)="setDate(field.values[1])" [(date)]="field.values[0].name" [(endDate)]="field.values[1].name"></mtc-date-picker>
+										<ng-template #notDateField>
+											<div class="exception-field">
+												<mtc-multi-auto-complete  [placeholder]="field.name" [(itemChosen)]="field.values"
+												[items]="toolsInfoService.info[editExceptionService.fieldNames[field.name]]"></mtc-multi-auto-complete>
+											</div>
+										</ng-template>
+										<div *ngIf="!field?.editing">
+											<button type="button" class="icon-btn remove" (click)="removeField(i)">
+												<i class="material-icons">clear</i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<scheduling-exception-action [exception]="exception"></scheduling-exception-action>
+				</div>
+				<div mat-dialog-actions>
+					<button class="secondary-btn" type="button" (click)="cancel(exception.id)">{{exception.id ? 'delete' : 'cancel'}}</button>
+					<button class="primary-btn"   type="submit">save</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</ng-template>

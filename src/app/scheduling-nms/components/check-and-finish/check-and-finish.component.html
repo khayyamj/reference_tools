@@ -1,0 +1,35 @@
+<app-sub-header [title]="'Check and Finish'" [loading]="selectedTab !== 'Complications' ? loadingMissionaries : loadingComplications "></app-sub-header>
+<div class="top-content">
+	<div fxLayoutAlign="end">
+		<button class="secondary-btn" (click)="openConfirmation(false, allMissionaries)">Restart</button>
+		<button class="primary-btn" (click)="openConfirmation(true, allMissionaries)">Finish</button>
+	</div>
+	<div class="date-header">Group Date: {{newMissionarySchedulingService.formattedGroupDate | mtcDate}}</div>
+</div>
+<div class="new-missionary-scheduling">
+	<mat-tab-group [disableRipple]="true" (selectChange)="setSelectedTab($event.tab.textLabel)">
+		<mat-tab label="Complications"></mat-tab>
+		<mat-tab label="All Missionaries"></mat-tab>
+	</mat-tab-group>
+	<div [hidden]="selectedTab !== 'Complications'">
+		<div class="table-headers-container" *ngFor="let table of tables; let i = index" fxLayout="column">
+			<div fxLayout="row">
+				<div class="heading">
+					{{table.name}}
+				</div>
+				<div class="expand" fxLayout="row" (click)="showTable(table)">
+					<span>{{(table.viewing ? 'HIDE' : 'VIEW')}}</span>
+					<i class="material-icons clickable">expand_{{(table.viewing ? 'less' : 'more')}}</i>
+				</div>
+			</div>
+			<div class="mtc-checkbox-table-container">
+				<mtc-checkbox-table [columns]="columns" [(rows)]="table.results" (edit)="editResult(table.results)" [config]="checkboxTableConfig" [hidden]="!table.viewing"></mtc-checkbox-table>
+			</div>
+		</div>
+	</div>
+	<div  [hidden]="selectedTab !== 'All Missionaries'" *ngIf="showAllMissionaries" class="all-missionaries-tab">
+		<div class="mtc-checkbox-table-container">
+			<mtc-checkbox-table [columns]="columns" [(rows)]="allMissionaries" [config]="checkboxTableConfig"></mtc-checkbox-table>
+		</div>
+	</div>
+</div>

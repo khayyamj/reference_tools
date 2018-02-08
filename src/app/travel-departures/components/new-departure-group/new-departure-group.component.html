@@ -1,0 +1,23 @@
+<div class="modal new-departure-group">
+	<div class="modal-header" fxLayoutAlign="space-between" fxLayout>
+		<h2 mat-dialog-title class="heading">New Departure Group</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+
+	<form (ngSubmit)="save()" [formGroup]="newDepartureGroup" fxLayout="column">
+		<div class="form-inputs" mat-dialog-content fxLayout>
+			<mtc-date-picker [date]="today" [title]="'DATE'" formControlName="mtcDepartureDate"></mtc-date-picker>
+			<mtc-auto-complete placeholder="Destination" (itemChosenChange)="setForm($event)" [items]="destinations" formControlName="departureGroupType"></mtc-auto-complete>
+			<mtc-time-picker *ngIf="show === 'time'" [time]="today" formControlName="time" [title]="'Departure Time'"></mtc-time-picker>
+		</div>
+
+		<travel-frontrunner-times *ngIf="show === 'frontRunnerTime'" [date]="today" formControlName="frontRunnerTime" [control]="newDepartureGroup.controls.frontRunnerTime" class="front-runner"></travel-frontrunner-times>
+
+		<div mat-dialog-actions>
+			<button class="secondary-btn" type="button" mat-dialog-close>cancel</button>
+			<button class="primary-btn" type="submit">save</button>
+		</div>
+	</form>
+</div>

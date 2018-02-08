@@ -1,0 +1,19 @@
+<div class="change-history-component" *ngIf="missionary?.missionaryId" fxLayout="column">
+	<div fxLayoutAlign="space-between" class="header">
+		<span fxLayoutAlign="center center">
+			<a class="clickable" [routerLink]="'/missionary'" [queryParams]="{missionaryId: missionary.missionaryId}">
+				<i class="material-icons back">arrow_back</i>
+			</a>
+			<span class="page-title">Change History</span>
+		</span>
+		<button class="primary-btn" (click)="createChange()">Create Change</button>
+	</div>
+	<div class="tab-page-display">
+		<mat-tab-group [disableRipple]="true" [selectedIndex]="tabIndex" (selectedIndexChange)="setSelectedTab(tabs[$event].toLowerCase())">
+			<mat-tab *ngFor="let tab of tabs" label="{{tab}}"></mat-tab>
+		</mat-tab-group>
+	</div>
+	<div class="changes">
+		<mtc-checkbox-table [columns]="columns" [(rows)]="missionary.changeHistory[viewType]" [placeholder]="checkboxTablePlaceholder"></mtc-checkbox-table>
+	</div>
+</div>

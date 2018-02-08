@@ -1,0 +1,86 @@
+@import '../../../../main.less';
+
+.luggage{
+	.saving-changes {
+		font-size: 12px;
+		margin-right: 24px;
+	}
+
+	.new-group{
+		color: @mtc-blue;
+		margin-right: 10px;
+	}
+
+	.airline-group{
+		margin: 10px 0px;
+		padding: 0 0 20px 0;
+
+		.airline-group-header{
+			background-color: @off-white;
+			color: @mtc-blue;
+			padding: 6px 0px 6px 15px;
+
+			.airlines-header{
+				padding: 0px 5px 0px 5px;
+			}
+
+			.weight-limit-header{
+				padding: 0px 18px;
+			}
+
+			.notes-header {
+				margin: 0px 5px 0px 5px;
+			}
+
+			.airline-group-header-delete{
+				padding: 4px 0px;
+
+				.delete-group-button{
+					float: right;
+					margin: 0px 16px 0px 0px;
+				}
+			}
+		}
+
+		.airline-group-data{
+			min-height: 80px;
+			padding: 0px 0px 0px 15px;
+
+			.airlines {
+			    padding: 12px 5px 0px 5px;
+			}
+
+			.mtc-autocomplete-input-container {
+				border: 1px solid @off-white;
+			}
+
+			.delete-airline-button{
+				margin: 0;
+			}
+
+			.weight-limit{
+				padding: 0px 5px;
+
+				.mat-input-container {
+					margin: 12px;
+				}
+			}
+
+			.notes {
+				margin: 9px 5px 0px 5px;
+				height: 95%;
+			}
+
+			button {
+				margin: 10px;
+			}
+		}
+
+		.last-edit {
+			float: right;
+			font-size: 10px;
+			padding-right: 15px;
+			color: @light-grey;
+		}
+	}
+}

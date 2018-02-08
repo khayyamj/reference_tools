@@ -1,0 +1,30 @@
+<div class="embed-confirmation" *ngIf="showConfirmation">
+	<simple-confirmation [config]="config" (confirmation)="confirmation($event)"></simple-confirmation>
+</div>
+<div class="modal" *ngIf="!showConfirmation">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>Edit Training Group</h2>
+	</div>
+	<div mat-dialog-content>
+		<div fxLayout="row">
+			<div fxLayout="column">
+				<mtc-auto-complete placeholder="Classroom" [items]="toolsInfoService.info.classrooms" [(itemChosen)]="trainingGroup.classroom"></mtc-auto-complete>
+				<mat-input-container>
+					<input matInput placeholder="Training Week" [(ngModel)]="trainingGroup.trainingWeek.name" type="number">
+					<span matSuffix *ngIf="trainingGroup.schedule">/{{trainingGroup.schedule.scheduleLength}}</span>
+				</mat-input-container>
+			</div>
+			<div fxLayout="column" fxFlexOffset="10%">
+				<mtc-auto-complete placeholder="Language" [items]="toolsInfoService.info.traininglanguages" [(itemChosen)]="trainingGroup.language"></mtc-auto-complete>
+				<mtc-auto-complete placeholder="Training Schedule" [items]="toolsInfoService.info.schedules" [(itemChosen)]="trainingGroup.schedule"></mtc-auto-complete>
+			</div>
+		</div>
+	</div>
+	<div mat-dialog-actions fxLayoutAlign="space-between">
+		<mtc-date-picker class="small-date-picker" [title]="'Effective Date'" [(date)]="trainingGroup.effectiveDate"></mtc-date-picker>
+		<div fxLayoutAlign="center center">
+			<button class="secondary-btn" (click)="cancel()">cancel</button>
+			<button class="primary-btn" (click)="save()">save</button>
+		</div>
+	</div>
+</div>

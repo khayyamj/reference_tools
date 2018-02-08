@@ -1,0 +1,42 @@
+<form #f="ngForm" (ngSubmit)="save(f)" (keydown.enter)="$event.preventDefault()">
+	<div class="modal">
+		<div class="modal-header" fxLayoutAlign="space-between">
+			<h2 mat-dialog-title>Edit Future Training Groups</h2>
+			<button class="icon-btn" type="button" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+		</div>
+		<div fxLayoutAlign="space-around">
+			<div fxFlex="20%" fxLayoutAlign="column">
+				<div class="subheading">Id</div>
+				<div class="items">
+					<div class="body-text column" *ngFor="let group of groups">{{group.id}}</div>
+				</div>
+			</div>
+			<div fxLayout="column" class="first-column" fxFlex>
+				<div fxLayoutAlign="space-around">
+					<div fxLayout="column">
+						<div class="field auto-complete">
+							<mtc-auto-complete placeholder="Training Scheduling" [(itemChosen)]="edits.schedule" [items]="toolsInfoService.info.schedules"></mtc-auto-complete>
+						</div>
+						<div class="field auto-complete">
+							<mtc-auto-complete placeholder="Training Week" [(itemChosen)]="edits.trainingWeek" [items]="toolsInfoService.info.trainingWeeks"></mtc-auto-complete>
+						</div>
+						<div class="field auto-complete">
+							<mtc-auto-complete placeholder="Classroom" [(itemChosen)]="edits.classroom" [items]="toolsInfoService.info.classrooms"></mtc-auto-complete>
+						</div>
+					</div>
+				</div>
+				<div mat-dialog-actions fxLayoutAlign="space-between end">
+					<div class="effective-date">
+						<mtc-date-picker [title]="'Effective Date'" ngModel name="date" [isAfter]="date" [(date)]="date"></mtc-date-picker>
+					</div>
+					<div>
+						<button class="secondary-btn" type="button" mat-dialog-close>cancel</button>
+						<button class="primary-btn" type="submit">save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

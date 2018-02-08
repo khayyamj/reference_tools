@@ -1,0 +1,61 @@
+<div class="print evaluation-form" fxLayout="column" *ngFor="let missionary of printMissionaries">
+	<div fxLayout="row" fxLayoutAlign="space-between start" class="basic-info" >
+		<div fxFlex fxLayout="row" class="basic-missionary">
+			<div class="img-div">
+				<img class="pic" [src]="missionary.photo" alt="missionary picture">
+			</div>
+			<div fxLayout="column" class="text" fxLayoutAlign="space-around start" *ngIf="missionary.personalInfo">
+				<span class="bold">{{missionary.personalInfo.missionaryType}} {{missionary.fullName | uppercase }} ({{missionary.missionaryId}})</span>
+				<span>Home: {{missionary.personalInfo.residenceCountry}}</span>
+				<span>Residence: {{missionary.mtcInfo.residenceRoomName}}</span>
+				<span>Mission: {{missionary.missionInfo.missionName}}</span>
+				<span>Mission/Training Language: {{missionary.missionInfo.missionLanguage}} / {{missionary.mtcInfo.trainingLanguage}}</span>
+				<span>Arrival Date: {{missionary.mtcInfo.mtcArrival}}</span>
+				<span>Departure Date: {{missionary.mtcInfo.mtcDeparture}}</span>
+				<span>Mailbox: {{missionary.mtcInfo.mailboxName}}</span>
+			</div>
+		</div>
+
+		<div fxLayout="row" fxLayoutAlign="space-between start" class="measurements">
+			<div fxLayout="column" class="twoColumns">
+				<div fxLayoutAlign="space-between end" class="vert-space">Neck<span class="line"></span></div>
+				<div fxLayoutAlign="space-between end" class="vert-space">Shoe<span class="line"></span></div>
+				<div fxLayoutAlign="space-between end" class="vert-space">Shoulder<span class="line"></span></div>
+				<div fxLayoutAlign="space-between end" class="vert-space">Chest<span class="line"></span></div>
+			</div>
+			<div fxLayout="column" class="twoColumns">
+				<div fxLayoutAlign="space-between end" class="vert-space">Sleeve<span class="line"></span></div>
+				<div fxLayoutAlign="space-between end" class="vert-space">Waist<span class="line"></span></div>
+				<div fxLayoutAlign="space-between end" class="vert-space">Inseam<span class="line"></span></div>
+				<div fxLayoutAlign="space-between end" class="vert-space"></div>
+			</div>
+		</div>
+		
+	</div>
+
+	<div fxLayout="row" class="page-tables">
+		<div class="twoColumns">
+			<div fxLayout="row" class="table-cell">
+				<div *ngFor="let header of tableHeaderRow" [style.width.px]="header.width" class="table-cell header">{{header.col}}</div>
+			</div>
+			<app-item-table *ngFor="let category of leftColumn; let i = index" [headerRow]="tableHeaderRow" [data]="category.items" [title]="category.category"></app-item-table>
+		</div>
+
+		<div class="twoColumns">
+			<div fxLayout="row" class="table-cell" *ngIf="rightColumn.length > 0">
+				<div *ngFor="let header of tableHeaderRow" [style.width.px]="header.width" class="table-cell header">{{header.col}}</div>
+			</div>
+			<app-item-table *ngFor="let category of rightColumn; let i = index" [headerRow]="tableHeaderRow" [data]="category.items" [title]="category.category"></app-item-table>
+		</div>
+
+	</div>
+
+	<div class="office-notes" fxLayout="column" fxLayoutAlign="space-between start">
+		<div>Missionary Signature __________________________________________________</div>
+		<div>Arrival Interview By: </div>
+		<div>Filled By: </div>
+		<div>Computer Entry Date: </div>
+		<div>Notes: </div>
+	</div>
+	
+</div>

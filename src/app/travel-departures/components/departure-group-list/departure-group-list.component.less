@@ -1,0 +1,227 @@
+@import '../../../../main.less';
+
+* {
+	box-sizing: border-box;
+}
+
+.gu-mirror {
+	.hide-on-drag {
+		display: none;
+	}
+}
+
+#departure-schedule-component {
+	padding: 0 20px 20px 20px;
+
+	.departure-header {
+		background-color: @white;
+		position: sticky;
+		z-index: 11;
+		top: 70px;
+		right: 17px;
+		left: 215px;
+		height: 35px;
+		padding-bottom: 3px;
+
+		.material-icons:hover {
+			color: @button-primary-hover !important;
+		}
+	}
+	.note {
+		height: 19px;
+		border-radius: 4px;
+		margin: 3px;
+
+		i {
+			font-size: 15px;
+			margin: 2px 5px;
+		}
+
+		span {
+			font-size: 13px;
+		}
+	}
+
+	.red-note {
+		background-color: @red;
+		color: @white;
+		width: 60px;
+	}
+
+	.read-note {
+		background-color: @light-grey;
+		width: 60px;
+	}
+
+	.day {
+		.day-title {
+			padding-bottom: 20px;
+			font-weight: bold;
+			font-size: 16px;
+			text-transform: uppercase;
+			color: @mtc-blue;
+			clear: both;
+			padding-top: 15px;
+			position: sticky;
+			top: 105px;
+			background-color: @white;
+			z-index: 5;
+		}
+
+		.day-information {
+			margin-bottom: 26px;
+
+			.top-bar {
+				height: 26px;
+
+				.destination {
+					display: inline-block;
+					font-weight: bold;
+					line-height: 24px;
+					font-size: 16px;
+					margin-right: 12px;
+				}
+			}
+
+			.delete-empty-departure-group-dialog {
+				position: relative;
+				left: 25%;
+				top: 40%;
+
+				.button-in-text {
+					margin-left: 0;
+					padding: 2px 8px 2px 8px;
+				}
+			}
+
+			.quick-info {
+				padding: 26px 10px 10px 10px;
+
+				.time-info {
+					font-size: 16px;
+					margin-bottom: 45px;
+
+					.divider {
+						height: 17px;
+					}
+
+					i {
+						text-align: left;
+						width: 32px;
+						font-size: 21px;
+					}
+				}
+
+				.edit-txt {
+					font-size: 11px;
+				}
+
+				.driver-info {
+					font-size: 16px;
+
+					.red {
+						color: @red;
+					}
+				}
+
+				.no-drivers {
+					text-transform: uppercase;
+					font-size: 11px;
+
+					i {
+						font-size: 18px;
+						font-weight: bold;
+					}
+
+					span {
+						float: right;
+						margin-top: 2px;
+					}
+				}
+
+				.total-passengers {
+					margin-top: 10px;
+					text-transform: uppercase;
+					font-size: 11px;
+
+					span {
+						font-size: 16px;
+						margin-left: 10px;
+					}
+
+					&.error {
+						color: @red; // changed from #cd5c5c
+						font-weight: bolder;
+					}
+				}
+			}
+
+			.groups {
+				padding: 10px 15px;
+				min-height: 100px;
+
+				.dragula-bag {
+					min-height: 100px;
+					padding: 1px;
+					cursor: pointer;
+
+					&.dragging {
+						border: black 1px dashed;
+						padding: 0;
+					}
+
+					.all-groups-title {
+						font-size: 14px;
+						font-weight: bold;
+						padding-top: 5px;
+						font-family: 'ZoramLdsBold';
+					}
+				}
+
+				.expand-all {
+					text-align: right;
+					color: @accent-blue;
+					font-size: 11px;
+					margin-bottom: 5px;
+				}
+			}
+		}
+	}
+}
+
+@media print {
+	@page {
+		size: landscape;
+	}
+
+	.quick-info {
+		border: 1px black solid;
+		page-break-inside: avoid;
+	}
+
+	.top-bar {
+		border: 1px black solid;
+	}
+
+	.day {
+		page-break-before: always;
+		position: relative;
+	}
+
+	.day-information {
+		padding-top: 5mm;
+	}
+
+	.day-title {
+		page-break-after: avoid;
+		position: static !important;
+	}
+
+	.departure-group {
+		page-break-inside: avoid;
+	}
+
+	.page-break {
+		page-break-after: always;
+	}
+}

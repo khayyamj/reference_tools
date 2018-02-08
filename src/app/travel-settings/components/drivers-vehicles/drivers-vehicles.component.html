@@ -1,0 +1,21 @@
+<div class="progress-bar-position">
+	<app-sub-header [title]="'Drivers and Vehicles'" [loading]="isDriversLoading || isVehiclesLoading"></app-sub-header>
+</div>
+<div class="main-display">
+	<div class="main-container" fxLayout="column">
+		<div fxLayoutAlign="space-between">
+			<mat-tab-group [disableRipple]="true" (selectChange)="selectedTab = $event.tab.textLabel">
+				<mat-tab *ngFor="let tab of tabs" label={{tab}}></mat-tab>
+			</mat-tab-group>
+			<div class="add-driver-button" fxLayout>
+				<button class="primary-btn" (click)="openDialog()">ADD {{selectedTab.slice(0,-1)}}</button>
+			</div>
+		</div>
+		<div class="mtc-checkbox-table-container">
+			<mtc-checkbox-table *ngIf="selectedTab === 'Drivers'; else vehiclesTable" [(rows)]="drivers" [columns]="driverColumns" [config]="checkboxTableConfig"></mtc-checkbox-table>
+			<ng-template #vehiclesTable>
+				<mtc-checkbox-table [(rows)]="vehicles" [columns]="vehicleColumns" [config]="checkboxTableConfig"></mtc-checkbox-table>
+			</ng-template>
+		</div>
+	</div>
+</div>

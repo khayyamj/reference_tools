@@ -1,0 +1,135 @@
+@import '../../../../main.less';
+
+
+
+.tab-bar{
+	min-height: 42px;
+	background-color: @off-white;
+	position: relative;
+
+	.tabs{
+		overflow: hidden;
+		width: 100%;
+	}
+
+	.tab{
+		transition: transform 2s;
+		max-width: 240px;
+		background-color: @off-white;
+		text-align: center;
+		vertical-align: middle;
+		line-height: 22px;
+		padding-left: 32px;
+		color: @light-grey;
+		display: inline-block;
+		position: relative;
+
+		.tab-name{
+			text-overflow: ellipsis;
+			text-align: left;
+
+			/* Required for text-overflow to do anything */
+			white-space: nowrap;
+			overflow: hidden;
+			width: 90%;
+		}
+		.remove-icon{
+			height: 24px;
+			padding-right: 10px;
+			border-right: 2px solid @light-grey;
+			&.no-border{
+				border-color: @off-white;
+			}
+		}
+	}
+
+	.close-all{
+		flex:.04;// same as flex="4" but we only support increments of 5
+		line-height: 42px;
+		padding-right: 37px;
+		padding-left: 3px;
+		white-space: nowrap;
+		position: relative;
+		z-index: @z-index-level-1;
+		background: @off-white;
+		span{
+			padding-left:2px;
+		}
+		.remove{
+			color: @light-grey;
+			position:absolute;
+			top:11px;
+			right:2px;
+		}
+	}
+
+	.search{
+		position: relative;
+		width:44px;
+		i{
+			padding-left: 6px;
+			border-left: 2px solid @light-grey;
+			color: @light-grey;
+			position:absolute;
+			top:9px;
+			right:8px;
+		}
+	}
+
+	.active-tab{
+		background-color: @white;
+		color: @mtc-blue;
+		font-weight: @font-weight-semi-bold;
+		line-height: 42px;
+		margin: 0px;
+		.remove-icon{
+			border-color: @white;
+		}
+		i{
+			border-color: @white;
+		}
+	}
+
+	.remove{
+		font-size: 20px;
+	}
+}
+
+.arrow-picker{
+	display: flex;
+	align-items: center;
+	z-index: @z-index-level-1;
+	background:  @off-white;
+	&.right i{
+		border-left: 2px solid @light-grey;
+		border-right: 2px solid @light-grey;
+	}
+	&.left i{
+		border-right: 2px solid @light-grey;
+	}
+	&.selected{
+		background: @white;
+		i{
+			border-color: @white;
+		}
+	}
+	&:hover{
+		cursor: pointer;
+	}
+	i{
+		color: @light-grey;
+	}
+	i.highlighted{
+		color: @accent-blue;
+		&:hover {
+			color: @action-orange;
+		}
+	}
+}
+
+@media screen and (max-width: 1200px) {
+	.tab-bar{
+		display: none;
+	}
+
+}

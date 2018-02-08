@@ -1,0 +1,66 @@
+<div class="tab-page-display">
+	<div fxLayoutAlign="start center">
+		<h3>Training Group {{trainingGroup?.id}}</h3>
+		<button class="primary-btn" (click)="editTrainingGroup()">EDIT</button>
+	</div>
+	<div class="space-top" fxLayout="row" fxLayoutAlign="space-between">
+		<div class="training-group-attributes" fxLayout="column" fxFlex="40%">
+			<div class="label attribute-type">TRAINING GROUP</div>
+			<div class="attributes" fxLayout="row">
+				<div fxLayout="column" fxFlex="30%">
+					<div class="label">TRAINING SCHEDULE</div>
+					<div>{{trainingGroup?.schedule}}</div>
+				</div>
+				<div fxLayout="column" fxFlex="20%">
+					<div class="label">LANGUAGE</div>
+					<div>{{trainingGroup?.language}}</div>
+				</div>
+				<div fxLayout="column" fxFlex="30%">
+					<div class="label">TRAINING WEEK</div>
+					<div>{{trainingGroup?.week}}</div>
+				</div>
+				<div fxLayout="column" fxFlex="20%">
+					<div class="label">CLASSROOM</div>
+					<div>{{trainingGroup?.classroom}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="classroom-attributes" fxLayout="column" fxFlex="40%">
+			<div class="label attribute-type">CLASSROOM</div>
+			<div class="attributes" fxLayout="row">
+				<div fxLayout="column" fxFlex="40%">
+					<div class="label">DEFAULT ZONE</div>
+					<div>{{trainingGroup?.zone}}</div>
+				</div>
+				<div fxLayout="column" fxFlex="45%">
+					<div class="label">CURRENT ZONE</div>
+					<div>{{trainingGroup?.zone}}</div>
+				</div>
+				<div fxLayout="column" fxFlex="10%">
+					<div class="label">BRANCH</div>
+					<div>{{trainingGroup?.branch}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div fxFlex class="main-container">
+		<br>
+		<mat-tab-group [disableRipple]="true" (selectChange)="selectedTab = $event.tab.textLabel">
+			<mat-tab *ngFor="let tab of tabs" label={{tab}}></mat-tab>
+		</mat-tab-group>
+		<div *ngIf="selectedTab === 'MEMBERS'">
+			<scheduling-training-group-members></scheduling-training-group-members>
+		</div>
+		<div *ngIf="selectedTab === 'TRAINING STAFF'">
+			<scheduling-training-group-personnel></scheduling-training-group-personnel>
+		</div>
+
+		<div *ngIf="selectedTab==='HISTORY'">
+			<scheduling-training-group-history></scheduling-training-group-history>
+		</div>
+
+		<div *ngIf="selectedTab==='FUTURE CHANGES'">
+			<scheduling-training-group-future-changes [trainingGroupName]="trainingGroup?.trainingGroup"></scheduling-training-group-future-changes>
+		</div>
+	</div>
+</div>

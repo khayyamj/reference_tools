@@ -1,0 +1,112 @@
+<div *ngIf="isDataAvailable" fxLayout="column" class="print clinical-page">
+	<header fxLayout="row" fxLayoutAlign="space-between center">
+		<div fxFlex="50%">Printed by: {{user.name}}</div>
+		<div fxFlex fxLayoutAlign="end" class="bold">{{missionary.fullName | uppercase}} ({{missionary.missionaryId}})</div>
+	</header>
+	<div><hr></div>
+	<div fxLayout="row">
+		<div fxLayout="column">
+			<img class="missPic" [src]="missionaryService.getPicture(missionary)" alt="missionary picture">
+		</div>
+		<div fxLayout="column" fxFlex class="missionary-info">
+			<div fxLayout="row"><span class="label">{{missionary.personalInfo.missionaryType}}:</span><span>{{missionary.fullName}}</span></div>
+			<div fxLayout="row" *ngFor="let companion of missionary.companions"><span class="label">Companion:</span><span>{{companion.fullName | uppercase}}</span></div>
+			<div fxLayout="row"><span class="label">MTC Status:</span><span>{{missionary.personalInfo.missionaryStatus}}</span></div>
+			<div fxLayout="row"><span class="label">Sub Status:</span><span>{{missionary.personalInfo.missionarySubStatus}}</span></div>
+			<div fxLayout="row"><span class="label">Special Category:</span><span>{{missionary.personalInfo.specialCategory}}</span></div>
+			<div fxLayout="row"><span class="label">Group Date:</span><span>{{missionary.mtcInfo.mtcArrival}}</span></div>
+			<div fxLayout="row"><span class="label">Depart Date:</span><span>{{missionary.mtcInfo.mtcDeparture}}</span></div>
+			<div fxLayout="row"><span class="label">Depart Time:</span><span>{{missionary.mtcInfo.mtcDepartureTime}}</span></div>
+			<div fxLayout="row"><span class="label">Birthday:</span><span>{{missionary.personalInfo.birthDate | mtcDate}}</span></div>
+		</div>
+		<div fxLayout="column" fxFlex class="missionary-info">
+			<div fxLayout="row">
+				<div class="label"><span>ID:</span><span class="regular-font">{{missionary.missionaryId}}</span></div>
+				<div class="label"><span>DMBA:</span><span class="regular-font">{{missionary.dmba}}</span></div>
+			</div>
+			<div fxLayout="row"><span class="label">Mission Language:</span><span>{{missionary.missionInfo.missionLanguage}}</span></div>
+			<div fxLayout="row"><span class="label">Training Schedule:</span><span>{{missionary.mtcInfo.trainingScheduleId}}</span></div>
+			<div fxLayout="row"><span class="label">Branch District:</span><span>{{missionary.mtcInfo.branchDistrict}}</span></div>
+			<div fxLayout="row"><span class="label">Residence:</span><span>{{missionary.mtcInfo.residenceRoomName}}</span></div>
+			<div fxLayout="row"><span class="label">Mailbox:</span><span>{{missionary.mtcInfo.mailboxName}}</span></div>
+			<div fxLayout="row"><span class="label">Classroom:</span><span>{{missionary.mtcInfo.classroomName}}</span></div>
+		</div>
+	</div>
+	<div><hr></div>
+	<div fxLayout="row">
+		<div fxLayout="column" fxFlex>
+			<div fxLayout="row"><span class="label leader">Mission:</span><span>{{missionary.missionInfo.missionName}}</span></div>
+			<div fxLayout="row"><span class="label leader">President:</span><span>{{missionary.missionInfo.missionPresident}}</span></div>
+			<div fxLayout="row"><span class="label leader">Cell Phone:</span><span>{{missionary.missionInfo.missionPresidentCell | telephone}}</span></div>
+			<div fxLayout="row"><span class="label leader">Office Phone:</span><span>{{missionary.missionInfo.missionOfficePhone | telephone}}</span></div>
+			<div fxLayout="row"><span class="label leader">Home Phone:</span><span>{{missionary.missionInfo.missionPresidentHomePhone | telephone}}</span></div>
+			<div fxLayout="row"><span class="label address">Address:</span><span [innerHTML]="missionaryService.formatAddress(missionary.missionInfo.missionOfficeAddress)"></span></div>
+		</div>
+		<div fxLayout="column" fxFlex>
+			<div fxLayout="row"><span class="label leader">Stake:</span><span>{{missionary.unitInfoList[0]?.parentUnitName}}</span></div>
+			<div fxLayout="row"><span class="label leader">President:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[0]?.fullName}}</span></div>
+			<div fxLayout="row"><span class="label leader">Cell Phone:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[0]?.cellPhone | telephone}}</span></div>
+			<div fxLayout="row"><span class="label leader">Home Phone:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[0]?.homePhone | telephone}}</span></div>
+			<div fxLayout="row"><span class="label leader">Email:</span><span>{{missionary.unitInfoList[0]?.parentUnitLeaders[0]?.email}}</span></div>
+			<div fxLayout="row"><span class="label address">Address:</span><span [innerHTML]="missionaryService.formatAddress(missionary.unitInfoList[0]?.parentUnitLeaders[0]?.address.fullAddress)"></span></div>
+		</div>
+		<div fxLayout="column" fxFlex>
+			<div fxLayout="row"><span class="label leader">Ward:</span><span>{{missionary.unitInfoList[0]?.unitName}}</span></div>
+			<div fxLayout="row"><span class="label leader">Bishop:</span><span>{{missionary.unitInfoList[0]?.unitLeaders[0]?.fullName}}</span></div>
+			<div fxLayout="row"><span class="label leader">Cell Phone:</span><span>{{missionary.unitInfoList[0]?.unitLeaders[0]?.cellPhone | telephone}}</span></div>
+			<div fxLayout="row"><span class="label leader">Home Phone:</span><span>{{missionary.unitInfoList[0]?.unitLeaders[0]?.homePhone | telephone}}</span></div>
+			<div fxLayout="row"><span class="label leader">Email:</span><span>{{missionary.unitInfoList[0]?.unitLeaders[0]?.email}}</span></div>
+			<div fxLayout="row"><span class="label address">Address:</span><span [innerHTML]="missionaryService.formatAddress(missionary.unitInfoList[0]?.unitLeaders[0]?.address.fullAddress)"></span></div>
+		</div>
+	</div>
+	<br>
+	<div><hr></div>
+	<div fxLayout="row" class="break-after">
+		<div fxLayout="column" fxFlex *ngIf="missionary.contactList[0]">
+			<div fxLayout="row"><span class="label">{{missionary.contactList[0]?.contactType}}:</span><span>{{missionary.contactList[0]?.name}}</span></div>
+			<div fxLayout="row"><span class="label">Mem: <span class="regular-font">{{missionary.contactList[0]?.member ? "Y" : "N"}}</span></span><span class="label">Dec: <span class="regular-font">{{missionary.contactList[0]?.deceased ? "Y" : "N"}}</span></span></div>
+			<div fxLayout="row"><span class="label">Home:</span><span>{{missionary.contactList[0]?.homePhone | telephone}}</span></div>
+			<div fxLayout="row"><span class="label">Work:</span><span>{{missionary.contactList[0]?.workPhone | telephone}}</span></div>
+			<div fxLayout="row"><span class="label">Address:</span><span>{{missionary.contactList[0]?.addressLine}}</span></div>
+		</div>
+		<div fxLayout="column" fxFlex *ngIf="missionary.contactList[1]">
+			<div fxLayout="row"><span class="label">{{missionary.contactList[1]?.contactType}}:</span><span>{{missionary.contactList[1]?.name}}</span></div>
+			<div fxLayout="row"><span class="label">Mem: <span class="regular-font">{{missionary.contactList[1]?.member ? "Y" : "N"}}</span></span><span class="label">Dec: <span class="regular-font">{{missionary.contactList[1]?.deceased ? "Y" : "N"}}</span></span></div>
+			<div fxLayout="row"><span class="label">Home:</span><span>{{missionary.contactList[1]?.homePhone | telephone}}</span></div>
+			<div fxLayout="row"><span class="label">Work:</span><span>{{missionary.contactList[1]?.workPhone | telephone}}</span></div>
+			<div fxLayout="row"><span class="label">Address:</span><span>{{missionary.contactList[1]?.addressLine}}</span></div>
+		</div>
+		<div fxLayout="column" fxFlex></div>
+	</div>
+	<br>
+	<div><hr></div>
+	<div class="bold">
+		<div fxLayout="row" >
+			<div fxFlex fxLayout="column">
+				<div fxLayout="row"><span class="equalized-width">District President: </span><span class="regular-font">{{missionary.mtcInfo.districtPresident.lastName}}, {{missionary.mtcInfo.districtPresident.firstName}}</span></div>
+				<div fxLayout="row"><span class="equalized-width">Cell Phone: </span><span class="regular-font">{{missionary.mtcInfo.districtPresident.cellPhone | telephone}}</span></div>
+				<div fxLayout="row"><span class="equalized-width">Home Phone: </span><span class="regular-font">{{missionary.mtcInfo.districtPresident.homePhone | telephone}}</span></div>
+				<div fxLayout="row"><span class="equalized-width">Email: </span><span class="regular-font">{{missionary.mtcInfo.districtPresident.email}}</span></div>
+			</div>
+			<div fxFlex fxLayout="column">
+				<div fxLayout="row"><span class="equalized-width">Branch President: </span><span class="regular-font">{{missionary.mtcInfo.branchPresidency[0]?.lastName}}, {{missionary.mtcInfo.branchPresidency[0]?.firstName}}</span></div>
+				<div fxLayout="row"><span class="equalized-width">Cell Phone: </span><span class="regular-font">{{missionary.mtcInfo.branchPresidency[0]?.cellPhone | telephone}}</span></div>
+				<div fxLayout="row"><span class="equalized-width">Home Phone: </span><span class="regular-font">{{missionary.mtcInfo.branchPresidency[0]?.homePhone | telephone}}</span></div>
+				<div fxLayout="row"><span class="equalized-width">Email: </span><span class="regular-font">{{missionary.mtcInfo.branchPresidency[0]?.email}}</span></div>
+			</div>
+			<div fxFlex></div>
+		</div>
+		<br>
+		<br>
+		<div fxLayout="row">
+			<div fxFlex="50%"><span class="equalized-width">Pre-Existing:</span> <span class="regular-font spacing">Yes</span><span class="regular-font spacing">No</span></div>
+			<div fxFlex="50%">Medications:</div>
+		</div>
+		<div>Diagnosis:</div>
+		<div>GAF:</div>
+		<div fxLayout="row">
+			<div fxFlex>Intake: </div>
+			<div fxFlex>OutCome:</div>
+		</div>
+	</div>
+</div>

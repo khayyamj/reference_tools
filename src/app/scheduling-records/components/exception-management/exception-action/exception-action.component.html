@@ -1,0 +1,90 @@
+<div class="actions-column" fxLayout="column">
+	<div class="action-select" *ngIf="possibleAction.length">
+		<mtc-auto-complete placeholder="Add action" [(itemChosen)]="exception.selectedAction" (itemChosenChange)="actionSelected($event)"
+			[items]="possibleAction"></mtc-auto-complete>
+	</div>
+	<div fxLayout="row" *ngIf="exception.selectedActions.room">
+		<div class="input-field" fxFlex>
+			<mtc-auto-complete class="attribute" placeholder="Building" [(itemChosen)]="exception.selectedActions.room.building" (itemChosenChange)="filterRooms($event)" [items]="toolsInfoService.info.buildings" ></mtc-auto-complete>
+		</div>
+		<div class="input-field" fxFlex>
+			<mtc-auto-complete class="attribute" placeholder="Classroom" [(itemChosen)]="exception.selectedActions.room.room" [items]="possibleRooms" [displayBy]="'room'"></mtc-auto-complete>
+		</div>
+		<div fxLayout="row" fxFlex>
+			<div *ngIf="!exception.selectedActions.roomRange" class="delete-field-value add clickable" (click)="addRange(exception,'roomRange')" fxLayout="row" fxLayoutAlign="start center">
+				<i class="material-icons">add</i>
+				<div class="range">Classroom Range</div>
+			</div>
+			<div *ngIf="exception.selectedActions.roomRange" fxLayout="row">
+				<button class="icon-btn" (click)="removeAction(exception,'roomRange')">
+					<i class="material-icons remove">remove</i>
+				</button>
+				<div class="input-field">
+					<mtc-auto-complete class="attribute" placeholder="Room" [(itemChosen)]="exception.selectedActions.roomRange" [items]="possibleRooms" [displayBy]="'room'"></mtc-auto-complete>
+				</div>
+			</div>
+		</div>
+		<button fxFlex="16px" class="icon-btn" (click)="removeAction(exception,'room')">
+			<i class="material-icons clear">clear</i>
+		</button>
+	</div>
+	<div fxLayout="row" *ngIf="exception.selectedActions.residenceRoom">
+		<div class="input-field" fxFlex>
+			<mtc-auto-complete class="attribute" placeholder="Building" [(itemChosen)]="exception.selectedActions.residenceRoom.building" (itemChosenChange)="filterResidenceRooms($event)" [items]="toolsInfoService.info.buildings" [displayBy]="'name'"></mtc-auto-complete>
+		</div>
+		<div class="input-field" fxFlex>
+			<mtc-auto-complete class="attribute" placeholder="Residence Room" [(itemChosen)]="exception.selectedActions.residenceRoom.room" [items]="possibleResidenceRooms" [displayBy]="'room'"></mtc-auto-complete>
+		</div>
+		<div fxLayout="row" fxFlex>
+			<div *ngIf="!exception.selectedActions.residenceRoomRange" class="delete-field-value add clickable" (click)="addRange(exception,'residenceRoomRange')" fxLayout="row" fxLayoutAlign="start center">
+				<i class="material-icons">add</i>
+				<div class="range">Residence Room Range</div>
+			</div>
+			<div *ngIf="exception.selectedActions.residenceRoomRange" fxLayout="row">
+				<button class="icon-btn" (click)="removeAction(exception,'residenceRoomRange')">
+					<i class="material-icons remove">remove</i>
+				</button>
+				<div class="input-field">
+					<mtc-auto-complete class="attribute" placeholder="Residence Room" [(itemChosen)]="exception.selectedActions.residenceRoomRange" [items]="possibleResidenceRooms" [displayBy]="'room'"></mtc-auto-complete>
+				</div>
+			</div>
+		</div>
+		<button fxFlex="16px" class="icon-btn" (click)="removeAction(exception,'residenceRoom')">
+			<i class="material-icons clear">clear</i>
+		</button>
+	</div>
+	<div fxLayout="row">
+		<div class="third-row" fxLayout="row" *ngIf="exception.selectedActions.zone">
+			<div class="input-field">
+				<mtc-multi-auto-complete class="attribute" placeholder="Zone(s)" [(itemChosen)]="exception.selectedActions.zone" [items]="toolsInfoService.info.zones" ></mtc-multi-auto-complete>
+			</div>
+			<button class="icon-btn" (click)="removeAction(exception,'zone')">
+				<i class="material-icons clear">clear</i>
+			</button>
+		</div>
+		<div class="third-row" fxLayout="row" *ngIf="exception.selectedActions.branch">
+			<div class="input-field">
+				<mtc-multi-auto-complete class="attribute" placeholder="Branch(es)" [(itemChosen)]="exception.selectedActions.branch" [items]="toolsInfoService.info.branches" ></mtc-multi-auto-complete>
+			</div>
+			<button class="icon-btn" (click)="removeAction(exception,'branch')">
+				<i class="material-icons clear">clear</i>
+			</button>
+		</div>
+		<div class="third-row" fxLayout="row" *ngIf="exception.selectedActions.schedule">
+			<div class="input-field">
+				<mtc-auto-complete class="attribute" placeholder="Schedule" [(itemChosen)]="exception.selectedActions.schedule" [items]="toolsInfoService.info.schedules" ></mtc-auto-complete>
+			</div>
+			<button class="icon-btn" (click)="removeAction(exception,'schedule')">
+				<i class="material-icons clear">clear</i>
+			</button>
+		</div>
+	</div>
+	<div fxLayout="row" *ngIf="exception.selectedActions.trainingGroup">
+		<div class="group">Group in Training Groups</div>
+		<button class="icon-btn" (click)="removeAction(exception,'trainingGroup')"><i class="material-icons">clear</i></button>
+	</div>
+	<div fxLayout="row" *ngIf="exception.selectedActions.district">
+		<div class="group">Group in Districts</div>
+		<button class="icon-btn" (click)="removeAction(exception,'district')"><i class="material-icons">clear</i></button>
+	</div>
+</div>

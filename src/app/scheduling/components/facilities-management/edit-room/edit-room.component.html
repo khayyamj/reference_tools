@@ -1,0 +1,85 @@
+<div class="embed-confirmation" *ngIf="showConfirmation">
+	<simple-confirmation [config]="config" (confirmation)="confirmation($event)"></simple-confirmation>
+</div>
+<div class="modal" *ngIf="!showConfirmation">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>{{title}}</h2>
+		<button class="icon-btn" (click)="cancel()">
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<form fxLayout="column" [formGroup]="roomForm" (ngSubmit)="save(roomForm)" (keydown.enter)="$event.preventDefault()" class="form">
+		<div mat-dialog-content fxLayout>
+			<div fxLayout="column" fxLayoutAling="space-between" class="room-name-container" *ngIf="isEdit">
+				<div class="room-names">
+					<div *ngFor="let room of currentRoom.rooms" class="room-name">{{room.name}}</div>
+				</div>
+			</div>
+			<div fxLayout="column">
+				<div fxLayout>
+					<div fxLayout="column" fxFlex="50%">
+						<div *ngIf="!multiEdit" class="input-field">
+							<mtc-auto-complete placeholder="Building" [disabled]="isEdit" [items]="toolsInfoService.info.buildings" [(itemChosen)]="currentRoom.building"
+							formControlName="building" [required]="!isEdit">
+							</mtc-auto-complete>
+						</div>
+						<div class="input-field">
+							<mtc-auto-complete placeholder="Status" [items]="toolsInfoService.info.roomStatuses" [(itemChosen)]="currentRoom.status" formControlName="status">
+							</mtc-auto-complete>
+						</div>
+						<div class="input-field">
+							<mtc-auto-complete [placeholder]="'Usage'" [items]="toolsInfoService.info.usage" [(itemChosen)]="currentRoom.usage"
+							formControlName="usage" [required]="!isEdit && !multiEdit">
+							</mtc-auto-complete>
+						</div>
+						<div class="input-field">
+							<mtc-auto-complete placeholder="Sub-Usage" [items]="getSubusages(currentRoom.usage?.name)" [(itemChosen)]="currentRoom.subusage" formControlName="subusage"></mtc-auto-complete>
+						</div>
+						<div class="input-field" *ngIf="roomForm.get('usage').value?.name === 'Classroom'">
+							<mtc-auto-complete placeholder="Zone" [items]="toolsInfoService.info.zones" formControlName="zone" [(itemChosen)]="currentRoom.zone"></mtc-auto-complete>
+						</div>
+						<div class="input-field" *ngIf="roomForm.get('usage').value?.name === 'Residence'">
+							<mtc-auto-complete placeholder="Branch" [items]="toolsInfoService.info.branches" [(itemChosen)]="currentRoom.branch" formControlName="branch"></mtc-auto-complete>
+						</div>
+					</div>
+					<div fxLayout="column" fxFlex="50%">
+						<div *ngIf="!multiEdit">
+							<mat-input-container class="input-field">
+								<input matInput placeholder="Room" class="text" formControlName="room" alphaNumeric required [(ngModel)]="currentRoom.room.name">
+								<mat-error>
+									<span *ngIf="roomForm?.controls.room?.errors?.required">Required Field</span>
+									<span *ngIf="roomForm?.controls.room?.errors?.specialCharacters">No special characters allowed</span>
+								</mat-error>
+							</mat-input-container>
+						</div>
+						<mat-input-container class="input-field">
+							<input numeric matInput formControlName="capacity" [required]="!multiEdit" placeholder="Capacity" class="text" [(ngModel)]="currentRoom.capacity">
+							<mat-error>
+								<span *ngIf="roomForm?.controls.capacity?.errors?.required">Required Field</span>
+								<span *ngIf="roomForm?.controls.capacity?.errors?.notNumbers">Integers Only</span>
+							</mat-error>
+						</mat-input-container>
+						<mat-form-field class="select" *ngIf="roomForm.get('usage').value?.name === 'Classroom' && isEdit">
+							<mat-select formControlName="overflowStatus" placeholder="Overflow" [(ngModel)]="currentRoom.overflowStatus">
+								<mat-option *ngFor="let item of toolsInfoService.info.booleanList" [value]="item">{{item.name}}</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+				<mat-input-container *ngIf="!multiEdit">
+					<textarea matInput maxlength="500" placeholder="Notes" formControlName="notes" [(ngModel)]="currentRoom.notes.name" matTextareaAutosize matAutosizeMaxRows="6" matAutosizeMinRows="3"></textarea>
+					<mat-hint align="end">{{roomForm.get('notes')?.value?.length}} / 500</mat-hint>
+				</mat-input-container>
+				<div fxLayoutAlign="space-between center" mat-dialog-actions>
+					<mtc-date-picker class="small-date-picker" *ngIf="title !== 'Create a New Room'" [title]="'Effective Date'" formControlName="effectiveDate"
+							[isAfter]="'today'" [date]="roomForm.get('effectiveDate').value"></mtc-date-picker>
+					<div fxLayoutAlign="end center" fxFlex>
+						<button class="secondary-btn" *ngIf="!deleteRoomsButton" type="button" mat-dialog-close>cancel</button>
+						<button class="secondary-btn" *ngIf="deleteRoomsButton" type="button" (click)="delete(roomForm)">delete</button>
+						<button class="primary-btn" type="submit">save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

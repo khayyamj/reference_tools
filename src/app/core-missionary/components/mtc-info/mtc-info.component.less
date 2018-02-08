@@ -1,0 +1,85 @@
+@import '../../../../main.less';
+
+.missionary-mtc-component{
+	padding: 25px;
+	height: 100%;
+
+	.heading{
+    margin: 20px 0px;
+	}
+
+	.mobile{
+		display: none;
+	}
+
+	.page-title{
+		margin-left: 16px;
+	}
+
+	.header{
+		.back{
+			color: @mtc-blue;
+		}
+	}
+
+	.top-info{
+		padding-bottom: 100px;
+	}
+
+	.general-info{
+		display: flex;
+		flex-direction: row;
+		.info-column{
+			min-width: 250px;
+			padding-bottom: 10px;
+		}
+	}
+
+	.info-section{
+		.info{
+			margin-bottom:7px;
+			>:first-child{
+				font-family: @font-family;
+				font-size: @subheading-font-size;
+				font-weight: @font-weight-semi-bold;
+			}
+			min-height: 40px;
+			width: 175px;
+		}
+	}
+
+	.not-editable {
+		color:@light-grey !important;
+	}
+	mat-input-container {
+		width:60%;
+	}
+	.active {
+		color:@accent-blue;
+	}
+}
+
+@media only screen and (max-width: 1200px) {
+	.missionary-mtc-component{
+		.desktop{
+			display: none;
+		}
+		.top-info{
+			padding-bottom: 70px;
+		}
+		.general-info{
+			display: flex;
+			flex-direction: column;
+			.info-column{
+				min-width: 170px;
+				padding-bottom: 20px;
+				.mobile{
+					display: block;
+				}
+				.info{
+					min-height: 50px;
+				}
+			}
+		}
+	}
+}

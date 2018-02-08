@@ -1,0 +1,36 @@
+<div class="modal">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>{{type}} Item</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<form (ngSubmit)="save(form)" #form="ngForm">
+		<div mat-dialog-content fxLayout="column">
+			<div fxLayout="row" fxLayoutAlign="space-around" class="name-category-container">
+				<mat-form-field fxFlex="45">
+					<input matInput type="text" placeholder="Name" name="name" required alphaNumeric [(ngModel)]="item.name">
+					<mat-error>Required Field</mat-error>
+				</mat-form-field>
+				<mat-form-field fxFlex="45">
+					<mat-select [(ngModel)]="item.category" placeholder="Category" required name="category">
+						<mat-option *ngFor="let category of assistanceService.categories" [value]="category">{{category.category}}</mat-option>
+					</mat-select>
+					<mat-error>Required Field</mat-error>
+				</mat-form-field>
+			</div>
+			<div fxLayout="row" fxLayoutAlign="space-around">
+				<mat-input-container fxFlex="45">
+					<input matInput type="number" placeholder="Elder Default" [(ngModel)]="item.elderQuantity" name="elderDefault">
+				</mat-input-container>
+				<mat-input-container fxFlex="45">
+					<input matInput type="number" placeholder="Sister Default" [(ngModel)]="item.sisterQuantity" name="sisterDefault">
+				</mat-input-container>
+			</div>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" mat-dialog-close>Cancel</button>
+			<button class="primary-btn">Save</button>
+		</div>
+	</form>
+</div>

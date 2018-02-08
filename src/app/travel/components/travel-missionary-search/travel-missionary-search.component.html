@@ -1,0 +1,28 @@
+<div class="dialog-search-component">
+	<mat-input-container class="search-bar">
+		<input matInput type="text" placeholder="Search Missionaries" [(ngModel)]="searchQuery" (keyup.enter)="search()" [disabled]="disabled"/>
+	</mat-input-container>
+	<mat-progress-bar class="search-progress" mode="indeterminate" *ngIf="isSearching"></mat-progress-bar>
+	<div class="autocomplete-dropdown" *ngIf="searchedMissionaries.length" (clickOutside)="closeSearchedMissionaries()">
+		<div fxLayout="column" fxLayoutAlign="center">
+			<div class="bottom-border" fxLayout="row">
+				<div class="column-title body-text" fxFlex="60%">MISSIONARY</div>
+				<div class="column-title body-text" fxFlex="15%">ID</div>
+				<div class="column-title body-text" fxFlex="20%">MISSION</div>
+			</div>
+			<div (click)="addMissionaryFromRow(missionary)" *ngFor="let missionary of searchedMissionaries" class="children-top-border"
+			 fxLayout="row">
+				<div class="subheading" fxFlex="60%" [class.honey-header]="isSenior(missionary.missionaryType)">{{missionary.fullName}}</div>
+				<div fxFlex="15%">{{missionary.missionaryId}}</div>
+				<div class="ellipsis-overflow" fxFlex="20%">{{missionary.missionAbbreviation}}</div>
+				<div class="material-icons add-icon no-text-selection" fxFlex="5%" (click)="addMissionaryFromIcon(missionary, $event)">add</div>
+			</div>
+		</div>
+	</div>
+	<div class="no-results" *ngIf="noResults">No results have been found</div>
+	<div *ngIf="missionaries">
+		<div class="mtc-checkbox-table-container" *ngIf="missionaries.length">
+			<mtc-checkbox-table [columns]="columnHeaders" [(rows)]="missionaries" [config]="checkboxTableConfig"></mtc-checkbox-table>
+		</div>
+	</div>
+</div>

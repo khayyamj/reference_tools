@@ -1,0 +1,60 @@
+@import '../../../../main.less';
+
+.training-group-search-component {
+	padding: 0 20px 20px 20px;
+	height: calc(~'100% - 81px');
+
+    .no-groups {
+        padding: 20px;
+        color: @red;
+    }
+
+	.mtc-checkbox-table-container {
+        max-height: calc(~'100% - 140px');
+        margin: 20px 0;
+    }
+
+    .search-training-group {
+        width: 300px;
+        margin-right: 20px;
+    }
+
+	mat-input-container {
+		margin: 0;
+        width: initial;
+	}
+
+    .filter-options {
+		width: 100%;
+		display: inline-flex;
+        height: 35px;
+
+        mat-checkbox {
+            margin: 10px 10px 0 0;
+        }
+
+        .departed{
+            margin-right: 20px;
+        }
+
+        .mtc-date-picker {
+            width: 120px;
+            margin-right: 10px;
+		}
+
+    }
+
+    .search-container{
+        height: 45px;
+    }
+
+    .search-icon {
+        font-size: 18px;
+        color:@light-grey;
+        height: 18px;
+        width: 18px;
+        margin-left:-45px;
+        padding: 3px;
+        user-select: none;
+    }
+}

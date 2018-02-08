@@ -1,0 +1,8 @@
+<app-sub-header [loading]="travelGroupService.loadingWeekData" [title]="'Itineraries'"></app-sub-header>
+<app-travel-type-filter (filterChange)="filter=$event" fxLayoutAlign="space-between center">
+	<div fxLayoutAlign="center center">
+		<mtc-days-picker [isAfter]="'lastWeek'" [date]="travelGroupService.currWeekSunday" (changeWeek)="changeSelected($event[0])"></mtc-days-picker>
+		<button class="flat-btn" (click)="openPrintAndSendModal()">Print & Send</button>
+	</div>
+</app-travel-type-filter>
+<app-column-table [(tableData)]="week" [filterFunction]="filterCells.bind(this)" [cellFunction]="openTravelGroup.bind(this)" [hintColorFunction]="getMissionaryCountColor.bind(this)"></app-column-table>

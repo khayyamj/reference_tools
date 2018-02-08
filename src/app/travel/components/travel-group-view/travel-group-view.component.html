@@ -1,0 +1,35 @@
+<app-sub-header [loading]="travelGroupService.loadingTravelGroup || travelGroupService.loadingWeekData" (back)="''" [title]="'Itineraries'"></app-sub-header>
+<div class="individual-travel-packet-component" *ngIf="travelGroup">
+	<div class="tables-container" fxLayout="column" fxLayoutAlign="start center" *ngIf="travelGroup.missionName">
+		<div class="tables">
+			<div class="header" fxLayout="row" fxLayoutAlign="start center">
+				<div class="mission-name" fxFlex="50%" fxLayout="column">
+					<div class="heading">{{travelGroup.missionName}}</div>
+					<div>{{(travelGroup.flightDepartureDate || travelGroup.mtcDepartureDate) | date:'EEEE dd MMM y'}}</div>
+				</div>
+				<div>
+					<div><strong>Checkout: </strong> {{travelGroup.checkOutDate | mtcTime}}</div>
+					<div><strong>MTC Departure: </strong> {{travelGroup.mtcDepartureDate | mtcTime}}</div>
+					<div><strong>Train Departure: </strong> {{travelGroup.dropoffTrainDprtDate | mtcTime}}</div>
+				</div>
+				<div class="header overlay" fxLayout="row" fxLayoutAlign="stretch center">
+					<div fxFlex="50%" fxLayoutAlign="start center">
+						<i *ngIf="travelGroupService.showBackArrow" class="material-icons left" (click)="travelGroupService.changeTravelGroup(-1)">chevron_left</i>
+					</div>
+					<div fxFlex="50%" fxLayoutAlign="end center">
+						<i class="material-icons right" (click)="travelGroupService.changeTravelGroup(1)">chevron_right</i>
+					</div>
+				</div>
+			</div>
+			<div *ngIf="travelGroup.travelers" class="travelGroup-travelers" fxLayout="column">
+				<div class="print-button-row" fxlayout="row" fxLayoutAlign="end center">
+					<button class="flat-btn" (click)="openPrintAndSendModal()">Print & Send</button>
+				</div>
+				<app-itinerary class="travel-packet-table" [model]="itineraryModel" [type]="type"></app-itinerary>
+				<div class="mtc-checkbox-table-container">
+					<mtc-checkbox-table [columns]="checkboxTableColumns" [rows]="travelGroup.travelers" [config]="checkboxTableConfig"></mtc-checkbox-table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

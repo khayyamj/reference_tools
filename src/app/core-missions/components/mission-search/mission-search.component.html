@@ -1,0 +1,9 @@
+<div class="mission-search">
+	<app-sub-header [title]="'Missions'"></app-sub-header>
+	<mat-input-container class="search-bar">
+		<input matInput type="text" placeholder="Filter by Mission" [(ngModel)]="missionFilter">
+	</mat-input-container>
+	<div class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="columns" [(rows)]="filteredRows" [config]="config"></mtc-checkbox-table>
+	</div>
+</div>

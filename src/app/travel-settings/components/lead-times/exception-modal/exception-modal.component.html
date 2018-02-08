@@ -1,0 +1,102 @@
+<div class="modal">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title class="heading">Edit Holiday/Exceptions List</h2>
+		<button class="icon-btn" (click)="cancel()">
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div mat-dialog-content class="holiday-exception-modal" fxLayout="column">
+		<div class="dropdown" (clickOutside)="dropdownOpen = false">
+			<span class="dropdown-display" fxLayoutAlign="space-between center" (click)="dropdownOpen = !dropdownOpen">
+				<span>{{year}}</span>
+				<i class="material-icons">arrow_drop_{{dropdownOpen ? 'up' : 'down'}}</i>
+			</span>
+			<div class="dropdown-options" fxLayout="column" *ngIf="dropdownOpen">
+				<span *ngFor="let year of years" (click)="itemClick(year)" class="column-title dropdown-option clickable">
+					{{year}}
+				</span>
+				<span (click)="newItemClick()" class="column-title dropdown-option clickable" fxLayoutAlign="center center">
+					<i class="material-icons"> add </i> Add Next Year
+				</span>
+			</div>
+		</div>
+		<div class="table-header">
+			<table class="exception-table">
+				<tr class="column-title table-header">
+					<th fxFlex="30%" fxLayout>
+						<span fxFlex="33%">Weekday</span>
+						<span fxFlex="33%">Holiday</span>
+						<span fxFlex="33%">Blackout</span>
+					</th>
+					<th fxFlex="30%">Name</th>
+					<th fxFlex="20%">Date</th>
+					<th fxFlex="20%">Exception</th>
+				</tr>
+			</table>
+		</div>
+		<div class="table-body">
+			<table class="exception-table">
+				<tr class="no-border" *ngFor="let exception of exceptions[year].exceptions; let i = index" fxLayout
+					fxLayoutAlign="start center">
+					<td fxFlex="30%">
+						<mat-radio-group [(ngModel)]="exception.typeId" fxLayout>
+							<mat-radio-button fxFlex="33%" value="0" (click)="typeChange(exception, 'Weekday')"></mat-radio-button>
+							<mat-radio-button fxFlex="33%" value="1" (click)="typeChange(exception, 'Holiday')"></mat-radio-button>
+							<mat-radio-button fxFlex="33%" value="2" (click)="typeChange(exception, 'Blackout')"></mat-radio-button>
+						</mat-radio-group>
+					</td>
+					<td fxFlex="30%">
+						<mat-input-container>
+							<input matInput [(ngModel)]="exception.name">
+						</mat-input-container>
+					</td>
+					<td fxFlex="20%">
+						<mtc-date-picker [error]="exception.isRed" [showWeek]="false" (dateChange)="selectDate($event, exception)"
+							[date]="exception.myDate"></mtc-date-picker>
+					</td>
+					<td fxFlex="20%" fxLayoutAlign="start center">
+						<mat-checkbox [(ngModel)]="exception.isException" [disabled]="isAnException(exception)"></mat-checkbox>
+						<button type="button" (click)="remove(exceptions[year].exceptions,i)" class="remove icon-btn">
+							<i class="material-icons">clear</i>
+						</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<span class="column-title clickable add-date" (click)="addNew = true" fxLayoutAlign="end center" *ngIf="!addNew">
+				<i class="material-icons"> add </i>
+				ADD NEW DATE
+		</span>
+		<span class="new-exception" *ngIf="addNew" fxLayoutAlign="start center">
+			<div fxFlex="30%">
+				<mat-radio-group [(ngModel)]="newException.typeId" fxLayout>
+					<mat-radio-button [class.red-radio-button]="error.inType || error.inSave" fxFlex="33%" value="0" (click)="typeChange(newException, 'Weekday')"></mat-radio-button>
+					<mat-radio-button [class.red-radio-button]="error.inType || error.inSave" fxFlex="33%" value="1" (click)="typeChange(newException, 'Holiday')"></mat-radio-button>
+					<mat-radio-button [class.red-radio-button]="error.inType || error.inSave" fxFlex="33%" value="2" (click)="typeChange(newException, 'Blackout')"></mat-radio-button>
+				</mat-radio-group>
+			</div>
+			<div fxFlex><input [(ngModel)]="newException.name" [class.error-here]="error.inName"/></div>
+			<div fxFlex="20%"><mtc-date-picker [showWeek]="false" (dateChange)="selectDate($event, newException)" [date]="newException.myDate" [error]="error.inDate || newException.isRed"></mtc-date-picker></div>
+			<div fxFlex="20%" fxLayoutAlign="start center">
+				<mat-checkbox [(ngModel)]="newException.isException" [disabled]="isAnException(newException)"></mat-checkbox>
+				<button class="icon-btn" (click)="cancelAdd()" fxLayoutAlign="center center">
+					<i class="material-icons">close</i>
+				</button>
+				<button class="icon-btn dark" (click)="add(exceptions[year].exceptions)" fxLayoutAlign="center center">
+					<i class="material-icons">check</i>
+				</button>
+			</div>
+		</span>
+		<div fxLayoutAlign="center center">
+			<span *ngIf="error.text" class="error-text">
+				{{error.text}}
+			</span>
+		</div>
+	</div>
+	<div mat-dialog-actions>
+		<button class="secondary-btn" (click)="cancel()">cancel</button>
+		<button class="primary-btn" [disabled]="isDisabled()" (click)="save()">
+			{{isNewYear ? 'Save' : 'Create'}}
+		</button>
+	</div>
+</div>

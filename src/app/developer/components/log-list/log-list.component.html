@@ -1,0 +1,7 @@
+<app-sub-header [title]="'Logs'" [loading]="apilogsService.loading"></app-sub-header>
+<div class="apilogs-component" fxLayout="column">
+	<mtc-days-picker [date]="'thisWeek'" (changeWeek)="selectDate($event)"></mtc-days-picker>
+	<div class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="columns" [(rows)]="apilogsService.logs" [config]="config"></mtc-checkbox-table>
+	</div>
+</div>

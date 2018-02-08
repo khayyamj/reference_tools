@@ -1,0 +1,15 @@
+<div class="teacher-comments-component" *ngIf="missionary.missionaryId">
+	<div fxLayout="row" fxLayoutAlign="space-between" class="header">
+		<div fxLayoutAlign="start" fxLayout="row">
+			<span fxLayoutAlign="center start" class="desktop">
+				<a class="clickable" [routerLink]="'/missionary/training'" [queryParams]="{'missionaryId': missionary.missionaryId}">
+					<i class="material-icons back">arrow_back</i>
+				</a>
+			</span>
+			<span class="page-title">TEACHER COMMENTS</span>
+		</div>
+	</div>
+	<div class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [(rows)]="comments" [columns]="checkboxTableColumns" [config]="checkboxTableConfig"></mtc-checkbox-table>
+	</div>
+</div>

@@ -1,0 +1,23 @@
+<app-sub-header [loading]="travelPacketsService.loading" [title]="title"></app-sub-header>
+<app-travel-type-filter (filterChange)="filter=$event">
+	<div class="week-picker">
+		<button class="primary-btn" (click)="sendEmail()" *ngIf="title === 'Itineraries'"> Send </button>
+		<button class="primary-btn" (click)="print()" *ngIf="title === 'Itineraries'"> Print </button>
+		<div class="calendar-picker no-text-selection">
+			<div class="mini-calendar-float" *ngIf="showCalendar">
+				<mini-calendar [showWeek]="true" [isAfter]="thisWeekSunday" [firstDate]="day" (changeFirstDate)="changeSelected($event)" (clickOutside)="showCalendar = false"></mini-calendar>
+			</div>
+			<span class="calendar-popup" (click)="showCalendar = !showCalendar">
+				<i class="material-icons">event</i>
+			</span>
+			<div *ngIf="showBackArrow" class="arrow-picker" (click)="changeSelected(currWeekSunday.subtract(1, 'week'))">
+				<i class="material-icons">chevron_left</i>
+			</div>
+			<div class="view-date">{{getViewDateSunday()}} - {{getViewDateSaturday()}}</div>
+			<div class="arrow-picker" (click)="changeSelected(currWeekSunday.add(1, 'week'))">
+				<i class="material-icons">chevron_right</i>
+			</div>
+		</div>
+	</div>
+</app-travel-type-filter>
+<app-column-table [(tableData)]="week" [filterFunction]="filterCells.bind(this)" [cellFunction]="openTravelGroup.bind(this)" [hintColorFunction]="getMissionaryCountColor.bind(this)"></app-column-table>

@@ -1,0 +1,23 @@
+<div class="notes-component body-text" fxLayout="column" *ngIf="missionary?.missionaryId">
+	<div fxLayoutAlign="space-between" class="header">
+		<div fxLayoutAlign="start" fxLayout>
+			<span fxLayoutAlign="center start">
+				<a class="clickable" [routerLink]="'/missionary'" [queryParams]="{missionaryId: missionary.missionaryId}">
+					<i class="material-icons back">arrow_back</i>
+				</a>
+			</span>
+			<span class="page-title">Notes</span>
+		</div>
+		<div fxLayout>
+			<button class="navigation-btn" [routerLink]="'/missionary/tags'" [queryParams]="{missionaryId: missionary.missionaryId}"
+					*ngIf="rolesService.isEcclUser">
+				View Tags
+			</button>
+			<button class="primary-btn" (click)="addNote()">Add Note</button>
+		</div>
+	</div>
+	<app-basic-missionary [missionary]="missionary"></app-basic-missionary>
+	<div class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="columns" [(rows)]="missionary.noteList" [config]="checkboxTableConfig" [placeholder]="missionaryService.loadingCount ? '' : placeholder"></mtc-checkbox-table>
+	</div>
+</div>

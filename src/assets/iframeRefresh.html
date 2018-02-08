@@ -1,0 +1,19 @@
+<html>
+    <head></head>
+    <body>
+        Hello World
+        <script>
+            var token = {};
+            window.onunload = function () {
+                window.opener.onChildClosed(token);
+            };
+            (function (path) {
+                var queryString = path.substring(path.indexOf('#access_token')+1), regex = /([^&=]+)=([^&]*)/g, m;
+                while (m = regex.exec(queryString)) {
+                    token[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+                }
+                window.close();
+            })(window.location.href);
+        </script>
+    </body>
+</html>

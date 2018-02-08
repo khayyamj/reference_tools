@@ -1,0 +1,13 @@
+<mtc-env [includeVersion]="true" class="no-print" [apiUrls]="apiUrls"></mtc-env>
+<mtc-dialog></mtc-dialog>
+<mtc-toast class="no-print"></mtc-toast>
+<app-header id="header" class="no-print" (openSideMenu)="openMobileSideMenu = !openMobileSideMenu"></app-header>
+<div class="app-main" fxLayout="row">
+	<app-sidebar fxLayout="column" class="no-print" *ngIf="rolesService.isAuthorizedUser"></app-sidebar>
+	<app-mobile-sidebar [(open)]="openMobileSideMenu"></app-mobile-sidebar>
+	<div fxFlex fxLayout="column" class="main" id="main">
+		<div class="content" fxFlex fxLayout="column">
+			<router-outlet></router-outlet>
+		</div>
+	</div>
+</div>

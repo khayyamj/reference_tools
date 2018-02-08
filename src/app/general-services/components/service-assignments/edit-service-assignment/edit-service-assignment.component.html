@@ -1,0 +1,35 @@
+<div class="modal">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title class="heading">{{isCreate ? 'Edit' : 'Create'}} Service Assignment</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<form class="app-dialog-component" (ngSubmit)="save(form)" #form="ngForm">
+		<div fxLayout="column">
+			<mat-input-container class="input-field">
+				<input matInput [placeholder]="'Branch District'" name="name" class="text" required alphaNumeric [(ngModel)]="assignment.branchDistrict">
+				<mat-error>Required Field</mat-error>
+			</mat-input-container>
+			<mat-form-field>
+				<mat-select [(ngModel)]="assignment.missionaryType" name="missionaryType" required [placeholder]="'Missionary Type'">
+					<mat-option [value]="'E'">E</mat-option>
+					<mat-option [value]="'S'">S</mat-option>
+				</mat-select>
+				<mat-error>Required Field</mat-error>
+			</mat-form-field>
+			<div class="date-container">
+				<mtc-date-picker [(date)]="assignment.startDate" [title]="'Dates'" [(endDate)]="assignment.endDate" [required]="true" name="date"></mtc-date-picker>
+			</div>
+			<mat-input-container class="input-field">
+				<input matInput [placeholder]="'Assignment'" name="assignment" class="text" required [(ngModel)]="assignment.assignment">
+				<mat-error>Required Field</mat-error>
+			</mat-input-container>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" type="button" mat-dialog-close *ngIf="isCreate">Cancel</button>
+			<button class="secondary-btn" type="button" (click)="confirmDelete()" *ngIf="!isCreate">Delete</button>
+			<button class="primary-btn" type="submit">Save</button>
+		</div>
+	</form>
+</div>

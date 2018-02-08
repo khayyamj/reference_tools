@@ -1,0 +1,36 @@
+<div class="modal">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>Save Search Criteria</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<form [formGroup]="searchesForm" (ngSubmit)="save(searchesForm)">
+		<div mat-dialog-content fxLayout="column">
+			<mat-input-container class="input-field">
+				<input matInput [(ngModel)]="dialogData.name" formControlName="name" placeholder="Name">
+				<mat-hint fxLayoutAlign="end" class="chars-remaining">{{searchesForm?.controls?.name?.value?.length}} / 30</mat-hint>
+				<mat-error>
+					<span *ngIf="searchesForm?.controls.name?.errors?.required">Required Field</span>
+				</mat-error>
+				<mat-error>
+					<span *ngIf="searchesForm?.controls?.name?.value?.length > 30">Max characters exceeded {{searchesForm?.controls?.name?.value?.length}} / 30</span>
+				</mat-error>
+				<mat-error>
+					<span *ngIf="searchesForm?.controls.name?.errors?.nameInUse">The name is currently in use by another save</span>
+				</mat-error>
+			</mat-input-container>
+			<mat-input-container class="input-field">
+				<textarea matInput [(ngModel)]="dialogData.description" formControlName="description" placeholder="Description" rows="3"></textarea>
+				<mat-hint fxLayoutAlign="end" class="chars-remaining">{{searchesForm?.controls.description?.value?.length}} / 140</mat-hint>
+				<mat-error>
+					<span>Max characters exceeded {{searchesForm?.controls?.description?.value?.length}} / 140</span>
+				</mat-error>
+			</mat-input-container>
+		</div>
+		<div mat-dialog-actions>
+			<button class="secondary-btn" mat-dialog-close type="button">Cancel</button>
+			<button class="primary-btn" type="submit">Save</button>
+		</div>
+	</form>
+</div>

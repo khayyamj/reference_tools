@@ -1,0 +1,21 @@
+<app-sub-header [title]="'Zone Management'" [loading]="loading"></app-sub-header>
+<div fxLayout="row" class="zones-component-view">
+	<div fxFlex="25%" class="zone-options">
+		<div fxLayout="row" fxLayoutAlign="space-between">
+			<span class="page-title">Zones</span>
+			<button class="flat-btn" (click)="openDialog({})">ADD NEW ZONE</button>
+		</div>
+		<div class="options-area" fxLayout="column">
+			<div class="fields" *ngFor="let item of criteriaItems">
+				<mtc-multi-auto-complete [placeholder]="item.placeholder" [(itemChosen)]="criteria[item.items]" [items]="toolsInfoService.info[item.items]"></mtc-multi-auto-complete>
+			</div>
+			<div fxLayout="row" fxLayoutAlign="end">
+				<button class="secondary-btn" (click)="clearCriteria()">CLEAR ALL</button>
+				<button class="primary-btn" (click)="searchZones()">SEARCH</button>
+			</div>
+		</div>
+	</div>
+	<div fxFlex="75%" class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="columns" [(rows)]="results" [config]="checkboxTableConfig" [placeholder]="tablePlaceholder"></mtc-checkbox-table>
+	</div>
+</div>

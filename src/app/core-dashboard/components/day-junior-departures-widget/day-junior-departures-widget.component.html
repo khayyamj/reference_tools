@@ -1,0 +1,13 @@
+<div class="widget" fxLayout="column">
+	<div class="header pie drag-handler" fxLayout="row">
+		<div fxFlex="90%" fxLayoutAlign="space-between">
+			<span fxFlex="90%" fxLayoutAlign="start center"><span class="widget-title">JR. DEPARTURES BY DAY</span></span>
+		</div>
+		<mtc-drag-handle fxFlex="10%" fxLayoutAlign="center center"></mtc-drag-handle>
+	</div>
+
+	<div fxLayout="column" fxLayoutAlign="center center" class="widget-content">
+		<div class="graph" fxLayoutAlign="start center" #graph fxFlex="90%"></div>
+		<mtc-days-picker [date]="'thisWeek'" (changeWeek)="changeSelected($event[0])"></mtc-days-picker>
+	</div>
+</div>

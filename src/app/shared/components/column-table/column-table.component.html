@@ -1,0 +1,28 @@
+<div class="table-component">
+	<div fxLayout="column" class="data">
+		<div class="main-header" class="column-list-table">
+			<table>
+				<tr>
+					<th *ngFor="let column of columns" fxFlex>
+						<div>{{column}}</div>
+					</th>
+				</tr>
+			</table>
+		</div>
+		<div class="column-list-table">
+			<table>
+				<tr fxFlex fxLayout="row">
+					<td *ngFor="let category of tableData" fxLayout="column" fxFlex="">
+						<div *ngFor="let item of category" class="column-item" (click)="cellFunction(item)">
+							<div fxLayout="row" fxLayoutAlign="space-between center" class="column-item-wrapper" *ngIf="filterFunction(item)">
+								<div fxFlex="25%" class="item-icon"><i *ngIf="item.consulate" class="material-icons">copyright</i></div>
+								<div fxFlex="50%" class="item-value body-text">{{item[displayName]}}</div>
+								<div fxFlex="25%" class="item-num subheading" [style.color]="hintColorFunction(item)">{{item[hintDisplayName]}}</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

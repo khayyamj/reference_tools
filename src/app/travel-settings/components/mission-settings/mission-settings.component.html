@@ -1,0 +1,46 @@
+<div class="progress-bar-position">
+	<app-sub-header (back)="back()" [loading]="missions.length < 1" [title]="'Travel Settings'"></app-sub-header>
+</div>
+<div class="mission-settings-component" fxLayout="column">
+	<div fxLayout="row" fxLayoutAlign="space-between center" class="pad">
+		<span class="page-title"> Missions</span>
+		<div class="input-with-icon">
+			<mat-input-container class="search-bar">
+				<input matInput type="text" placeholder="Search" [(ngModel)]="searchText">
+			</mat-input-container>
+		</div>
+	</div>
+	<div class="column-title mission-table-header" fxLayout="row" fxLayoutAlign="start center" layout-padding>
+		<span fxFlex="10%">Mission</span>
+		<span fxFlex="20%">Mission Title</span>
+		<span fxFlex>Medical Schedule</span>
+		<span fxFlex>Passport Checks</span>
+		<span fxFlex>Travel Leader Notes</span>
+		<span fxFlex>Travel Notes</span>
+		<span fxFlex="5%"></span>
+	</div>
+	<div class="missions-container">
+		<div *ngFor="let mission of missions">
+			<div class="mission" fxLayout="row" fxLayoutAlign="start center" layout-padding [class.missingInfo]="!isBoolean(mission.medSched) || !isBoolean(mission.passportCheck)"
+			 *ngIf="shouldShowMission(mission)">
+				<span class="subheading" fxFlex="10%">{{mission.missionAbbreviation}}</span>
+				<span fxFlex="20%">{{mission.missionName}}</span>
+				<span fxFlex *ngIf="isBoolean(mission.medSched)">{{mission.medSched ? 'Yes' : 'No'}}</span>
+				<span fxFlex *ngIf="isBoolean(mission.passportCheck)">{{mission.passportCheck ? 'Yes' : 'No'}}</span>
+				<span fxLayoutAlign="start">
+					<span class="notes">
+						{{mission.travelLeaderNotes}}
+					</span>
+				</span>
+				<span fxFlex fxLayoutAlign="start">
+					<span class="notes">
+						{{mission.missionTravelNotes}}
+					</span>
+				</span>
+				<span (click)="onEdit(mission)" class="column-title clickable _edit" fxFlex="5%">Edit
+					<i class="material-icons micon">mode_edit</i>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>

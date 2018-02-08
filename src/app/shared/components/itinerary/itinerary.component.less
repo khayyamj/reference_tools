@@ -1,0 +1,40 @@
+@import '../../../../main.less';
+
+.itinerary-component {
+	table {
+		table-layout: auto;
+	}
+	
+	.red{
+		color:@red;
+	}
+
+	i{
+		font-size: 20px;
+	}
+
+	tr{
+		height: 40px;
+	}
+
+	td.right{
+		text-align:right;
+		padding-right: 8px;
+	}
+	.mtc-itinerary{
+		th{
+			.icon{
+				width: 5%;
+			}
+			.location{
+				width: 45%;
+			}
+			.time, .date{
+				width: 25%;
+			}
+		}
+	}
+	.align-with-departure{
+		vertical-align: baseline;
+	}
+}

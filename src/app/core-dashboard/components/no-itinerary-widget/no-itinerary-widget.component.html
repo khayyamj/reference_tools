@@ -1,0 +1,12 @@
+<div class="widget" fxLayout="column">
+	<div class="header alert drag-handler" fxLayout="row">
+		<div fxFlex="90%" fxLayoutAlign="space-between">
+			<span fxLayoutAlign="start center">NO ITINERARY</span>
+			<span class="notification gridster-item-content" fxLayoutAlign="center center" [routerLink]="'no-itinerary'">{{missionaries.length}}</span>
+		</div>
+		<mtc-drag-handle fxFlex="10%" fxLayoutAlign="center center"></mtc-drag-handle>
+	</div>
+	<div class="checkbox-table-container" fxLayoutAlign="center">
+		<mtc-checkbox-table fxFlex="95%" [placeholder]="checkboxTablePlaceholder" [columns]="columns" [rows]="missionaries" [config]="checkboxTableConfig"></mtc-checkbox-table>
+	</div>
+</div>

@@ -1,0 +1,29 @@
+<div class="modal">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>Manage Categories</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div mat-dialog-content fxLayout="column">
+		<div class="add-category">
+			<form #f="ngForm" (ngSubmit)="addCategory(f)" (keydown.enter)="addCategory(f)" novalidate>
+				<mat-input-container>
+					<input matInput alphaNumeric ngModel name="category" type="text" (keydown.enter)="addCategory(f)" required #category="ngModel" autocomplete="off">
+					<mat-error>
+						<span [hidden]="!category?.errors?.required">Required Field</span>
+						<span [hidden]="!category?.errors?.specialCharacters">No special characters allowed</span>
+					</mat-error>
+				</mat-input-container>
+				<button class="primary-btn" type="submit">ADD</button>
+			</form>
+		</div>
+		<div class="mtc-checkbox-table-container">
+			<mtc-checkbox-table [(rows)]="categories" [config]="tableConfig" [columns]="tableColumns"></mtc-checkbox-table>
+		</div>
+	</div>
+	<div mat-dialog-actions>
+		<button class="secondary-btn" mat-dialog-close>Cancel</button>
+		<button class="primary-btn" (click)="save()">Save</button>
+	</div>
+</div>

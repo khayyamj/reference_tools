@@ -1,0 +1,71 @@
+@import '../../../../../main.less';
+.mobile-sidebar-container{
+    position: absolute;
+    top:0px;
+    left:0px;
+    height: 100%;
+    z-index: 1;
+    width:300px;
+.mobile-sidebar {
+    height: 100%;
+    width:300px;
+    background: @off-white;
+}
+
+    .mobile-sidebar-header {
+        color:@blue-grey;
+        height:56px;
+        background: @mtc-blue;
+        .icon-usericon {
+            padding-left:10%;
+            padding-top: 3%;
+            margin-right: 3%;
+            font-size: 20px;
+        }
+        .name {
+            .subheading;
+            color:inherit;
+            width: 250px;
+
+            .role{
+                .body-text;
+                color:inherit;
+            }
+        }
+        .chevron_left{
+            padding-top: 1%;
+        }
+    }
+    .side-menu-link-active{
+		li{
+			color:@accent-blue;
+
+		}
+	}
+    .mobile-side-item {
+        list-style-type: none;
+        li {
+            margin:8%;
+        }
+    }
+}
+.opaque{
+    background: @black;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 300px;
+    bottom: 0;
+    z-index: 10000;
+    opacity: .6;
+}
+.hide{
+    display: none;
+}
+
+.sign-out {
+    position: absolute;
+    bottom: 10px;
+    right:10px;
+}

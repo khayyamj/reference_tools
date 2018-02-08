@@ -1,0 +1,218 @@
+<div class="missionary-overview-component" *ngIf="missionary?.missionaryId" fxLayout>
+	<div fxFlex="40%" fxLayout="column">
+		<div fxLayout="column" fxFlex="0 0 200px">
+			<app-basic-missionary [missionary]="missionary" [toggle]="true"></app-basic-missionary>
+			<div class="button-bar">
+				<button class="navigation-btn" [routerLink]="'change-history'" [queryParams]="{missionaryId: missionary.missionaryId}" *ngIf="!rolesService.isOnlyGeneralUser">
+					History
+				</button>
+				<button class="navigation-btn number-btn" [routerLink]="'notes'" [queryParams]="{missionaryId: missionary.missionaryId}"
+				 *ngIf="!rolesService.isOnlyGeneralUser">
+					Notes
+					<div>{{missionary.noteCount}}</div>
+				</button>
+				<button class="navigation-btn" [routerLink]="'assistance'" [queryParams]="{missionaryId: missionary.missionaryId}" *ngIf="rolesService.isAssistanceUser">
+					Assistance
+				</button>
+				<button class="navigation-btn" [routerLink]="'web-history'" [queryParams]="{missionaryId: missionary.missionaryId}" *ngIf="rolesService.isEcclUser || rolesService.isInfoDesk">
+					<span>Web History</span>
+				</button>
+			</div>
+		</div>
+		<app-missionary-schedule fxFlex ="1 1 0" *ngIf="missionary.personalInfo?.missionaryStatus==='In-Residence'" [missionary]="missionary"></app-missionary-schedule>
+	</div>
+	<div fxFlex="60%" fxLayout="column" fxLayoutGap="20px">
+		<div fxLayout="row" fxLayoutAlign="end start" class="button-container">
+			<button class="primary-btn" (click)="openPrintSummaryModal()">Print Summary</button>
+		</div>
+		<mat-card class="info-group" fxLayout="column" [routerLink]="'mtc'" [queryParams]="{missionaryId: missionary.missionaryId}">
+			<div fxFlex="10%" fxLayout="row" class="card-title">
+				<span class="page-title" fxFlex="90%">MTC</span>
+				<span fxFlex="10%">
+					<a class="clickable pull-right">
+						<i class="material-icons">chevron_right</i>
+					</a>
+				</span>
+			</div>
+			<div fxFlex fxLayout="row" class="mtc-info-container">
+				<div fxFlex fxLayout="column" class="first-mtc-group">
+					<div fxFlex fxLayout="column" class="info">
+						<span>Branch/District</span>
+						<span>{{missionary.mtcInfo.branchDistrict}}</span>
+					</div>
+					<div fxFlex fxLayout="column" class="info">
+						<span>Mailbox</span>
+						<span>{{missionary.mtcInfo.mailboxName}}</span>
+					</div>
+					<div fxFlex fxLayout="column" class="info mobile-hidden">
+						<span>Classroom</span>
+						<span>{{missionary.mtcInfo.classroomName}}</span>
+					</div>
+					<div fxFlex fxLayout="column" class="info">
+						<span>Companion</span>
+						<span fxLayout="column">
+							<a (click)="$event.stopPropagation()" *ngFor="let companion of missionary.companions" [routerLink]="'/missionary'" [queryParams]="{missionaryId: companion.missionaryId}">{{companion.fullName}}</a>
+						</span>
+					</div>
+				</div>
+				<div fxFlex fxLayout="column">
+					<div fxFlex fxLayout="column" class="info status">
+						<span>Status</span>
+						<span>{{missionary.personalInfo.missionaryStatus}}</span>
+					</div>
+					<div fxFlex fxLayout="column" class="info mobile-hidden">
+						<span>Residence Room</span>
+						<span>{{missionary.mtcInfo.residenceRoomName}}</span>
+					</div>
+					<div fxFlex fxLayout="column" class="info mobile-hidden">
+						<span>Training Language</span>
+						<span>{{missionary.mtcInfo.trainingLanguage}}</span>
+					</div>
+					<div fxFlex fxLayout="column" class="info mobile-hidden">
+						<span>Training Schedule</span>
+						<span>{{missionary.mtcInfo.trainingScheduleId}}</span>
+					</div>
+				</div>
+				<div fxFlex fxLayout="column" class="mobile-hidden">
+					<div fxFlex fxLayout="column" class="info">
+						<span>Scheduled Arrival</span>
+						<span>{{missionary.mtcInfo.mtcArrival | mtcDate}}</span>
+					</div>
+					<div fxFlex fxLayout="column" class="info">
+						<span>Actual Arrival</span>
+						<span>{{missionary.mtcInfo.mtcActualArrival | mtcDate}} {{missionary.mtcInfo.mtcActualArrival | mtcTime}}</span>
+					</div>
+					<div fxFlex fxLayout="column" class="info">
+						<span>Scheduled Departure</span>
+						<span>{{missionary.mtcInfo.mtcDeparture | mtcDate}}</span>
+					</div>
+					<div fxFlex fxLayout="column" class="info">
+						<span>Actual Departure</span>
+						<span>{{missionary.mtcInfo.mtcActualDeparture | mtcDate}} {{missionary.mtcInfo.mtcActualDeparture | mtcTime}}</span>
+					</div>
+				</div>
+			</div>
+		</mat-card>
+		<div fxLayout="row" class="small-info-group-container" fxLayoutGap="20px">
+			<mat-card class="small-info-group" fxFlex="50%" fxLayout="column" [routerLink]="'mission'" [queryParams]="{missionaryId: missionary.missionaryId}">
+				<div fxFlex="10%" fxLayout="row" class="card-title">
+					<span class="page-title" fxFlex="90%">MISSION</span>
+					<span fxFlex="10%">
+						<a class="clickable pull-right">
+							<i class="material-icons">chevron_right</i>
+						</a>
+					</span>
+				</div>
+				<div class="information-container">
+					<div fxFlex fxLayout="column" class="info hide-overflow">
+						<span>Name</span>
+						<span>{{missionary.missionInfo.missionName}}</span>
+					</div>
+					<div fxFlex fxLayout="column" class="info">
+						<span>Language</span>
+						<span>{{missionary.missionInfo.missionLanguage}}</span>
+					</div>
+					<div fxFlex fxLayout="column" class="info">
+						<span>Arrival Date</span>
+						<span>{{missionary.missionInfo.inFieldArrival | mtcDate}}</span>
+					</div>
+				</div>
+			</mat-card>
+			<mat-card class="small-info-group" fxFlex="50%" fxLayout="column" [routerLink]="'personal'" [queryParams]="{missionaryId: missionary.missionaryId}">
+				<div fxFlex="10%" fxLayout="row" class="card-title">
+					<span class="page-title" fxFlex="90%">PERSONAL</span>
+					<span fxFlex="10%">
+						<a class="clickable pull-right">
+							<i class="material-icons">chevron_right</i>
+						</a>
+					</span>
+				</div>
+				<div class="information-container">
+					<div fxFlex fxLayout="row">
+						<div fxFlex fxLayout="column" class="info">
+							<span>Date of Birth</span>
+							<span>{{missionary.personalInfo.birthDate | mtcDate}}</span>
+						</div>
+						<div fxFlex fxLayout="column" class="info">
+							<span>Home Country</span>
+							<span>{{missionary.personalInfo.residenceCountry}}</span>
+						</div>
+					</div>
+					<div fxFlex fxLayout="row">
+						<div fxFlex fxLayout="column" class="info">
+							<!-- TODO get citizenship, what is citizenship? -->
+							<span>Citizenship</span>
+							<span>{{missionary.personalInfo.citizenship}}</span>
+						</div>
+						<div fxFlex fxLayout="column" class="info">
+							<span>Equalized</span>
+							<span>{{missionary.personalInfo.equalized | yesNo}}</span>
+						</div>
+					</div>
+					<div fxFlex fxLayout="column" class="info">
+						<span>MyLDSMail Email</span>
+						<a (click)="$event.stopPropagation()" class="wrap-text" href="mailto:{{missionary.personalInfo.missionaryEmail}}">
+							{{missionary.personalInfo.missionaryEmail || '-'}}
+						</a>
+					</div>
+				</div>
+			</mat-card>
+		</div>
+		<div fxLayout="row" class="small-info-group-container" fxLayoutGap="20px">
+			<mat-card class="small-info-group" fxFlex="50%" fxLayout="column" [routerLink]="'ecclesiastical'">
+				<div fxFlex="10%" fxLayout="row" class="card-title">
+					<span class="page-title" fxFlex="90%">ECCLESIASTICAL</span>
+					<span fxFlex="10%">
+						<a class="clickable pull-right">
+							<i class="material-icons">chevron_right</i>
+						</a>
+					</span>
+				</div>
+				<div class="information-container">
+					<div fxLayout="column">
+						<div fxLayout="column" class="info district">
+							<span>District President</span>
+							<ng-container *ngIf="missionary.mtcInfo?.districtPresident">
+								<span>President {{missionary.mtcInfo.districtPresident.lastName}}</span>
+								<a class="email" (click)="$event.stopPropagation()" href="mailto:{{missionary.mtcInfo.districtPresident.email}}">{{missionary.mtcInfo.districtPresident.email}}</a>
+								<span>{{missionary.mtcInfo.districtPresident.cellPhone | telephone}}</span>
+							</ng-container>
+						</div>
+						<div fxLayout="column" class="info branch">
+							<span>Branch President</span>
+							<ng-container *ngIf="missionary.mtcInfo?.branchPresidency?.length > 0">
+								<span>President {{missionary.mtcInfo.branchPresidency[0].lastName}}</span>
+								<a class="email" (click)="$event.stopPropagation()" href="mailto:{{missionary.mtcInfo.branchPresidency[0].email}}">{{missionary.mtcInfo.branchPresidency[0].email}}</a>
+								<span>{{missionary.mtcInfo.branchPresidency[0].cellPhone | telephone}}</span>
+							</ng-container>
+						</div>
+					</div>
+				</div>
+			</mat-card>
+			<mat-card class="small-info-group" fxFlex="50%" fxLayout="column" [routerLink]="'training'" [queryParams]="{missionaryId: missionary.missionaryId}">
+				<div fxFlex="10%" fxLayout="row" class="card-title">
+					<span class="page-title" fxFlex="90%">TRAINING</span>
+					<span fxFlex="10%">
+						<a class="clickable pull-right">
+							<i class="material-icons">chevron_right</i>
+						</a>
+					</span>
+				</div>
+				<div class="information-container" fxLayout="column">
+					<div fxLayout="column">
+						<div fxLayout="column" class="info district">
+							<ng-container *ngFor="let teacher of missionary.mtcInfo?.teachers; let index = index">
+								<div class="teacher" *ngIf="index < 2 ">
+									<div class="header">Teacher</div>
+									<div>{{teacher.fullName}}</div>
+									<a class="email" (click)="$event.stopPropagation()" href="mailto:{{teacher.email}}">{{teacher.email}}</a>
+									<div>{{teacher.cellPhone | telephone}}</div>
+								</div>
+							</ng-container>
+						</div>
+					</div>
+				</div>
+			</mat-card>
+		</div>
+	</div>
+</div>

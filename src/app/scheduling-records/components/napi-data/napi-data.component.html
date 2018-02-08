@@ -1,0 +1,15 @@
+<app-sub-header class="no-print" [title]="'Salt Lake Napi Data'"></app-sub-header>
+<div class="napi-data-component">
+	<div fxLayoutAlign="space-between">
+		<div fxLayout="column">
+			<div class="download-header">Download Salt Lake data</div>
+			<div class="download-subheader">Last download: {{lastUpdateDate | mtcDate}} {{lastUpdateDate | mtcTime}}</div>
+		</div>
+		<button type="button" class="primary-btn" (click)="downloadNapiData()">Download</button>
+	</div>
+	<div class="download-header body-text">Download individual missionaries by ID</div>
+	<mat-input-container class="field">
+		<textarea matInput class="id-lookup" placeholder="{{idPlaceholder}}" [(ngModel)]="missionary.ids"></textarea>
+	</mat-input-container>
+	<button type="button" class="primary-btn" (click)="downloadNapiDataById()">Download</button>
+</div>

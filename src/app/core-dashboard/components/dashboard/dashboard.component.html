@@ -1,0 +1,13 @@
+<div id="dashboard-component" fxLayout="column">
+	<app-sub-header [title]="'Dashboard'" [loading]="widgetService.widgetsLoading"></app-sub-header>
+	<div class="action-bar">
+		<button class="primary-btn" (click)="manageDashboard()">Manage Dashboard</button>
+	</div>
+	<div class="grid-container" [style.height.px]="getHeight(4)">
+		<gridster [options]="options">
+			<gridster-item [item]="item" *ngFor="let item of widgetService.dashboard">
+				<dynamic-content class="dynamic-content" [component]="item.component"></dynamic-content>
+			</gridster-item>
+		</gridster>
+	</div>
+</div>

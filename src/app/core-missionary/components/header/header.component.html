@@ -1,0 +1,36 @@
+<header id="travel-header-component" fxLayout="row">
+	<div id="brand-container">
+		<a [routerLink]="'dashboard'">
+			<div id="home-button" fxLayout="row" fxLayoutAlign="start center">
+				<i class="icon-mtclogo icon mtc-logo"></i>
+				<div class="app-title heading layout-padding">Tools</div>
+			</div>
+		</a>
+	</div>
+	<div class="modal-menu-icon" fxLayoutAlign="center center" (click)="openSideMenu.emit()">
+		<i class="material-icons header-link modal-menu-icon">menu</i>
+	</div>
+	<div id="header-container" fxLayoutAlign="space-between center" fxLayout="row" fxFlex>
+		<div id="input-container" [class.higher-visibility]="isSearchOpen">
+			<input id="search-missionaries" type="text" placeholder="Search for a Missionary" [(ngModel)]="searchQuery"
+				(mousedown)="openSearch($event)" (keyup)="onKeyPress($event)" [disabled]="!rolesService.isAuthorizedUser"/>
+			<i class="material-icons">search</i>
+			<mat-progress-bar mode="indeterminate" *ngIf="searching" class="search-progress no-bump-position"></mat-progress-bar>
+		</div>
+		<span fxFlex></span>
+		<div id="user-profile" class="clickable body-text" (click)="isMenuOpen = !isMenuOpen" (clickOutside)="isMenuOpen = false" fxLayout="row">
+			<i class="material-icons icon">account_circle</i>
+			<span class="name no-text-selection">{{username}}</span>
+			<i class="material-icons arrow">arrow_drop_down</i>
+			<div class="logout-dropdown" [class.visible]="isMenuOpen" (click)="logout()">
+				<span>Logout</span>
+			</div>
+		</div>
+		<app-missionary-search *ngIf="isSearchOpen" class="desktop-view" [(open)]="isSearchOpen" [missionaries]="searchResults" (optionsChange)="updateOptions($event)" [options]="searchOptions" [titleText]="title"></app-missionary-search>
+		<div *ngIf="!hideMobile" (clickOutside)="isSearchOpen=false" class="mobile-search-modal" [class.hidden]="!isSearchOpen" fxLayout="column">
+			<div *ngFor="let missionary of searchResults" fxFlex="20%" class="body-text clickable missionary" (click)="selectedMissionary(missionary.missionaryId,$event)">
+				<span>{{missionary?.fullName | missingInfo}}</span>
+			</div>
+		</div>
+	</div>
+</header>

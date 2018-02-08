@@ -1,0 +1,87 @@
+<div class="progress-bar-position">
+	<mat-progress-bar mode="indeterminate" *ngIf="isSearching"></mat-progress-bar>
+</div>
+<div class="room-component">
+	<div fxLayout="column">
+		<div [class.higher-visibility]="isSearchOpen">
+			<mat-input-container class="search-bar">
+				<input matInput class="search-input" type="text" placeholder="Search" [(ngModel)]="searchQuery" (keyup.enter)="searchRooms(searchQuery,$event)"/>
+			</mat-input-container>
+		</div>
+		<span class="subheading">Search for a room by building, building and room number, missionary name, or missionary ID</span>
+	</div>
+	<scheduling-room-search (loading)="isSearching = true" [(open)]="isSearchOpen" [rooms]="searchResults" (returnRooms)="returnRooms($event)"
+	 [filteredRooms]="searchResults" [type]="type"></scheduling-room-search>
+	<div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="rooms.length > 0">
+		<mat-checkbox [ngModel]="selectAll" (ngModelChange)="changeSelectAll($event)">Select All Rooms</mat-checkbox>
+		<div fxLayoutAlign="space-around center">
+			<button class="secondary-btn" (click)="clearAll()">CLEAR ALL</button>
+			<button class="primary-btn" [disabled]="!haveOccupants()" (click)="editSelection()">EDIT SELECTION</button>
+		</div>
+	</div>
+	<div class="separator"></div>
+	<div class="table-container">
+		<div class="room" *ngFor="let room of rooms; let i=index" fxLayout="column">
+			<div class="building-header" fxLayoutAlign="space-between center">
+				<mat-checkbox [ngModel]="room.selected" (ngModelChange)="selectRoom(room, $event)" [disabled]="room.disabled">
+					<span class="subheading">{{room.room}}</span>
+				</mat-checkbox>
+				<div fxLayout="column">
+					<div class="body-text">SUB-USAGE</div>
+					<div class="body-text">{{room.subusage}}</div>
+				</div>
+				<div *ngIf="type === 'classroom'" fxLayout="column">
+					<div class="body-text">DEFAULT ZONE</div>
+					<div class="body-text">{{room.zone}}</div>
+				</div>
+				<div fxLayout="column">
+					<div class="body-text">DEFAULT BRANCH</div>
+					<div class="body-text">{{room.branch}}</div>
+				</div>
+				<div fxLayout="column">
+					<div class="body-text">CAPACITY</div>
+					<div class="body-text">{{room.capacity}}</div>
+				</div>
+				<div fxLayout="column">
+					<div class="body-text">CURRENT OCCUPANTS</div>
+					<div class="body-text">{{room.currentOccupants.length}}</div>
+				</div>
+				<div fxLayout="column">
+					<div class="body-text">FUTURE OCCUPANTS</div>
+					<div class="body-text">{{room.futureOccupants.length}}</div>
+				</div>
+				<!--TODO: Make card match style guide-->
+				<div (mouseleave)="hideNoteCard(room)">
+					<div class="body-text">NOTES</div>
+					<div class="display-notes-container">
+						<div class="body-text">
+							<i class="material-icons sm-icon clickable note-icon" [class.blue-icon]="room.comments" (mouseenter)="showNote(room)">more</i>
+						</div>
+						<div class="notes" *ngIf="room.viewNote" (mouseenter)="showNote(room,true)" (clickOutside)="hideNote(room, true)" (mouseleave)="hideNote(room)"
+						 (click)="editSelection(room,i)">
+							<div class="arrow-up"></div>
+							<div fxLayoutAlign="start center" class="note-header">
+								<span class="page-title">NOTES</span>
+								<span class="column-title edit-notes">CLICK ANYWHERE TO EDIT NOTE</span>
+							</div>
+							<div class="note-body subheading" *ngIf='room.notes'>{{room.notes}}</div>
+							<div class="note-footer">{{room.noteUpdatedBy}} {{room.noteUpdatedDate}}</div>
+						</div>
+					</div>
+				</div>
+				<i class="material-icons sm-icon" (click)="removeRoom(room)"> close </i>
+			</div>
+			<div class="lower-table-container" fxLayout="column">
+				<div class="subheading">Current Occupants</div>
+				<div class="column-title">Room Exit Date: {{room.exitDate}}</div>
+				<mtc-checkbox-table [columns]="columns" (rowsChange)="roomChanged(room,$event)" [rows]="room.currentOccupants" [config]="config"
+				 [placeholder]="currentOccupantsTablePlaceholder"></mtc-checkbox-table>
+				<div class="separator"></div>
+				<div class="subheading">Future Occupants</div>
+				<div class="column-title">Room Entry Date: {{room.entryDate}}</div>
+				<mtc-checkbox-table [columns]="columns" (rowsChange)="roomChanged(room,$event)" [rows]="room.futureOccupants" [config]="config"
+				 [placeholder]="futureOccupantsTablePlaceholder"></mtc-checkbox-table>
+			</div>
+		</div>
+	</div>
+</div>

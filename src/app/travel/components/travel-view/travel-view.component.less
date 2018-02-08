@@ -1,0 +1,93 @@
+@import '../../../../main.less';
+.group-info{
+	table {
+		table-layout: auto;
+	}
+	.travel-group-information{
+		padding: 5px;
+
+		td, th{
+			height: 40px;
+		}
+
+		tr{
+			border-bottom: 1px solid @off-white;
+		}
+	}
+	.itinerary-btn{
+		padding: 0;
+		width: 54px;
+		height: 24px;
+		box-sizing: border-box;
+		margin-right: 8px;
+		mat-icon{
+			color: @white;
+		}
+	}
+	.print-send-btn{
+		margin: 10px 8.5px;
+		float: right;
+		width: auto;
+		min-width: 114px;
+		height: 24px;
+		font-size: 12px;
+	}
+	button:first-of-type {
+		margin-right:10px;
+	}
+
+	tr{
+		height: 40px;
+		button{
+			margin-top: 7px;
+		}
+	}
+
+	td.name{
+		color: @accent-blue; // changed from #4078c0
+		max-width: 280px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+	i{
+		font-size: 20px;
+	}
+
+	.sm-icon{
+		padding:6px;
+		margin:0px;
+		font-size: 20px;
+		&.no-padding{
+			padding:0px;
+		}
+	}
+	.red-icon {
+		cursor: pointer;
+		color:@red;
+		&:hover{
+			color:@light-red;
+		}
+	}
+
+	.grey-icon {
+		color: @light-grey;
+		opacity: .8;
+		&:hover{
+			color:@red;
+			opacity: 1;
+		}
+	}
+
+	.reduced-icon-padding{
+		padding-right: 0 !important;
+		padding-left: 5px !important;
+	}
+
+	.icon-temp_mission{
+		color: @green;
+	}
+}

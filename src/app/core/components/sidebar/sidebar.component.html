@@ -1,0 +1,33 @@
+<div id="sidebar-component" class="no-print" flex>
+	<ul>
+		<span *ngFor="let route of routes">
+			<a [routerLink]="route.url" [routerLinkActive]="['side-menu-link-active']" *ngIf="!route.children" class="sidemenu-item">
+				<li class="highlight">
+					<h3>{{route.name}}</h3>
+				</li>
+			</a>
+			<div [class.side-menu-group-active]="route.showChildren">
+				<a (click)="route.showChildren = !route.showChildren" *ngIf="route.children" [class.side-menu-link-active]="showChildren(route)" class="sidemenu-item">
+					<li fxLayout="row" fxLayoutAlign="space-between" class="highlight">
+						<h3>{{route.name}}</h3>
+						<i class="material-icons clickable">expand_{{route.showChildren ? 'less' : 'more'}}</i>
+					</li>
+				</a>
+				<span *ngIf="route.showChildren">
+					<span *ngFor="let childRoute of route.children">
+						<a *ngIf="!childRoute.external" [routerLink]="childRoute.url" [routerLinkActive]="['side-menu-link-active']" class="sidemenu-item">
+							<li class="highlight">
+								<h3 class="side-submenu-header" >{{childRoute.name}}</h3>
+							</li>
+						</a>
+						<a *ngIf="childRoute.external" [href]="childRoute.url" target="_blank" [routerLinkActive]="['side-menu-link-active']" class="sidemenu-item">
+							<li class="highlight">
+								<h3 class="side-submenu-header" >{{childRoute.name}}</h3>
+							</li>
+						</a>
+					</span>
+				</span>
+			</div>
+		</span>
+	</ul>
+</div>

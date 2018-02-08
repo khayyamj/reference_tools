@@ -1,0 +1,104 @@
+<div class="modal add-note">
+	<div class="modal-header blue-header" fxLayout="row" fxLayoutAlign="space-between center">
+		<h2>Note for {{missionary.fullName}}</h2>
+		<button class="icon-btn" (click)="close()">
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div fxLayout="column" class="note-container">
+		<mat-input-container class="input-field">
+			<input matInput placeholder="Subject" class="text" [(ngModel)]="note.subject" [disabled]="!edit">
+		</mat-input-container>
+		<quill-editor [(ngModel)]="note.noteTxt" [options]="editorConfig" (ready)="onEditorCreated($event)" *ngIf="edit" (change)="noteLength($event)"></quill-editor>
+		<span *ngIf="edit">{{limit - note.noteTxt?.length}} Characters Left</span><div class="ql-editor" [innerHtml]="getNote()" *ngIf="!edit"></div>
+	</div>
+	<div id="toolbar" class="modal-buttons no-text-selection" *ngIf="edit" fxLayoutAlign="space-between">
+		<div class="quill-tools" fxLayout="row" fxFlex>
+			<div fxFlex="12%" fxLayoutAlign="space-around center">
+				<button class="ql-bold icon-btn"></button>
+				<button class="ql-italic icon-btn"></button>
+				<button class="ql-underline icon-btn"></button>
+				<div fxLayout="row" fxLayoutAlign="center center" fxFlex="14%" class="popup-container clickable" fxFlex (click)="showColors = true" >
+					<div class="simple-popup popup color-picker" [class.visible]="showColors" (clickOutside)="showColors = false">
+						<div class="title">Text Color</div>
+						<div fxLayout="row" class="colors" fxLayoutAlign="space-around center">
+							<div class="color" *ngFor="let color of colors" [style.background-color]="color.hex" (click)="changeColor(color)" [class.selected]="color === chosenColor"></div>
+						</div>
+					</div>
+					<i class="material-icons format-color hover-blue" [style.color]="chosenColor.hex">format_color_text</i>
+				</div>
+			</div>
+			<span class="seperator"></span>
+			<div fxFlex="12%" fxLayoutAlign="space-around center">
+				<button type="button" class="ql-align icon-btn" value=""></button>
+				<button type="button" class="ql-align icon-btn" value="center"></button>
+				<button type="button" class="ql-align icon-btn" value="right"></button>
+				<button type="button" class="ql-align icon-btn" value="justify"></button>
+			</div>
+			<span class="seperator"></span>
+			<div fxFlex="6%" fxLayoutAlign="space-around center">
+				<button type="button" class="ql-list icon-btn" value="ordered"></button>
+				<button type="button" class="ql-list icon-btn" value="bullet"></button>
+			</div>
+			<span class="seperator"></span>
+			<div fxFlex="6%" fxLayoutAlign="space-around center">
+				<button type="button" class="ql-indent icon-btn" value="-1"></button>
+				<button type="button" class="ql-indent icon-btn" value="+1"></button>
+			</div>
+			<span class="seperator"></span>
+			<div fxLayout="row" fxLayoutAlign="center center" fxFlex="14%" class="popup-container clickable hover-blue" (click)="showInsertOptions = true" [class.open]="showInsertOptions">
+				<div class="simple-popup popup" [class.visible]="showInsertOptions" (clickOutside)="showInsertOptions = false">
+					<div class="title">Insert Name</div>
+					<div *ngFor="let option of insertOptions" class="member clickable" (click)="insertName(option.value)">{{option.name}}</div>
+				</div>
+				<strong>Insert Name</strong>
+				<i class="material-icons arrow">arrow_drop_down</i>
+			</div>
+			<span class="seperator" *ngIf="templates.length > 0"></span>
+			<div fxLayout="row" fxLayoutAlign="center center" fxFlex="12%" class="popup-container clickable hover-blue" (click)="showTemplates = true" [class.open]="showTemplates" *ngIf="templates.length > 0">
+				<div class="simple-popup popup" [class.visible]="showTemplates" (clickOutside)="showTemplates = false">
+					<div class="title">Templates</div>
+					<div *ngFor="let template of templates" class="member clickable" (click)="insertTemplate(template)">{{template.templateName}}</div>
+				</div>
+				<strong>Templates</strong>
+				<i class="material-icons arrow">arrow_drop_down</i>
+			</div>
+			<span class="seperator" *ngIf="visibilities.length > 1"></span>
+			<div fxLayout="row" fxLayoutAlign="center center" class="popup-container clickable hover-blue" (click)="showVisibilities = true" [class.open]="showVisibilities" fxFlex="8%" *ngIf="visibilities.length > 1">
+				<div class="simple-popup popup visibilities" [class.visible]="showVisibilities" (clickOutside)="showVisibilities = false">
+					<div class="title">Visibility</div>
+					<div *ngFor="let visibility of visibilities" class="member clickable includes-check" (click)="changeVisibility(visibility)" fxLayout="row">
+						<span class="check-container">
+							<i class="material-icons" *ngIf="note.visName === visibility.visName">check</i>
+						</span>
+						<div fxLayout="column" fxLayoutAlign="center start">
+							<strong>{{visibility.visName}}</strong>
+							<div>{{visibility.description}}</div>
+						</div>
+					</div>
+				</div>
+				<i class="material-icons">remove_red_eye</i>
+				<i class="material-icons arrow">arrow_drop_down</i>
+			</div>
+			<span class="seperator" *ngIf="tags.length > 1"></span>
+			<div fxLayout="row" fxLayoutAlign="center center" fxFlex="12%" class="popup-container clickable hover-blue" (click)="showTags = true" [class.open]="showTags" *ngIf="tags.length > 0">
+				<div class="simple-popup popup" [class.visible]="showTags" (clickOutside)="showTags = false">
+					<div class="title">Tags</div>
+					<div *ngFor="let tag of tags" class="member clickable includes-check" (click)="changeTag(tag)" fxLayout="row">
+						<div class="check-container">
+							<i class="material-icons" *ngIf="tagIncluded(note.tags, tag)">check</i>
+						</div>
+						<div>{{tag.tagName}}</div>
+					</div>
+				</div>
+				<strong>Tags</strong>
+				<i class="material-icons arrow">arrow_drop_down</i>
+			</div>
+		</div>
+		<button class="primary-btn" (click)="save()">Save</button>
+	</div>
+	<div *ngIf="!edit" mat-dialog-actions>
+		<button class="secondary-btn" mat-dialog-close>Close</button>
+		<button class="primary-btn" (click)="edit = true" *ngIf="canEdit()">Edit</button>
+	</div>
+</div>

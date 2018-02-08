@@ -1,0 +1,18 @@
+<div class="progress-bar-position">
+	<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+</div>
+<div class="temp-assignment-component">
+	<!--Pending-->
+	<app-sub-header [title]="'Pending Temp Assignments'"></app-sub-header>
+	<div fxLayoutAlign="end center">
+		<button class="primary-btn" (click)="openNewTempModal()">NEW TEMP ASSIGNMENT</button>
+	</div>
+	<div class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="columns" [rows]="pendingAssignments" [config]="pendingCheckboxTableConfig"></mtc-checkbox-table>
+	</div>
+	<!--Assigned-->
+	<app-sub-header [title]="'Assigned Temp Assignments'"></app-sub-header>
+	<div class="mtc-checkbox-table-container">
+		<mtc-checkbox-table [columns]="columns" [rows]="assignedAssignments" [config]="assignedCheckboxTableConfig"></mtc-checkbox-table>
+	</div>
+</div>

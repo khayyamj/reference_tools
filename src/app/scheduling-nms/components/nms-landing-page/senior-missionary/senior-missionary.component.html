@@ -1,0 +1,11 @@
+<mat-progress-bar mode="indeterminate" class="progress-bar-position" *ngIf="loading"></mat-progress-bar>
+<div class="senior-missionary-component" fxLayout="column">
+	<mat-tab-group [disableRipple]="true" (selectChange)="setSelectedTab($event.tab.textLabel)">
+		<mat-tab label="Senior Incoming List"></mat-tab>
+		<mat-tab label="Scheduling Summary"></mat-tab>
+	</mat-tab-group>
+	<app-senior-missionary-incoming-list [class.hidden]="selectedTab !== 'Senior Incoming List'"></app-senior-missionary-incoming-list>
+	<div *ngIf="selectedTab === 'Scheduling Summary'" class="mtc-checkbox-table-container">
+		<mtc-checkbox-table class="missionary-table" [(rows)]="curriculums" [(columns)]="columns"></mtc-checkbox-table>
+	</div>
+</div>

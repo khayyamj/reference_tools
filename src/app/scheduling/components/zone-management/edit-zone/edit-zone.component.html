@@ -1,0 +1,59 @@
+<div class="embed-confirmation" *ngIf="showConfirmation">
+	<simple-confirmation [config]="config" (confirmation)="confirmation($event)"></simple-confirmation>
+</div>
+
+<div class="modal" *ngIf="!showConfirmation">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>{{title}}</h2>
+		<button type="button" class="icon-btn" (click)="cancel()">
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div mat-dialog-content class="form">
+		<form class="app-dialog-component form" (ngSubmit)="save(zoneForm)" [formGroup]="zoneForm" (keydown.enter)="$event.preventDefault()">
+			<div fxLayout="column">
+				<div fxLayout>
+					<div class="input-field">
+						<mat-input-container>
+							<input matInput placeholder="Zone Name" [(ngModel)]="currentZone.zone" formControlName="zone" required />
+							<mat-error *ngIf="zoneForm?.controls.zone?.errors?.required">Required Field</mat-error>
+							<mat-error *ngIf="zoneForm?.controls.zone?.errors?.nameNotUnique">Name already taken</mat-error>
+						</mat-input-container>
+					</div>
+					<div class="input-field">
+						<mtc-auto-complete placeholder="Branch" [items]="toolsInfoService.info.branches" name="branch" [(itemChosen)]="currentZone.branch"
+							[required]="true" (itemChosenChange)="updateBranch($event)" [ngModelOptions]="{standalone: true}" ngModel>
+						</mtc-auto-complete>
+					</div>
+				</div>
+				<div class="language-section" #languageSection [scrollTop]="languageSection.scrollHeight">
+					<div *ngFor="let language of currentZone.languages; let i = index">
+						<div class="input-field" *ngIf = "!language.delete">
+							<mtc-auto-complete placeholder="Language"
+								[items]="filterLanguages(i)" [itemChosen]="language.language" (itemChosenChange)="updateLanguages($event,language)"
+								name="{{'language' + i}}" [displayBy] = "'name'" [required]="true" [ngModelOptions]="{standalone: true}" ngModel>
+							</mtc-auto-complete>
+						</div>
+						<div class="input-field" *ngIf = "!language.delete">
+							<mtc-auto-complete placeholder="Schedule" [items]="toolsInfoService.info.schedules" [itemChosen]="language.schedule" (itemChosenChange)="updateSchedules($event,language)" name="{{'schedule' + i}}" [displayBy] = "'name'" [required]="true" [ngModelOptions]="{standalone: true}" ngModel>
+							</mtc-auto-complete>
+						</div>
+						<div *ngIf="!language.delete">
+							<button type="button" (click)="removeLanguage(language, i)" class="icon-btn" *ngIf="!oneLanguage()">
+								<i class="material-icons">clear</i>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div>
+					<button type="button" class="flat-btn" (click)="addLanguage()">Add Language/Schedule</button>
+				</div>
+				<div mat-dialog-actions>
+					<button type="button" class="secondary-btn" *ngIf="modalSaveButton === 'create'" (click)="cancel()">cancel</button>
+					<button type="button" class="secondary-btn" *ngIf="modalSaveButton === 'save'" (click)="delete()">delete</button>
+					<button type="submit" class="primary-btn">{{modalSaveButton}}</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

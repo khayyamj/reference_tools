@@ -1,0 +1,14 @@
+<div class="modal">
+	<div class="modal-header blue-header" fxLayout="row" fxLayoutAlign="space-between center">
+		<h2>Teacher Comment for {{missionary.fullName}}</h2>
+		<button class="icon-btn" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div mat-dialog-content class="temp-assignment-component" fxLayout="column">
+		<div class="subheading section-title">Comment</div>
+		<div>{{comment.comment}}</div>
+		<div class="subheading section-title">Plan</div>
+		<div>{{comment.plan}}</div>
+	</div>
+</div>

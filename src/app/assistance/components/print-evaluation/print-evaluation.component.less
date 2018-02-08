@@ -1,0 +1,72 @@
+@import '../../../../variables.less';
+
+.evaluation-form {
+	width: 1184px;
+	margin: 20px;
+
+	.basic-info{
+		width: 995px;
+
+		.basic-missionary {
+			height: 150px;
+			margin-bottom: 25px;
+			.img-div{
+				margin-right: 10px;
+				.pic{
+					height: 150px;
+					object-fit: contain;
+				}
+			}
+			.text{
+				max-width: 60% !important;
+			}
+			.ellipsis-long-text {
+				min-width: 175px;
+			}
+		}
+
+		.measurements {
+			height: 100px;
+			width: 275px;
+
+			.column {
+				width: 50%;
+			}
+
+			.line {
+				&:after {
+					content: '__________ ';
+				}
+			}
+		}
+	}
+
+	.page-tables {
+		width: 1184px;
+		
+		.table-cell {
+			height: 2em;
+			border: 0.5px solid @black;
+			&.header {
+				text-align: center;
+			}
+		}
+	}
+
+	.office-notes {
+		height: 200px;
+		width: 1130px;
+		margin-left: 25px;
+		margin-top: 20px;
+		page-break-after: always;
+	}
+
+	.twoColumns {
+		width: 42%;
+
+		.vert-space {
+			height: 25px;
+		}
+	}
+
+}

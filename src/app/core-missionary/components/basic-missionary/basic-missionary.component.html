@@ -1,0 +1,17 @@
+<div fxLayout="row" class="basic-info" *ngIf="missionary?.missionaryId">
+	<div class="img-div">
+		<img class="pic" [src]="getPicture()" alt="missionary picture">
+	</div>
+	<div fxLayout="column" class="text" fxLayoutAlign="space-around start">
+		<span class="heading">{{missionary.fullName}} ({{missionary.missionaryId}})</span>
+		<span class="error-text" *ngIf="hasRestrictedContacts">Restricted Contacts</span>
+		<span>{{missionary.personalInfo.missionaryType}} Missionary</span>
+		<span>{{missionary.missionInfo.missionName}}</span>
+		<span>{{missionary.mtcInfo.leadershipAssignment}}</span>
+	</div>
+</div>
+<div *ngIf="showToggle()">
+	<mat-slide-toggle color="primary" [checked]="showPicture" (change)="setFilter($event.checked)">
+		View Picture
+	</mat-slide-toggle>
+</div>

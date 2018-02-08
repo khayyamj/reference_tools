@@ -1,0 +1,56 @@
+<div class="luggage">
+	<div fxLayoutAlign="end">
+		<div class="new-group clickable" (click)="addNewAirlineGroup()"> + New Group</div>
+	</div>
+
+	<mat-card class="airline-group" *ngFor="let airlineGroup of airlineGroups; let airlineGroupIndex = index">
+		<div class="airline-group-header subheading" fxLayout="row" fxLayoutAlign="space-between center">
+			<div fxFlex="25%" class="airlines-header">AIRLINES</div>
+			<div fxFlex="20%" class="weight-limit-header">WEIGHT LIMIT</div>
+			<div fxFlex class="notes-header">NOTES</div>
+			<div class="airline-group-header-delete" fxFlex="10%" fxLayoutAlign="end">
+				<button (click)="deleteAirlineGroup(airlineGroupIndex)" class="flat-btn" type="button">Delete</button>
+			</div>
+		</div>
+		<div class="airline-group-data form">
+			<form fxLayout="row" #groupForm="ngForm" (ngSubmit)="updateAirlineGroup(groupForm,airlineGroup,airlineGroupIndex)" (keydown.enter)="$event.preventDefault()">
+				<div fxFlex="25%" class="airlines">
+					<mtc-auto-complete placeholder="Add Airline" (itemChosenChange)="addAirlineToAirlineGroup(airlineGroup,$event)" [items]="allAirlines" [displayBy]="'airlineName'" name="airlines" [required]="hasNoAirlines(airlineGroup)" ngModel></mtc-auto-complete>
+					<div *ngFor="let airline of airlineGroup.airlines; let airlineIndex = index" fxLayout fxLayoutAlign="space-around center">
+						<div *ngIf="!airline.delete" fxFlex="5%">
+							<button class="clear-btn delete-airline-button icon-btn" (click)="deleteAirlineFromGroup(groupForm,airline)" type="button">x</button>
+						</div>
+						<div *ngIf="!airline.delete" fxFlex="95%" class="airline-name-text">{{airline.airlineName}}</div>
+					</div>
+				</div>
+				<div fxFlex="20%" class="weight-limit" fxLayout="row" fxLayoutAlign="space-between">
+					<mat-input-container>
+						<input matInput type="number" max="999" maxlength="3" placeholder="Checked(2)" [(ngModel)]="airlineGroup.weightLimitPerBag" name="weightLimitPerBag" required>
+						<span matSuffix class="lbs-text">lbs.</span>
+						<mat-error>
+							<span [hidden]="!groupForm?.controls?.weightLimitPerBag?.errors?.required">Required Field</span>
+							<span [hidden]="!groupForm?.controls?.weightLimitPerBag?.errors?.invalidInput">Invalid Input</span>
+						</mat-error>
+					</mat-input-container>
+					<mat-input-container>
+						<input matInput type="number" max="999" maxlength="3" placeholder="Carry-On" [(ngModel)]="airlineGroup.weightLimitPerCarryOn" name="weightLimitPerCarryOn" required>
+						<span matSuffix class="lbs-text">lbs.</span>
+						<mat-error>
+							<span [hidden]="!groupForm?.controls?.weightLimitPerCarryOn?.errors?.required">Required Field</span>
+							<span [hidden]="!groupForm?.controls?.weightLimitPerCarryOn?.errors?.invalidInput">Invalid Input</span>
+						</mat-error>
+					</mat-input-container>
+				</div>
+				<mat-input-container class="notes">
+					<textarea matInput placeholder="Notes" maxlength="4000" [rows]="airlineGroup.airlines.length + 2" [(ngModel)]="airlineGroup.note" name="note"></textarea>
+					<mat-hint>{{airlineGroup.note?.length ? airlineGroup.note.length : 0}} / 4000</mat-hint>
+				</mat-input-container>
+				<div mat-dialog-actions>
+					<button class="primary-btn" type="submit">Save</button>
+				</div>
+			</form>
+		</div>
+		<div class="last-edit">Last Edited: {{ airlineGroup.modName }} {{ airlineGroup.modDate | date:"dd/MMM/yyyy hh:mm a" }}</div>
+	</mat-card>
+
+</div>

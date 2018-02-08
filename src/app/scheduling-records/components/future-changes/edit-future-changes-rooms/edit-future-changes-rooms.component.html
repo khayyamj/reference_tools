@@ -1,0 +1,57 @@
+<form #f="ngForm" (ngSubmit)="save(f)" (keydown.enter)="$event.preventDefault()" class="modal">
+	<div class="modal-header" fxLayoutAlign="space-between">
+		<h2 mat-dialog-title>Edit Future Rooms</h2>
+		<button class="icon-btn" type="button" mat-dialog-close>
+			<i class="material-icons">clear</i>
+		</button>
+	</div>
+	<div fxLayoutAlign="space-around">
+		<div fxFlex="20%" fxLayout="column">
+			<div class="subheading">Room Number</div>
+			<div class="items">
+				<div class="body-text column" *ngFor="let room of rooms">{{room.fullName}}</div>
+			</div>
+		</div>
+		<div fxLayout="column" class="first-column" fxFlex>
+			<div fxLayoutAlign="space-around">
+				<div fxLayout="column">
+					<div class="field auto-complete">
+						<mtc-auto-complete placeholder="Default Branch" [(itemChosen)]="edits.branch" [items]="toolsInfoService.info.branches"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete placeholder="Default Language" [(itemChosen)]="edits.langauge" [items]="toolsInfoService.info.traininglanguages"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete placeholder="Default Zone" [(itemChosen)]="edits.zone" [items]="toolsInfoService.info.zones"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete placeholder="Default Schedule" [(itemChosen)]="edits.schedule" [items]="toolsInfoService.info.schedules"></mtc-auto-complete>
+					</div>
+				</div>
+				<div fxLayout="column">
+					<div class="field auto-complete">
+						<mtc-auto-complete placeholder="Overflow Schedule" [(itemChosen)]="edits.overflowStatus" [items]="toolsInfoService.info.booleanList"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete placeholder="Usage" [(itemChosen)]="edits.usage" [items]="toolsInfoService.info.usage"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete placeholder="Sub-Usage" [(itemChosen)]="edits.subusages" [items]="toolsInfoService.info.subusage"></mtc-auto-complete>
+					</div>
+					<div class="field auto-complete">
+						<mtc-auto-complete placeholder="Availability" [(itemChosen)]="edits.availability" [items]="toolsInfoService.info.booleanList"></mtc-auto-complete>
+					</div>
+				</div>
+			</div>
+			<div mat-dialog-actions fxLayoutAlign="space-between end">
+				<div class="effective-date">
+					<mtc-date-picker [title]="'Effective Date'" ngModel name="date" [isAfter]="'today'" [(date)]="date"></mtc-date-picker>
+				</div>
+				<div>
+					<button class="secondary-btn" type="button" mat-dialog-close>cancel</button>
+					<button class="primary-btn" type="submit">save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

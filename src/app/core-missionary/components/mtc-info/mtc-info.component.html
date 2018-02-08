@@ -1,0 +1,157 @@
+<div class="missionary-mtc-component" *ngIf="missionary?.missionaryId" fxLayout="column">
+	<div fxLayout="row" fxLayoutAlign="space-between" class="header">
+		<div fxLayoutAlign="start" fxLayout="row">
+			<span fxLayoutAlign="center start" class="desktop">
+				<a class="clickable" [routerLink]="'/missionary'" [queryParams]="{'missionaryId': missionary.missionaryId}">
+					<i class="material-icons back">arrow_back</i>
+				</a>
+			</span>
+			<span class="page-title">MTC Information</span>
+		</div>
+		<div class="desktop">
+			<button *ngIf="checkRolesForEdit()" class="primary-btn" (click)="edit()">Edit</button>
+			<div *ngIf="editTravel || editScheduling">
+				<button class="secondary-btn" (click)="cancel()">CANCEL</button>
+				<button class="primary-btn" (click)="save()">SAVE</button>
+			</div>
+		</div>
+	</div>
+	<div fxLayout="row" fxLayoutAlign="start start" class="heading">
+		<span>General <a class="desktop">Information</a></span>
+	</div>
+	<div class="info-section general-info top-info" fxLayout="row">
+		<div fxLayout="column" class="info-column">
+			<div fxFlex="10%" fxLayout="column" class="info" [class.not-editable]="!editScheduling && editTravel">
+				<span [class.active]="active === 'ecclgroup'">Branch/District</span>
+				<mtc-auto-complete [items]="toolsInfoService.info.ecclgroups" (focusChange)=" active = $event ? 'ecclgroup': ''" (itemChosenChange)="setChanges('ecclGroupId','branchDistrict',$event)"
+				 [itemChosen]="missionary.mtcInfo.branchDistrict" *ngIf="editScheduling"></mtc-auto-complete>
+				<div *ngIf="!editScheduling">{{missionary.mtcInfo.branchDistrict}}</div>
+			</div>
+			<div fxFlex="10%" fxLayout="column" class="info" [class.not-editable]="!editScheduling && editTravel">
+				<span [class.active]="active === 'mail'">Mail Box</span>
+				<mtc-auto-complete [items]="toolsInfoService.info.mailboxes" (focusChange)=" active = $event ? 'mail': ''" (itemChosenChange)="setChanges('mailBoxId','mailboxName',$event)"
+				 [itemChosen]="missionary.mtcInfo.mailboxName" *ngIf="editScheduling"></mtc-auto-complete>
+				<div *ngIf="!editScheduling">{{missionary.mtcInfo.mailboxName}}</div>
+			</div>
+			<div fxFlex="20%" fxLayout="column" class="info" [class.not-editable]="editTravel || editScheduling">
+				<span>Companions</span>
+				<span *ngFor="let companion of missionary.companions">
+						<a class="link" [routerLink]="'/missionary'" [queryParams]="{missionaryId: companion.missionaryId}">{{companion.fullName}}</a>
+				</span>
+			</div>
+			<div fxFlex="10%" fxLayout="column" class="info" [class.not-editable]="editTravel || editScheduling">
+				<span>Classroom</span>
+				<span>{{missionary.mtcInfo.classroomName}}</span>
+			</div>
+			<div fxFlex="10%" fxLayout="column" class="info" [class.not-editable]="!editScheduling && editTravel">
+				<span [class.active]="active === 'residence'">Residence Room</span>
+				<mtc-auto-complete [items]="toolsInfoService.info.residences" (focusChange)=" active = $event ? 'residence': ''" (itemChosenChange)="setChanges('residenceRoomId','residenceRoomName',$event)"
+				 [itemChosen]="missionary.mtcInfo.residenceRoomName" *ngIf="editScheduling"></mtc-auto-complete>
+				<div *ngIf="!editScheduling">{{missionary.mtcInfo.residenceRoomName}}</div>
+			</div>
+			<span fxFlex="40%"></span>
+		</div>
+		<div fxLayout="column" class="info-column">
+			<div fxFlex="10%" fxLayout="column" class="info" [class.not-editable]="editTravel || editScheduling">
+				<span>Current Location</span>
+				<span>{{missionary.mtcInfo.currentLocation}}</span>
+			</div>
+			<div fxFlex="10%" fxLayout="column" class="info" [class.not-editable]="editTravel || editScheduling">
+				<span>Intercom Number</span>
+				<span>{{missionary.mtcInfo.intercomNumber}}</span>
+			</div>
+			<span fxFlex="20%"></span>
+			<div fxFlex="10%" fxLayout="column" class="info" [class.not-editable]="!editScheduling && editTravel">
+				<span [class.active]="active === 'language'">Training Language</span>
+				<mtc-auto-complete [items]="toolsInfoService.info.languages" (focusChange)=" active = $event ? 'language': ''" (itemChosenChange)="setChanges('trainingLanguageId','trainingLanguage',$event)"
+				 [itemChosen]="missionary.mtcInfo.trainingLanguage" *ngIf="editScheduling"></mtc-auto-complete>
+				<div *ngIf="!editScheduling">{{missionary.mtcInfo.trainingLanguage}}</div>
+			</div>
+			<div fxFlex="10%" fxLayout="column" class="info" [class.not-editable]="!editScheduling && editTravel">
+				<span [class.active]="active === 'sub-language'">Sub Training Language</span>
+				<mtc-auto-complete [items]="toolsInfoService.info.sublanguages" (focusChange)=" active = $event ? 'sub-language': ''" (itemChosenChange)="setChanges('subtrainingLanguageId','subTrainingLanguage',$event)"
+				 [itemChosen]="missionary.mtcInfo.subTrainingLanguage" *ngIf="editScheduling"></mtc-auto-complete>
+				<div *ngIf="!editScheduling">{{missionary.mtcInfo.subTrainingLanguage}}</div>
+			</div>
+			<span fxFlex="40%"></span>
+		</div>
+		<div fxLayout="column" class="info-column">
+			<div fxFlex="10%" fxLayout="column" class="info" [class.not-editable]="!editScheduling && editTravel">
+				<span [class.active]="active === 'training-group'">Training Group</span>
+				<mtc-auto-complete [items]="trainingGroups" (focusChange)=" active = $event ? 'training-group': ''" (itemChosenChange)="setChanges('trainingGroupId', false ,$event)"
+				 [(itemChosen)]="missionary.mtcInfo.trainingGroup" [displayBy]="'id'" *ngIf="editScheduling"></mtc-auto-complete>
+				<div *ngIf="!editScheduling">{{missionary.mtcInfo.trainingGroupId}}</div>
+			</div>
+			<div fxFlex="10%" fxLayout="column" class="info" [class.not-editable]="!editScheduling && editTravel">
+				<!--TODO what is the group date? Add set changes to it-->
+				<span [class.active]="active === 'group-date'">Group Date</span>
+				<mtc-auto-complete [items]="toolsInfoService.info.groupdates" (focusChange)=" active = $event ? 'group-date': ''" [itemChosen]="missionary.mtcInfo.groupDate"
+				 *ngIf="editScheduling"></mtc-auto-complete>
+				<div *ngIf="!editScheduling">{{missionary.mtcInfo.groupDate}}</div>
+			</div>
+			<div fxFlex="20%" fxLayout="column" class="info" [class.not-editable]="!editScheduling && editTravel">
+				<span [class.active]="active === 'training-schedule'">Training Schedule</span>
+				<mtc-auto-complete [items]="toolsInfoService.info.schedules" (focusChange)=" active = $event ? 'training-schedule': ''" (itemChosenChange)="setChanges('trainingScheduleId','trainingScheduleId',$event)"
+				 [itemChosen]="missionary.mtcInfo.trainingScheduleId" *ngIf="editScheduling"></mtc-auto-complete>
+				<div *ngIf="!editScheduling">{{missionary.mtcInfo.trainingScheduleId}}</div>
+			</div>
+			<div fxFlex="10%" fxLayout="column" class="info" [class.not-editable]="!editScheduling && editTravel">
+				<span [class.active]="active === 'training-week'">Training Week</span>
+				<mtc-auto-complete [items]="toolsInfoService.info.trainingWeeks" (focusChange)=" active = $event ? 'training-week': ''" (itemChosenChange)="setChanges('currentScheduleDay',false,$event)"
+				 [itemChosen]="missionary.mtcInfo.currentScheduleDay" *ngIf="editScheduling"></mtc-auto-complete>
+				<div *ngIf="!editScheduling">{{missionary.mtcInfo.currentScheduleDay}}</div>
+			</div>
+			<div fxFlex="10%" fxLayout="column" class="info" [class.not-editable]="editTravel || editScheduling">
+				<!--TODO get address info in an array to display here-->
+				<span>MTC Address</span>
+				<span>{{missionary.mtcInfo.mailboxName}}</span>
+				<span>2005 900 E</span>
+				<span>Provo, UT 84604</span>
+				<span>United States of America</span>
+			</div>
+			<span fxFlex="40%"></span>
+		</div>
+		<div fxLayout="column" class="info-column">
+			<div fxFlex="10%" fxLayout="column" class="info" [class.not-editable]="!editScheduling && editTravel" [class.editing]="editScheduling">
+				<span [class.active]="active === 'schedule-arrival'">Scheduled Arrival</span>
+				<span *ngIf="!editScheduling">{{missionary.mtcInfo.mtcArrival}}</span>
+				<mtc-date-picker *ngIf="editScheduling" [(date)]="missionary.mtcInfo.mtcArrival" [yearPicker]="true"></mtc-date-picker>
+			</div>
+			<div fxFlex="10%" fxLayout="column" class="info" [class.not-editable]="!editScheduling && editTravel" [class.editing]="editScheduling">
+				<span [class.active]="active === 'actual-arrival'">Actual Arrival</span>
+				<span *ngIf="!editScheduling">{{missionary.mtcInfo.mtcActualArrival}}</span>
+				<mtc-date-picker *ngIf="editScheduling" [(date)]="missionary.mtcInfo.mtcActualArrival" [yearPicker]="true"></mtc-date-picker>
+			</div>
+			<div fxFlex="20%" fxLayout="column" class="info" [class.editing]="editTravel || editScheduling">
+				<span [class.active]="active === 'scheduled-departure'">Scheduled Departure</span>
+				<span *ngIf="!(editTravel || editScheduling)">{{missionary.mtcInfo.mtcDeparture}}</span>
+				<mtc-date-picker *ngIf="editTravel || editScheduling" [(date)]="missionary.mtcInfo.mtcDeparture" [yearPicker]="true"></mtc-date-picker>
+			</div>
+			<div fxFlex="10%" fxLayout="column" class="info" [class.editing]="editTravel || editScheduling">
+				<span [class.active]="active === 'actual-departure'">Actual Departure</span>
+				<span *ngIf="!(editTravel || editScheduling)">{{missionary.mtcInfo.mtcActualDeparture}}</span>
+				<mtc-date-picker *ngIf="editTravel || editScheduling" [(date)]="missionary.mtcInfo.mtcActualDeparture" [yearPicker]="true"></mtc-date-picker>
+			</div>
+			<div fxFlex="10%" fxLayout="column" class="info">
+				<span [class.active]="active === 'status'">Status</span>
+				<mtc-auto-complete [items]="toolsInfoService.info.statuses" (focusChange)=" active = $event ? 'status': ''" (itemChosenChange)="setChanges('missionaryStatusId','missionaryStatus', $event)"
+				 [itemChosen]="missionary.personalInfo.missionaryStatus" *ngIf="editScheduling && editTravel"></mtc-auto-complete>
+				<div *ngIf="!editScheduling">{{missionary.personalInfo.missionaryStatus}}</div>
+			</div>
+			<div fxFlex="10%" fxLayout="column" class="info">
+				<span [class.active]="active === 'sub-status'">Sub Status</span>
+				<mtc-auto-complete [items]="toolsInfoService.info.substatuses" (focusChange)=" active = $event ? 'sub-status': ''" (itemChosenChange)="setChanges('missionarySubStatusId','missionarySubStatus',$event)"
+				 [itemChosen]="missionary.personalInfo.missionarySubStatus" *ngIf="editScheduling && editTravel"></mtc-auto-complete>
+				<div *ngIf="!editScheduling">{{missionary.personalInfo.missionarySubStatus}}</div>
+			</div>
+			<div fxFlex="10%" fxLayout="column" class="info">
+				<!--TODO get secure sub status-->
+				<span [class.active]="active === 'secure-sub-status'">Secure Sub Status</span>
+				<mtc-auto-complete [items]="toolsInfoService.info.secureSubStatuses" (focusChange)=" active = $event ? 'secure-sub-status': ''"
+				 (itemChosenChange)="setChanges('missionarySecureSubStatusId','missionarySecureSubStatus',$event)" [itemChosen]="missionary.personalInfo.missionarySecureSubStatus"
+				 [disabled]="!editScheduling && !editTravel"></mtc-auto-complete>
+				<div *ngIf="!editScheduling">{{missionary.personalInfo.missionarySecureSubStatus}}</div>
+			</div>
+		</div>
+	</div>
+</div>
